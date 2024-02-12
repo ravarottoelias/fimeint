@@ -36,19 +36,18 @@ class CursoAlumnosExport implements FromCollection,WithHeadings, ShouldAutoSize,
            $insc->cuit = $insc->alumno->cuit;
            $insc->pais = $insc->alumno->pais;
            $insc->provincia = $insc->alumno->provincia;
-           $insc->DetalleMecadopago = $insc->payment_id_mp . " - " . $insc->payment_status_mp;
         }
 
         return $this->inscriptionCollection
                     ->map
-                    ->only(['name', 'email', 'documento_tipo', 'documento_nro', 'cuit', 'pais', 'provincia', 'estado_del_pago', 'DetalleMecadopago' ]);
+                    ->only(['name', 'email', 'documento_tipo', 'documento_nro', 'cuit', 'pais', 'provincia', 'estado_del_pago']);
 
 
     }
 
     public function headings() :array
     {
-        return ["Apellido y Nombre", "Email", "Tipo Documento", "Número Documento", 'CUIT', "Pais", "Provincia", "Estado del Pago", "Detalle Mercadopago"];
+        return ["Apellido y Nombre", "Email", "Tipo Documento", "Número Documento", 'CUIT', "Pais", "Provincia", "Estado del Pago"];
     }
 
 

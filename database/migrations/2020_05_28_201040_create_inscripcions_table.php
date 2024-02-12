@@ -19,9 +19,6 @@ class CreateInscripcionsTable extends Migration
             $table->string('user_id');
             $table->string('curso_id');
             $table->string('estado_del_pago')->nullable();
-            $table->string('fecha_del_pago')->nullable();
-            $table->string('payment_status_mp')->nullable();
-            $table->string('payment_id_mp')->nullable();
             $table->string('canal')->nullable();
             $table->timestamps();
         });

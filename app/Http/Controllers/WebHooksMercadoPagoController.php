@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Traits\MercadopagoIntegration;
 use App\Constants\MPIntegrationConstants;
-use App\Interfaces\InscriptionRepositoryInterface;
+use App\Repositories\InscriptionRepository;
 
 class WebHooksMercadoPagoController extends Controller
 {
@@ -18,7 +18,7 @@ class WebHooksMercadoPagoController extends Controller
 
 	private $inscriptionRepository;
 
-	public function __construct(InscriptionRepositoryInterface $inscriptionRepository) 
+	public function __construct(InscriptionRepository $inscriptionRepository) 
     {
         $this->inscriptionRepository = $inscriptionRepository;
     }
@@ -53,7 +53,7 @@ class WebHooksMercadoPagoController extends Controller
 				Log::info('WEBHOOK_MP:::ActualizandoInscripcion');     
 				$inscription = $this->updateInscriptionStatus($inscription, $paymentResponse);
 				
-				Log::info('WEBHOOK_MP:::PaymentProcessed: ' . $inscription->estado_del_pago);
+				Log::info('WEBHOOK_MP:::PaymentProcessed: ' . $paymentResponse['status']);
 			} else {
 				Log::info('WEBHOOK_MP:::ElPagoYaExiste');     
 			}
@@ -71,18 +71,11 @@ class WebHooksMercadoPagoController extends Controller
 
 	private function updateInscriptionStatus($inscription, $paymentResponse)
 	{
-		$inscription->payment_status_mp = $paymentResponse['status'];
-		$inscription->payment_id_mp = $paymentResponse['id'];
-		$inscription->fecha_del_pago = date("Y-m-d H:i");
-
 		if ($paymentResponse['status'] == MPIntegrationConstants::PAYMENT_STATUS_APPROVED ) {
 			$amountPaid = $inscription->getAmountPaid();
 			$amountPaid >= $inscription->curso->unit_price
 				? $inscription->estado_del_pago = Inscripcion::PAGADO
 				: $inscription->estado_del_pago = Inscripcion::PAGADO_PARCIAL;
-			$inscription->update();
-		}else{
-			$inscription->estado_del_pago = Inscripcion::RECHAZADO;
 			$inscription->update();
 		}
 

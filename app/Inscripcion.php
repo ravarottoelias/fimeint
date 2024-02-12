@@ -15,7 +15,6 @@ class Inscripcion extends Model
     const PAGADO = 'Pagado';
     const PAGADO_PARCIAL = 'Pago parcial';
 	const PENDIENTE = 'Pendiente';
-	const RECHAZADO = 'Rechazado';
 
     public function alumno()
     {

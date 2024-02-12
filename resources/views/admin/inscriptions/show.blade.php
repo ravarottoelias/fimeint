@@ -7,9 +7,29 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
+                    <p class="font-weight-bold text-muted"> <i class="fas fa-graduation-cap"></i> Detalle</p>
+                        <table class="table table-sm table-borderless ml-2">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">#ID</th>
+                                    <td>{{ $inscription->id }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Fecha incripción</th>
+                                    <td>{{ $inscription->created_at }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Estado del Pago</th>
+                                    <td>{{ $inscription->estado_del_pago }}</td>
+                                </tr>                              
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
                     <div class="mb-md-4 mb-sm-2">
                         <p class="font-weight-bold text-muted"> <i class="fas fa-graduation-cap"></i> Curso</p>
-                    
                         <table class="table table-sm table-borderless ml-2">
                             <tbody>
                                 <tr>
@@ -19,7 +39,7 @@
                                 <tr>
                                     <th scope="row">Descripción</th>
                                     <td>{{ $inscription->curso->descripcion }}</td>
-                                </tr>                              
+                                </tr>                             
                             </tbody>
                         </table>
                     </div>

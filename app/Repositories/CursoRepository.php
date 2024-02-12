@@ -4,9 +4,8 @@ namespace App\Repositories;
 
 use App\Curso;
 use Illuminate\Support\Facades\DB;
-use App\Interfaces\CursoRepositoryInterface;
 
-class CursoRepository implements CursoRepositoryInterface 
+class CursoRepository
 {
 
     public function getCursoBySlug($slug) 

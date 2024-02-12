@@ -3,9 +3,9 @@
 namespace App\Repositories;
 
 use App\User;
-use App\Interfaces\UserRepositoryInterface;
 
-class UserRepository implements UserRepositoryInterface 
+
+class UserRepository
 {
     public function getAll($name, $email, $order = 'desc')
     {

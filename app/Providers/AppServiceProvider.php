@@ -25,9 +25,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('App\Interfaces\UserRepositoryInterface','App\Repositories\UserRepository');
-        $this->app->bind('App\Interfaces\CursoRepositoryInterface','App\Repositories\CursoRepository');
-        $this->app->bind('App\Interfaces\InscriptionRepositoryInterface','App\Repositories\InscriptionRepository');
-        $this->app->bind('App\Interfaces\MercadoPagoIntegrationInterface','App\Repositories\MercadoPagoIntegration');
     }
 }
