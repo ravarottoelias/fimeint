@@ -4,29 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use App\Curso;
-use MercadoPago; 
 use App\Categoria;
 use App\Mail\MessageRecived;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use App\Interfaces\CursoRepositoryInterface;
+use App\Repositories\CursoRepository;
 use App\Http\Requests\ReCaptchataTestFormRequest;
-use App\Interfaces\InscriptionRepositoryInterface;
-use PhpOffice\PhpSpreadsheet\Calculation\Category;
+
 
 class SitioController extends Controller
 {
     private $cursoRepository;
-    private $inscriptionRepository;
 
-	public function __construct(
-        CursoRepositoryInterface $cursoRepository, 
-        InscriptionRepositoryInterface $inscriptionRepository){
+	public function __construct(CursoRepository $cursoRepository){
 
         $this->cursoRepository = $cursoRepository;
-        $this->inscriptionRepository = $inscriptionRepository;
-
     }
 
 

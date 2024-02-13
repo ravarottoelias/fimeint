@@ -4,10 +4,9 @@ namespace App\Repositories;
 
 use MercadoPago;
 use App\Helpers\Utils;
-use App\Interfaces\MercadoPagoIntegrationInterface;
 
 
-class MercadoPagoIntegration implements MercadoPagoIntegrationInterface
+class MercadoPagoIntegration
 {
     
     public function getPaymentById($payment_id)
@@ -60,9 +59,9 @@ class MercadoPagoIntegration implements MercadoPagoIntegrationInterface
         $item->unit_price = Utils::formatPrice($curso->unit_price);
 
         $payer = new MercadoPago\Payer();
-        $payer->email = $user->email;
+        //$payer->email = $user->email;
         //$payer->email = 'test_user_1370485@testuser.com';
-        //$payer->email = 'TEST_USER_538885045';
+        $payer->email = 'TEST_USER_538885045';
 		
 
         $preference->items = array($item);

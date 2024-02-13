@@ -36,7 +36,6 @@
       <th scope="col">Alumno</th>
       <th scope="col">Fecha Insc.</th>
       <th scope="col">Pago</th>
-      <th scope="col">Fecha Pago.</th>
       <th scope="col">Detalle de pago</th>
       <th scope="col"></th>
     </tr>
@@ -56,7 +55,6 @@
           <span class="badge badge-pill badge-warning">{{$i->estado_del_pago}}</span>
         @endif
       </td>
-      <td id="td-fecha_del_pago-{{$i->id}}">@if($i->fecha_del_pago) {{date('Y-m-d', strtotime($i->fecha_del_pago))}} @else - @endif</td>
       <td id="td-mercadopago-status-{{$i->id}}">
           <a href="{{ route('inscription_show', $i->id) }}"> Ver </a>
       </td>

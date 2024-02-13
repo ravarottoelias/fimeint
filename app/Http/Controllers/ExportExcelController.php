@@ -7,14 +7,14 @@ use App\Inscripcion;
 use Illuminate\Http\Request;
 use App\Exports\CursoAlumnosExport;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Interfaces\InscriptionRepositoryInterface;
+use App\Repositories\InscriptionRepository;
 
 class ExportExcelController extends Controller
 {
 
     private $inscriptionRepository;
 
-	public function __construct(InscriptionRepositoryInterface $inscriptionRepository){
+	public function __construct(InscriptionRepository $inscriptionRepository){
 
         $this->inscriptionRepository = $inscriptionRepository;
 

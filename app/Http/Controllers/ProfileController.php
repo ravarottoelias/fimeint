@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Constants\Messages;
 use Illuminate\Http\Request;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
-use App\Interfaces\UserRepositoryInterface;
 
 
 class ProfileController extends Controller
@@ -14,7 +14,7 @@ class ProfileController extends Controller
 
     private $userRepository;
 
-	public function __construct(UserRepositoryInterface $userRepository) 
+	public function __construct(UserRepository $userRepository) 
     {
         $this->userRepository = $userRepository;
     }

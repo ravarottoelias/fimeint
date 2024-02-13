@@ -10,9 +10,9 @@ use App\Mail\SuccessfulInscription;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use App\Interfaces\CursoRepositoryInterface;
-use App\Interfaces\InscriptionRepositoryInterface;
-use App\Interfaces\MercadoPagoIntegrationInterface;
+use App\Repositories\CursoRepository;
+use App\Repositories\InscriptionRepository;
+use App\Repositories\MercadoPagoIntegration;
 
 class InscripcionController extends Controller
 {
@@ -22,9 +22,9 @@ class InscripcionController extends Controller
     private $inscriptionRepository;
 
 	public function __construct(
-        CursoRepositoryInterface $cursoRepository, 
-        InscriptionRepositoryInterface $inscriptionRepository,
-        MercadoPagoIntegrationInterface $mercadopagoService){
+        CursoRepository $cursoRepository, 
+        InscriptionRepository $inscriptionRepository,
+        MercadoPagoIntegration $mercadopagoService){
 
         $this->cursoRepository = $cursoRepository;
         $this->inscriptionRepository = $inscriptionRepository;
@@ -134,7 +134,6 @@ class InscripcionController extends Controller
         $curso = $this->cursoRepository->findOrFailById($request->curso_id); 
         
         if (!$user->estaInscriptoEn($curso->id)){
-            //no registra inscripcion => Inscribir
             $this->inscriptionRepository->saveInscription($user->id, $curso->id, $canal);
     
             Mail::to($user->email)->send(new SuccessfulInscription($curso, $user));

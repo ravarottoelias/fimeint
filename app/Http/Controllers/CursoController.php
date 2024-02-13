@@ -10,21 +10,18 @@ use App\ScriptDePago;
 use App\Constants\Messages;
 use Illuminate\Http\Request;
 use App\Constants\FlashMessagesTypes;
-use App\Interfaces\CursoRepositoryInterface;
-use App\Interfaces\InscriptionRepositoryInterface;
+use App\Repositories\CursoRepository;
+
 
 class CursoController extends Controller
 {
 
     private $cursoRepository;
-    private $inscriptionRepository;
 
 	public function __construct( 
-        CursoRepositoryInterface $cursoRepository, 
-        InscriptionRepositoryInterface $inscriptionRepository){
+        CursoRepository $cursoRepository){
 
         $this->cursoRepository = $cursoRepository;
-        $this->inscriptionRepository = $inscriptionRepository;
 
     }
 
