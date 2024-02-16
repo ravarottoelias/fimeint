@@ -57,6 +57,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('dashboard/inscriptions', 'InscripcionController@inscriptions')->name('inscriptions')->middleware(['roles']);
 	Route::get('dashboard/inscriptions/{inscription}', 'InscripcionController@show')->name('inscription_show')->middleware(['roles']);
 
+	Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('log_viwer');
+
 });
 
 Route::get('/','SitioController@home')->name('home');

@@ -43,7 +43,7 @@
                 Usuarios
             </a>
             <div class="sb-sidenav-menu-heading">Dev</div>
-            <a class="nav-link" href="{{ route('inscriptions') }}">
+            <a class="nav-link" href="{{ route('log_viwer') }}">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-code"></i></div>
                 Logs
             </a>
