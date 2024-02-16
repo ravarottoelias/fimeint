@@ -52,7 +52,9 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('export_inscriptos/{curso}', 'ExportExcelController@exportToExcel')->name('export_inscriptos')->middleware(['roles']);
 	
 	// Payments and Inscriptions
+	Route::get('dashboard/payments', 'InscripcionController@payments')->name('payments')->middleware(['roles']);
 	Route::get('dashboard/payments/{paymentId}', 'InscripcionController@paymentDetails')->name('payment_details')->middleware(['roles']);
+	Route::get('dashboard/inscriptions', 'InscripcionController@inscriptions')->name('inscriptions')->middleware(['roles']);
 	Route::get('dashboard/inscriptions/{inscription}', 'InscripcionController@show')->name('inscription_show')->middleware(['roles']);
 
 });

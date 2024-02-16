@@ -1,10 +1,16 @@
 @extends('admin.layout')
 
 @section('content')
+
+
+<h1 class="mt-4">Usuarios</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="/users">Usuarios</a></li>
+    <li class="breadcrumb-item active">{{$user->fullName()}}</li>
+</ol>
+
 <div class="card">
-    <div class="card-header">
-        <strong class="card-title">Usuario #{{$user->id}}</strong>
-    </div>
 	<div class="card-body">
 		<div class="w-100 text-right">
 			<a href="{{route('user_reset_password', $user->id)}}" type="submit" class="btn btn-sm btn-warning mt-0 mb-4 text" onclick="return confirm('Desea Resetear la contraseña de {{$user->name}}?')" title="Resetear contraseña"><i class="fas fa-key"></i> Resetear Clave</a>

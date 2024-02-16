@@ -1,8 +1,13 @@
 @extends('admin.layout')
 
 @section('content')
-<div class="card">
-  <div class="card-body">
+
+	<h1 class="mt-4">Suscriptores</h1>
+	<ol class="breadcrumb mb-4">
+		<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+		<li class="breadcrumb-item active">Suscriptores</li>
+	</ol>
+
     <table class="table table-sm table-hover">
 	    <thead>
 		    <tr>
@@ -23,7 +28,6 @@
 		    </tr>
 	    </tbody>
     </table>
-  </div>
-</div>
+
 
 @stop

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Curso;
 use Carbon\Carbon;
 use App\Inscripcion;
+use App\InscriptionPayment;
 use Illuminate\Http\Request;
 use App\Mail\SuccessfulInscription;
 use Illuminate\Support\Facades\Log;
@@ -120,6 +121,23 @@ class InscripcionController extends Controller
 
 
         return view('admin.inscriptions.payment-details', compact('payment'));
+    }
+
+    function payments(Request $request)
+    {
+        $payments = InscriptionPayment::paginate(15);
+
+        return view('admin.payments.index', compact('payments'));
+    }
+
+    function inscriptions(Request $request) 
+    {
+        $inscriptions = Inscripcion::with('alumno')
+            ->with('curso')
+            ->orderBy('created_at', 'DESC')
+            ->paginate(15);
+
+        return view('admin.inscriptions.index', compact('inscriptions')); 
     }
 
 

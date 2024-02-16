@@ -14,11 +14,13 @@
 	$category = \App\Categoria::where('slug', app('request')->input('category'))->first();
 @endphp
 
-<div class="card">
-	<div class="card-header">
-        <strong class="card-title">{{$category->nombre}}</strong>
-    </div>
-  <div class="card-body">
+	<h1 class="mt-4">{{$category->nombre}}</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+        <li class="breadcrumb-item active">{{$category->nombre}}</li>
+    </ol>
+
+
   	<div class="d-flex justify-content-end mb-2">
   		<a class="btn btn-primary" href="{{ route('post_admin.create') }}?category=rse"><i class="fas fa-plus"></i> Nuevo</a>
   	</div>
@@ -52,7 +54,6 @@
 		    </tr>
 	    </tbody>
     </table>
-  </div>
-</div>
+
 
 @stop

@@ -1,29 +1,21 @@
 
-<div class="card-body">
-	<div class="wrapper">
-		<div class="tabs-curso cf">
-			<input type="radio" name="tabs-curso" id="tab1" checked>
-			<label for="tab1" class="tab-label">
-	        	<i class="fas fa-pencil-alt"></i> Curso
-	      	</label>
-			<input type="radio" name="tabs-curso" id="tab2" @if(!$curso->id) disabled @endif>
-			<label for="tab2" class="tab-label">
-		        <i class="fa fa-cog"></i> Avanzado
-	      	</label>
-			<input type="radio" name="tabs-curso" id="tab3" @if(!$curso->id) disabled @endif>
-			<label for="tab3" class="tab-label">
-		        <i class="fa fa-users"></i> Inscriptos
-	      	</label>
-
-			<div id="tab-content1" class="tab-content">
-				@include('admin.cursos.form-basic')
+	<div class="row">
+		<div class="col-12">
+			<div class="list-group list-group-horizontal" id="list-tab-curso" role="tablist">
+				<a class="list-group-item list-group-item-action active" id="list-form-curso" data-toggle="list" href="#list-home" role="tab" aria-controls="home"><i class="fas fa-pencil-alt"></i> Curso</a>
+				<a class="list-group-item list-group-item-action" id="list-form-avanzado" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile"><i class="fa fa-cog"></i> Avanzado</a>
+				<a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages"><i class="fa fa-users"></i> Inscriptos</a>
+				
 			</div>
-			<div id="tab-content2" class="tab-content">
-				@include('admin.cursos.form-avanzado')
-			</div>
-			<div id="tab-content3" class="tab-content">
-				@include('admin.cursos.form-inscripciones')
-			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+		  <div class="tab-content" id="nav-tabContent">
+			<div class="tab-pane fade py-3 show active" id="list-home" role="tabpanel" aria-labelledby="list-form-curso">@include('admin.cursos.form-basic')</div>
+			<div class="tab-pane fade py-3" id="list-profile" role="tabpanel" aria-labelledby="list-form-avanzado">@include('admin.cursos.form-avanzado')</div>
+			<div class="tab-pane fade py-3" id="list-messages" role="tabpanel" aria-labelledby="list-form-inscriptos">@include('admin.cursos.form-inscripciones')</div>
+		  </div>
 		</div>
 	</div>
 
@@ -37,5 +29,5 @@
 			</button>
 		</div>
 	</div>
-</div>
+
 
