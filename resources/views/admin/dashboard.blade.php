@@ -1,7 +1,11 @@
 @extends('admin.layout')
 
 @section('content')
-<div class="container-fluid">
+<h1 class="mt-4">Panel {{ env('APP_NAME') }}</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Panel</li>
+    </ol>
+
 	<div class="row">
 		<div class="col-12">
 			<div class="card">
@@ -113,6 +117,6 @@
 		</div>
 
 	</div>
-</div>
+
 
 @stop

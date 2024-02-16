@@ -9,9 +9,13 @@
 		font-size: 15px;
 	}
 </style>
-<div class="card">
-  <div class="card-body">
-  	<div class="d-flex justify-content-end mb-2">
+	<h1 class="mt-4">Cursos</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Cursos</li>
+    </ol>
+  	
+	<div class="d-flex justify-content-end mb-2">
   		@if($categoria_id == 1) <!-- Oferta académica -->
 	  		<a class="btn btn-primary" href="{{ route('cursos.create') }}"><i class="fas fa-plus"></i> Nuevo</a>
   		@endif
@@ -41,7 +45,7 @@
 		      <td>{{$curso->updated_at->format('d-m-Y')}}</td>
 		      <td class="d-flex" style="justify-content: space-around;">
 	            <a href="{{ route('show_post', $curso->slug) }}" class="btn btn-sm btn-outline-secondary" title="Ver curso" target="_blank"><i class="fas fa-eye"></i></a>
-	            <a href="{{ route('cursos.edit', $curso->id) }}" class="btn btn-sm btn-info" title="Editar curso"><i class="fas fa-pencil-alt"></i></a>
+	            <a href="{{ route('cursos.edit', $curso->id) }}" class="btn btn-sm btn-outline-primary" title="Editar curso"><i class="fas fa-pencil-alt"></i></a>
 		        <form action="{{ url('cursos', ['id' => $curso->id]) }}" method="post">
 		            {!! method_field('delete') !!}
 		            {!! csrf_field() !!}
@@ -52,7 +56,6 @@
 		    </tr>
 	    </tbody>
     </table>
-  </div>
-</div>
+
 
 @stop

@@ -1,0 +1,30 @@
+body,
+html {
+	overflow-x:hidden;
+}
+
+/*
+	#INPUT TYPE FILE
+*/
+div#div_file{
+    position:relative;
+    cursor: pointer;
+    padding:5px;
+}
+input#file{
+    border:1px solid black;
+    cursor: pointer;
+    position:absolute;
+    top:0px;
+    left:0px;
+    right:0px;
+    bottom:0px;
+    width:100%;
+    height:100%;
+    opacity: 0;
+}
+#div_file .texto{
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px
+}

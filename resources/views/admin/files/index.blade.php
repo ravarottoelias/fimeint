@@ -1,16 +1,22 @@
 @extends('admin.layout')
 
 @section('content')
-<div class='content'>
-  <!-- Dropzone -->
-  <form action="{{route('media_upload_fliles')}}" class='dropzone' id="dropzone-multimedia" >
-  	<div class="dz-message" data-dz-message><span><i class="fas fa-upload"></i> Clic o arrastrar los archivos aquí para subir.</span></div>
-  </form> 
-</div> 
 
-<div class="card">
-  <div class="card-body">
-    <table class="table table-sm table-hover">
+	<h1 class="mt-4">Multimedia</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Multimedia</li>
+    </ol>
+
+	<div class='content'>
+	<!-- Dropzone -->
+	<form action="{{route('media_upload_fliles')}}" class='dropzone' id="dropzone-multimedia" >
+		<div class="dz-message" data-dz-message><span><i class="fas fa-upload"></i> Clic o arrastrar los archivos aquí para subir.</span></div>
+	</form> 
+	</div> 
+
+
+    <table class="table table-sm table-hover mt-3">
 	    <thead>
 		    <tr>
 		      <th class="w-5">#ID</th>
@@ -32,8 +38,7 @@
 	      @endforeach
 	    </tbody>
     </table>
-  </div>
-</div>
+
 @stop
 
 @section('script')
