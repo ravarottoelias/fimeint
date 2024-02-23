@@ -1,4 +1,9 @@
 
+@if($errors->any())
+<div class="alert alert-danger" role="alert">
+    {!! implode('', $errors->all('<div><i class="fa-regular fa-circle-xmark"></i> :message</div>')) !!}
+  </div>
+@endif
 	<div class="row">
 		<div class="col-12">
 			<div class="list-group list-group-horizontal" id="list-tab-curso" role="tablist">

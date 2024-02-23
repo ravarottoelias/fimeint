@@ -52,12 +52,23 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('export_inscriptos/{curso}', 'ExportExcelController@exportToExcel')->name('export_inscriptos')->middleware(['roles']);
 	
 	// Payments and Inscriptions
-	Route::get('dashboard/payments', 'InscripcionController@payments')->name('payments')->middleware(['roles']);
-	Route::get('dashboard/payments/{paymentId}', 'InscripcionController@paymentDetails')->name('payment_details')->middleware(['roles']);
+	Route::get('dashboard/payments', 'InscriptionPaymentController@payments')->name('payments')->middleware(['roles']);
+	Route::get('dashboard/payments/{paymentId}', 'InscriptionPaymentController@paymentDetails')->name('payment_details')->middleware(['roles']);
+	
 	Route::get('dashboard/inscriptions', 'InscripcionController@inscriptions')->name('inscriptions')->middleware(['roles']);
 	Route::get('dashboard/inscriptions/{inscription}', 'InscripcionController@show')->name('inscription_show')->middleware(['roles']);
 
 	Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('log_viwer');
+
+	Route::get('/profile', 'ProfileController@editProfile')->name('edit_profile');
+	Route::post('/profile/{user}', 'ProfileController@updateProfile')->name('update_profile');
+
+	Route::get('/posts/{slug}/inscription', 'InscripcionController@inscription')->name('curso_inscription');
+	Route::get('/posts/{slug}/inscription/payment', 'InscripcionController@inscriptionPayment')->name('curso_step_inscription_payment');
+	
+	Route::get('/inscription/{inscription}/payment/paypal', 'InscriptionPaymentController@payWithPaypal')->name('pay_with_paypal');
+	Route::get('/inscription/paypal/execute-payment', 'InscriptionPaymentController@paypalExecutePayment')->name('inscript_paypal_execute_payment');
+
 
 });
 
@@ -95,11 +106,3 @@ Route::post('/send-email-password-reset', 'UsersController@sendEmailPasswordRese
 // Mercadopago Integration
 Route::post('/webhooks', 'WebHooksMercadoPagoController@webhookMp')->name('webhooks_mp');
 Route::get('/webhooks/test', 'WebHooksMercadoPagoController@testmp');
-
-Route::group(['middleware' => 'auth'], function(){
-	Route::get('/profile', 'ProfileController@editProfile')->name('edit_profile');
-	Route::post('/profile/{user}', 'ProfileController@updateProfile')->name('update_profile');
-
-	Route::get('/posts/{slug}/inscription', 'InscripcionController@inscription')->name('curso_inscription');
-	Route::get('/posts/{slug}/inscription/payment', 'InscripcionController@inscriptionPayment')->name('curso_step_inscription_payment');
-});

@@ -64,6 +64,11 @@ class User extends Authenticatable
         return false;
     }
 
+    public function getInscriptionByCursoId($cursoId)
+    {
+        return Inscripcion::where('user_id', $this->id)->where('curso_id', $cursoId)->first();
+    }
+
     public function realizoPago($curso_id)
     {
         $inscripcion = Inscripcion::where('user_id', $this->id)->where('curso_id', $curso_id)->first();

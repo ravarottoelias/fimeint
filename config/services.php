@@ -41,4 +41,15 @@ return [
         'api_url' => 'https://api.mercadopago.com/v1'
     ],
 
+    'paypal' => [
+        'client_id' => env('PAYPAL_CLIENT_ID'),
+        'secret' => env('PAYPAL_CLIENT_SECRET'),
+        'settings' => [
+            'mode' => env('PAYPAL_MODE', 'sandbox'),
+            'log.LogEnabled' => true,
+            'log.FileName' => storage_path('logs/paypal.log'),
+            'log.LogLevel' => 'ERROR',
+        ]
+    ]
+
 ];
