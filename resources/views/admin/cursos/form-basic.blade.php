@@ -23,14 +23,15 @@
 			<div class="col-md-8">
 				<div class="row">
 					<div class="col-md-6">
-						<div class="form-group requerido">
+						
 							<label class="control-label mb-1">Categoría</label>(*)
 							<select name="categoria_id" id="select-categoria" class="form-control">
 								@foreach($categorias as $c)
 									<option value="{{$c->id}}" @if($curso->categoria_id == $c->id || $request->categoria_id == $c->id) selected @endif>{{$c->nombre}}</option>
 								@endforeach
 							</select>
-						</div>
+						
+						<div class="invalid-feedback">{{ $errors->first('categoria_id') }}</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group form-group-lugar requerido">

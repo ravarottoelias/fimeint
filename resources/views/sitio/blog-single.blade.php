@@ -103,11 +103,7 @@
 											
 										</div>
 
-										<div class="row my-md-5 my-sm-5">
-											<div class="col d-flex justify-content-center">
-												<a class="mu-primary-btn" href="{{ route('curso_inscription', $curso->slug) }}"> Quiero inscribirme <i class="fas fa-arrow-right"></i></a>
-											</div>
-										</div>
+										@include('sitio.cursos.inscription-payment-actions')
 
 									</article>
 

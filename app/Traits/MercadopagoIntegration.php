@@ -3,7 +3,6 @@ namespace App\Traits;
 
 use MercadoPago;
 use App\Helpers\Utils;
-use Illuminate\Support\Facades\Auth;
 
 trait MercadopagoIntegration {
 

@@ -64,7 +64,7 @@
 		<div class="row mx-3">
 			<div class="col-12 col-md-6">
 				<div class="row">
-					<div class="col-12 col-md-6">
+					<div class="col-12 col-md-4">
 						<div class="form-group requerido">
 							<label class="control-label mb-1">Permitir Inscripción</label>
 							<select class="form-control"  name="permitir_inscripcion">
@@ -73,7 +73,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-12 col-md-6">
+					<div class="col-12 col-md-8">
 						<label class="control-label mb-1">Precio Unitario</label>
 						<div class="input-group">
 							<div class="input-group-prepend">
@@ -83,6 +83,7 @@
 									class="form-control @if ($errors->first('unit_price')) is-invalid @endif" 
 									value="{{ $curso->unit_price or old('unit_price') }}"
 									placeholder="3500.50">
+							<small id="unitPriceHelp" class="form-text text-muted">Precio sin separador de miles y separador de decimales con (.)</small>
 							<div class="invalid-feedback">{{ $errors->first('unit_price') }}</div>
 						</div>
 					</div>
@@ -90,10 +91,13 @@
 				<div class="row">
 					<div class="col-12 col-md-6">
 						<div class="form-group">
+							@php
+								$interest = config('custom.payments.course_fee_tax')*100;
+							@endphp
 							<label class="control-label mb-1">Cantidad de cuotas</label>
 							<select class="form-control"  name="cantidad_cuotas">
-						 		<option value="1" @if($curso->cantidad_cuotas == 1) selected @endif> 1 x ${{ number_format($curso->unit_price, 0, ',', '.') }} </option>
-						 		<option value="2" @if($curso->cantidad_cuotas == 2) selected @endif> 2 x ${{ number_format(($curso->unit_price + $curso->unit_price * config('custom.payments.course_fee_tax')) / 2, 0, ',', '.') }}</option>
+						 		<option value="1" @if($curso->cantidad_cuotas == 1) selected @endif> 1 x $ {{ App\Helpers\Utils::formatPrice($curso->unit_price) }} </option>
+						 		<option value="2" @if($curso->cantidad_cuotas == 2) selected @endif> 2 x $ {{ App\Helpers\Utils::formatPrice($curso->calcularValorCuota()) }} ({{ $interest }} % de interés)</option>
 							</select>
 						</div>
 					</div>
