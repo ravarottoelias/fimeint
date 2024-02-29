@@ -144,7 +144,7 @@ class InscriptionPaymentController extends Controller
                 'payment_date' => $result->getCreateTime(),
             ]);
         }catch(Exception $ex){
-            Log::error('PAYPAL:::Error al registrar pago: ' . $result->getId(), $ex);
+            Log::error('PAYPAL:::Error al registrar pago: ' . $result->getId(), ['errorMessage' => $ex->getMessage()]);
         }
 
         return;
