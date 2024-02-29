@@ -137,7 +137,7 @@ class InscriptionPaymentController extends Controller
                 'inscription_id' => $inscription->id,
                 'user_id' => $inscription->user_id,
                 'payment_identifier' => $result->getId(),
-                //'amount' =>$item->getPrice(),
+                'amount' =>$item->getPrice(),
                 'status' => $result->getState(),
                 'gateway' => 'PAYPAL',
                 'payload' => json_encode($result),
