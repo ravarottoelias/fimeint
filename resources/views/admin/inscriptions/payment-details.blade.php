@@ -31,7 +31,7 @@
                                 <table class="table table-sm table-borderless ml-2">
                                     <tbody>
                                         <tr>
-                                            <td scope="row">Id</td>
+                                            <td scope="row">Identificador</td>
                                             <td>{{ $paymentDetails->identifier }}</td>
                                         </tr>
                                         <tr>
@@ -55,18 +55,26 @@
 
                     <div class="mb-md-4 mb-sm-2">
                         <p class="font-weight-bold">Detalles del producto</p>
-                        <table class="table table-sm table-borderless  ml-2">
+                        <p>{{ $paymentDetails->description }}</p>
+
+                        <table class="table table-sm ml-2">
+                            <thead class="thead-light">
+                              <tr>
+                                <th scope="col">Item</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Precio Unitario</th>
+                              </tr>
+                            </thead>
                             <tbody>
+                                @foreach ($paymentDetails->items as $item)
                                 <tr>
-                                    <td scope="row">Titulo</td>
-                                    <td>{{ $paymentDetails->itemDetail }}</td>
+                                    <td>{{ $item->itemDetail }}</td>
+                                    <td>{{ $item->itemQuantity }}</td>
+                                    <td>$ {{ $item->itemUnitPrice }}</td>
                                 </tr>
-                                <tr>
-                                    <td scope="row">Precio unitario</td>
-                                    <td>$ {{ $paymentDetails->itemUnitPrice }}</td>
-                                </tr>
+                                @endforeach
                             </tbody>
-                        </table>
+                          </table>
                     </div>
 
                     <div class="mb-md-4 mb-sm-2">

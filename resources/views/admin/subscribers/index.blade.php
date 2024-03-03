@@ -14,7 +14,7 @@
 		      <th class="w-5">#ID</th>
 		      <th class="w-20">Teléfono</th>
 		      <th class="w-20">Email</th>
-		      <th class="w-10">Subscripto</th>
+		      <th class="w-10">Creado en</th>
 		    </tr>
 	    </thead>
 	    <tbody>
@@ -23,7 +23,7 @@
 		      <td>{{$s->id}}</td>
 		      <td>{{$s->telefono}}</td>
 		      <td>{{$s->email}}</td>
-		      <td>{{$s->created_at->format('Y-m-d H:m')}}</td>
+		      <td>{{$s->created_at->diffForHumans()}}</td>
 		      @endforeach
 		    </tr>
 	    </tbody>

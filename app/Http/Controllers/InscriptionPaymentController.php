@@ -167,7 +167,7 @@ class InscriptionPaymentController extends Controller
             $paymentDetails = $this->handleMercadopagoDataPayment($insPayment);
 
         if($insPayment->gateway === PaypalIntegrationConstants::PP_GATEWAY_NAME)
-            $paymentDetails = $this->handlePaypalDataPayment();
+            $paymentDetails = $this->handlePaypalDataPayment($insPayment);
 
 
         return view('admin.inscriptions.payment-details', compact('paymentDetails', 'insPayment'));
@@ -193,10 +193,17 @@ class InscriptionPaymentController extends Controller
             ],
             'identifier' => $payment->id,
             'dateCreated' => $payment->date_created,
-            'dateApprobed' => $payment->date_approved,
+            'dateApprobed' => null,
             'status' => $payment->status,
-            'itemDetail' => $payment->additional_info['items'][0]['title'],
-            'itemUnitPrice' => $payment->additional_info['items'][0]['unit_price'],
+            'description' => $payment->additional_info['items'][0]['title'],
+            'items' => (object) [
+                (object) [
+                    'itemDetail' => $payment->additional_info['items'][0]['title'],
+                    'itemUnitPrice' => $payment->additional_info['items'][0]['unit_price'],
+                    'itemCurrency' => '',
+                    'itemQuantity' => '',
+                ]
+            ],
             'gateway' => $insPayment->gateway,
         ];
         return (object) $paymentDetails;
@@ -210,6 +217,32 @@ class InscriptionPaymentController extends Controller
      */
     private function handlePaypalDataPayment(InscriptionPayment $insPayment) : object
     {
-        
+        $payment = $this->paypalService->getPayment($insPayment->payment_identifier);
+
+        //dd($payment);
+
+        $paymentDetails = [
+            'inscription' => (object) [
+                'alumno' => (object) [
+                    'fullName' => $insPayment->inscription->alumno->fullName(),
+                    'email' => $insPayment->inscription->alumno->email,
+                ]
+            ],
+            'identifier' => $payment->getId(),
+            'dateCreated' => $payment->getCreateTime(),
+            'dateApprobed' => $payment->date_approved,
+            'status' => $payment->status,
+            'description' => $payment->getTransactions()[0]->getDescription(),
+            'items' => (object) [
+                (object) [
+                    'itemDetail' => $payment->getTransactions()[0]->getItemList()->getItems()[0]->getName(),
+                    'itemUnitPrice' => $payment->getTransactions()[0]->getItemList()->getItems()[0]->getPrice(),
+                    'itemCurrency' => $payment->getTransactions()[0]->getItemList()->getItems()[0]->getCurrency(),
+                    'itemQuantity' => $payment->getTransactions()[0]->getItemList()->getItems()[0]->getQuantity(),
+                ]
+            ],
+            'gateway' => '$insPayment->gateway',
+        ];
+        return (object) $paymentDetails;
     }
 }

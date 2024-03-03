@@ -99,4 +99,15 @@ class PaypalIntegration
         return $result;
     }
 
+    /**
+     * Get the payment info
+     *
+     * @param string $paymentId
+     * @return Payment
+     */
+    public function getPayment(string $paymentId) : Payment 
+    {
+        return Payment::get($paymentId, $this->apiContext);
+    }
+
 }
