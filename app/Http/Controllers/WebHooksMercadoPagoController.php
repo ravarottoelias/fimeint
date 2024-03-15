@@ -3,13 +3,9 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Inscripcion;
-use GuzzleHttp\Client;
 use App\InscriptionPayment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Traits\MercadopagoIntegration;
-use App\Constants\MPIntegrationConstants;
 use App\Repositories\InscriptionRepository;
 use App\Repositories\MercadoPagoIntegration as RepositoriesMercadoPagoIntegration;
 
