@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Notifications\PasswordReset;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -123,6 +124,19 @@ class User extends Authenticatable
     public function fullName()
     {
         return strtoupper($this->surname . ' ' . $this->name);
+    }
+
+    
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new PasswordReset($token));
     }
 
 }

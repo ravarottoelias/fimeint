@@ -30,7 +30,11 @@ body{
                 <div class="card-body">
                     <h3 class="text-dark my-3 text-center">Crear Usuario</h3>
 
-                    <hr>
+                    @if (session('confirmation-success'))
+                        <div class="alert alert-success my-3">
+                            {{ session('confirmation-success') }}
+                        </div>
+                    @endif
 
                         <div class="row form-group">
                             <div class="col">

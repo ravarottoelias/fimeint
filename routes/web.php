@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Exports\CursoAlumnosExport;
 use App\Mail\SuccessfulInscription;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +27,46 @@ Route::post('login_alumno', 'Auth\LoginAlumnoController@login')->name('login_alu
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('register', 'Auth\RegisterController@showRegistrationForm');
 Route::post('register', 'Auth\RegisterController@register')->name('register');
+
+// Recupero de contraseña
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
+
+//Sitio publico
+Route::get('/','SitioController@home')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/post/{slug}', 'SitioController@showCurso')->name('show_post');
+Route::get('/posts', 'SitioController@cursos')->name('all_posts');
+Route::get('/novedades-fime/{slug}', 'PostController@getPost')->name('show_novedad');
+Route::get('/contacto', 'SitioController@contacto')->name('contacto');
+Route::get('/alianza', 'SitioController@alianza')->name('alianza');
+Route::get('/aula-virtual', 'SitioController@aulaVirtual')->name('aula_virtual');
+Route::get('/servicios', 'SitioController@servicios')->name('servicios');
+Route::get('/responsabilidad-social-empresaria', 'SitioController@rse')->name('rse');
+Route::get('/consultoria-a-pymes-familiares', 'SitioController@consultoriaPymesFamiliares')->name('consultoria_pymes_familiares');
+Route::get('/cursos-homologados', 'SitioController@cursosHomologados')->name('cursos_homologados');
+Route::get('/concursos', 'SitioController@concursos')->name('concursos');
+Route::get('/otros-cursos', 'SitioController@otrosCursos')->name('cursos_otros');
+Route::post('/submit_form_contact', 'SitioController@sendContact')->name('submit_form_contact');
+Route::get('/quienes-somos', 'SitioController@quienesSomos')->name('quienes_somos');
+Route::get('/nosotros', 'SitioController@nosotros')->name('nosotros');
+Route::get('/empresa-de-familia', 'SitioController@empresaDeFamilia')->name('empresa_de_familia');
+Route::get('/mediacion', 'SitioController@mediacion')->name('mediacion');
+Route::get('/negociacion', 'SitioController@negociacion')->name('negociacion');
+Route::get('/arbitraje', 'SitioController@arbitraje')->name('arbitraje');
+Route::post('/subscriber', 'SubscriberController@store')->name('subscriber');
+Route::get('/galeria-de-videos-expositors-seminario', 'SitioController@galeriaDeVideos')->name('galeria_videos');
+Route::get('get-cursos-vigentes', 'SitioController@getCursosVigentes')->name('get_cursos_vigentes');
+Route::post('/inscribir', 'InscripcionController@crearInscripcion')->name('crear_inscripcion');
+Route::get('/galeria-de-videos-expositors-seminario', 'SitioController@galeriaDeVideos')->name('galeria_videos');
+Route::get('/proyectos-rse', 'SitioController@proyectoRse')->name('proyectos_rse');
+Route::get('/proyectos-rse/{slug}', 'SitioController@proyectoRseShow')->name('proyectos_rse_show');
+Route::post('/send-email-password-reset', 'UsersController@sendEmailPasswordReset')->name('send_email_password_reset');
+
+// WEBHOOK Integracion Mercadopago 
+Route::post('/webhooks', 'WebHooksMercadoPagoController@webhookMp')->name('webhooks_mp');
 
 Route::group(['middleware' => 'auth'], function(){
 
@@ -71,38 +113,3 @@ Route::group(['middleware' => 'auth'], function(){
 
 
 });
-
-Route::get('/','SitioController@home')->name('home');
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/post/{slug}', 'SitioController@showCurso')->name('show_post');
-Route::get('/posts', 'SitioController@cursos')->name('all_posts');
-Route::get('/novedades-fime/{slug}', 'PostController@getPost')->name('show_novedad');
-Route::get('/contacto', 'SitioController@contacto')->name('contacto');
-Route::get('/alianza', 'SitioController@alianza')->name('alianza');
-Route::get('/aula-virtual', 'SitioController@aulaVirtual')->name('aula_virtual');
-Route::get('/servicios', 'SitioController@servicios')->name('servicios');
-Route::get('/responsabilidad-social-empresaria', 'SitioController@rse')->name('rse');
-Route::get('/consultoria-a-pymes-familiares', 'SitioController@consultoriaPymesFamiliares')->name('consultoria_pymes_familiares');
-Route::get('/cursos-homologados', 'SitioController@cursosHomologados')->name('cursos_homologados');
-Route::get('/concursos', 'SitioController@concursos')->name('concursos');
-Route::get('/otros-cursos', 'SitioController@otrosCursos')->name('cursos_otros');
-Route::post('/submit_form_contact', 'SitioController@sendContact')->name('submit_form_contact');
-Route::get('/quienes-somos', 'SitioController@quienesSomos')->name('quienes_somos');
-Route::get('/nosotros', 'SitioController@nosotros')->name('nosotros');
-Route::get('/empresa-de-familia', 'SitioController@empresaDeFamilia')->name('empresa_de_familia');
-Route::get('/mediacion', 'SitioController@mediacion')->name('mediacion');
-Route::get('/negociacion', 'SitioController@negociacion')->name('negociacion');
-Route::get('/arbitraje', 'SitioController@arbitraje')->name('arbitraje');
-Route::post('/subscriber', 'SubscriberController@store')->name('subscriber');
-Route::get('/galeria-de-videos-expositors-seminario', 'SitioController@galeriaDeVideos')->name('galeria_videos');
-Route::get('get-cursos-vigentes', 'SitioController@getCursosVigentes')->name('get_cursos_vigentes');
-Route::post('/inscribir', 'InscripcionController@crearInscripcion')->name('crear_inscripcion');
-Route::get('/galeria-de-videos-expositors-seminario', 'SitioController@galeriaDeVideos')->name('galeria_videos');
-Route::get('/proyectos-rse', 'SitioController@proyectoRse')->name('proyectos_rse');
-Route::get('/proyectos-rse/{slug}', 'SitioController@proyectoRseShow')->name('proyectos_rse_show');
-Route::get('/recuperar-contraseña', 'UsersController@recuperarPassword')->name('reset_password');
-Route::post('/send-email-password-reset', 'UsersController@sendEmailPasswordReset')->name('send_email_password_reset');
-
-// Mercadopago Integration
-Route::post('/webhooks', 'WebHooksMercadoPagoController@webhookMp')->name('webhooks_mp');
-Route::get('/webhooks/test', 'WebHooksMercadoPagoController@testmp');
