@@ -34,7 +34,7 @@
                 <div class="sb-nav-link-icon"><i class="far fa-images"></i></div>
                 Multimedia
             </a>
-            <a class="nav-link" href="{{route('subscriber')}}">
+            <a class="nav-link" href="{{route('subscriber_index')}}">
                 <div class="sb-nav-link-icon"><i class="fas fa-rss"></i></div>
                 Suscriptores
             </a>
