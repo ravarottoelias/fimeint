@@ -15,7 +15,6 @@ class Inscripcion extends Model
     const PAGADO = 'Pagado';
     const PAGADO_PARCIAL = 'Pago parcial';
 	const PENDIENTE = 'Pendiente';
-	const RECHAZADO = 'Rechazado';
 
     public function alumno()
     {
@@ -30,6 +29,14 @@ class Inscripcion extends Model
     public function pagado(){
     	return $this->estado_del_pago == Inscripcion::PAGADO;
     }
+    
+    public function pagoParcial(){
+    	return $this->estado_del_pago == Inscripcion::PAGADO_PARCIAL;
+    }
+    
+    public function pagoPendiente(){
+    	return $this->estado_del_pago == Inscripcion::PENDIENTE;
+    }
 
     public function payments()
     {
@@ -38,6 +45,6 @@ class Inscripcion extends Model
 
     public function getAmountPaid()
     {
-        return $this->payments()->where('status', 'approved')->sum('amount');
+        return $this->payments()->where('status', 'approved')->sum('amount') / 100;
     }
 }

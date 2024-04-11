@@ -16,8 +16,8 @@ class Curso extends Model
     const ESTADO_PROXIMO = 'Próximo';
     const ESTADO_EN_CURSO = 'En Curso';
     const ESTADO_FINALIZADO = 'Finalizado';
-    const PUBLICADO = true;
-    const NO_PUBLICADO = false;
+    const PUBLICADO = 1;
+    const NO_PUBLICADO = 0;
 
 	protected $fillable = [
         'titulo', 
@@ -74,6 +74,26 @@ class Curso extends Model
     public function scriptsDePagos()
     {
         return $this->hasMany('App\ScriptDePago');
+    }
+
+    public function setUnitPriceAttribute($value)
+    {
+        $this->attributes['unit_price'] = $value * 100;
+    }
+
+    public function getUnitPriceAttribute($value)
+    {
+        return $value / 100;
+    }
+
+    /**
+     * Calculate the value of the two course fees
+     *
+     * @return float
+     */
+    public function calcularValorCuota() : float
+    {
+        return ($this->unit_price + $this->unit_price * config('custom.payments.course_fee_tax')) / 2;
     }
 
 

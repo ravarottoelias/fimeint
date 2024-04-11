@@ -1,67 +1,70 @@
-<div class="row">
-	<div class="col-md-12">
-		<div class="form-group requerido">
-			<label class="control-label mb-1">Título</label>(*)
-			<input name="titulo" type="text" class="form-control @if ($errors->first('titulo')) is-invalid @endif" value="{{ $curso->titulo or old('titulo') }}">
-			<div class="invalid-feedback">{{ $errors->first('titulo') }}</div>
-		</div>
-	</div>
-</div>
 
-<div class="row">
-	<div class="col-md-4">
-		<div class="form-group requerido">
-			<div class="invalid-feedback">{{ $errors->first('foto') }}</div>
-			<div id="div_file" class="dropzone d-flex justify-content-center align-items-center flex-column">
-			 	<img id='output' class="box-shadow-1" style="border-radius: 5px; height: 100px" src="{{Storage::disk('uploads')->url($curso->foto)}}" alt="">
-			    <p class="texto text-muted mt-2">Portada. Click o Arrastrar para cambiar la imagen.</p>
-			    <input type='file' name="foto" id="file" accept='image/*' onchange='openFile(event)'>
-			 </div>
-		</div>
-	</div>
-	<div class="col-md-8">
-		<div class="row">
-			<div class="col-md-6">
-				<div class="form-group requerido">
-					<label class="control-label mb-1">Categoría</label>(*)
-					<select name="categoria_id" id="select-categoria" class="form-control">
-						@foreach($categorias as $c)
-							<option value="{{$c->id}}" @if($curso->categoria_id == $c->id || $request->categoria_id == $c->id) selected @endif>{{$c->nombre}}</option>
-						@endforeach
-					</select>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="form-group form-group-lugar requerido">
-					<label class="control-label mb-1">Lugar</label>
-					<input name="lugar" type="text" class="form-control @if ($errors->first('lugar')) is-invalid @endif" value="{{ $curso->lugar or old('lugar') }}">
-					<div class="invalid-feedback">{{ $errors->first('lugar') }}</div>
-				</div>
-			</div>
-		</div>
 		<div class="row">
 			<div class="col-md-12">
 				<div class="form-group requerido">
-					<label class="control-label mb-1">Descripción</label>(*)
-					<textarea name="descripcion" type="text" class="form-control @if ($errors->first('descripcion')) is-invalid @endif">{{ $curso->descripcion or old('descripcion') }}</textarea>
-					<div class="invalid-feedback">{{ $errors->first('descripcion') }}</div>
+					<label class="control-label mb-1">Título</label>(*)
+					<input name="titulo" type="text" class="form-control @if ($errors->first('titulo')) is-invalid @endif" value="{{ $curso->titulo or old('titulo') }}">
+					<div class="invalid-feedback">{{ $errors->first('titulo') }}</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</div>
 
-<div class="row">
-	<div class="col-md-12">
-		<div class="form-group requerido">
-			<label class="control-label mb-1">Contenido</label>
-			<textarea name="contenido" class="form-control" id="editor1">
-				{{ $curso->contenido or old('contenido') }}
-			</textarea>
-			<div class="invalid-feedback">{{ $errors->first('contenido') }}</div>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="form-group requerido">
+					<div class="invalid-feedback">{{ $errors->first('foto') }}</div>
+					<div id="div_file" class="dropzone d-flex justify-content-center align-items-center flex-column">
+						<img id='output' class="box-shadow-1" style="border-radius: 5px; height: 100px" src="{{Storage::disk('uploads')->url($curso->foto)}}" alt="">
+						<p class="texto text-muted mt-2">Portada. Click o Arrastrar para cambiar la imagen.</p>
+						<input type='file' name="foto" id="file" accept='image/*' onchange='openFile(event)'>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<div class="row">
+					<div class="col-md-6">
+						
+							<label class="control-label mb-1">Categoría</label>(*)
+							<select name="categoria_id" id="select-categoria" class="form-control">
+								@foreach($categorias as $c)
+									<option value="{{$c->id}}" @if($curso->categoria_id == $c->id || $request->categoria_id == $c->id) selected @endif>{{$c->nombre}}</option>
+								@endforeach
+							</select>
+						
+						<div class="invalid-feedback">{{ $errors->first('categoria_id') }}</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group form-group-lugar requerido">
+							<label class="control-label mb-1">Lugar</label>
+							<input name="lugar" type="text" class="form-control @if ($errors->first('lugar')) is-invalid @endif" value="{{ $curso->lugar or old('lugar') }}">
+							<div class="invalid-feedback">{{ $errors->first('lugar') }}</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group requerido">
+							<label class="control-label mb-1">Descripción</label>(*)
+							<textarea name="descripcion" type="text" class="form-control @if ($errors->first('descripcion')) is-invalid @endif">{{ $curso->descripcion or old('descripcion') }}</textarea>
+							<div class="invalid-feedback">{{ $errors->first('descripcion') }}</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
-</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-group requerido">
+					<label class="control-label mb-1">Contenido</label>
+					<textarea name="contenido" class="form-control" id="editor1">
+						{{ $curso->contenido or old('contenido') }}
+					</textarea>
+					<div class="invalid-feedback">{{ $errors->first('contenido') }}</div>
+				</div>
+			</div>
+		</div>
+
 
 
 @section('script')
@@ -126,10 +129,9 @@
 
     $( document ).ready(readyFn);
 
-    // click en el tab2
+    // click en el tab de formulario avanzado
     let files = {!! $curso->files()->get() !!}
-    $( ".tabs-curso #tab2" ).click(function() {
-
+    $( "#list-tab-curso #list-form-avanzado" ).click(function() {
 		//Dropzone Curso Files - insertar form cuando hace click en el tab.
         if(!document.getElementById('dropzone-curso-files')){
             var newspan = document.createElement('span');

@@ -10,21 +10,20 @@ use App\ScriptDePago;
 use App\Constants\Messages;
 use Illuminate\Http\Request;
 use App\Constants\FlashMessagesTypes;
-use App\Interfaces\CursoRepositoryInterface;
-use App\Interfaces\InscriptionRepositoryInterface;
+use App\Http\Requests\CursoStoreRequest;
+use App\Http\Requests\CursoUpdateRequest;
+use App\Repositories\CursoRepository;
+
 
 class CursoController extends Controller
 {
 
     private $cursoRepository;
-    private $inscriptionRepository;
 
 	public function __construct( 
-        CursoRepositoryInterface $cursoRepository, 
-        InscriptionRepositoryInterface $inscriptionRepository){
+        CursoRepository $cursoRepository){
 
         $this->cursoRepository = $cursoRepository;
-        $this->inscriptionRepository = $inscriptionRepository;
 
     }
 
@@ -61,9 +60,8 @@ class CursoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CursoStoreRequest $request)
     {
-        $this->validarRequest( $request );
         $curso = Curso::create($request->all());
         $curso->token = str_random(40);
         
@@ -115,10 +113,8 @@ class CursoController extends Controller
      * @param  \App\Curso  $curso
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $curso)
+    public function update(CursoUpdateRequest $request, $curso)
     {
-        $this->validarRequest( $request );
-
         $curso = $this->cursoRepository->findOrFailById($curso);
 
         $request->merge(array('permitir_inscripcion' => $request->has('permitir_inscripcion') ? 1 : 0));
@@ -181,13 +177,6 @@ class CursoController extends Controller
 
     }
 
-    private function validarRequest( $request )
-    {
-       return $this->validate($request, [
-            'titulo' => 'required|string',
-            'descripcion' => 'required|string'
-        ]);
-    }
 
     public function uploadFile( $file )
     {

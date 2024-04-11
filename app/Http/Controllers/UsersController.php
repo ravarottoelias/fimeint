@@ -3,20 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use MercadoPago;
 use App\Helpers\Helper;
 use App\Constants\Messages;
 use Illuminate\Http\Request;
 use App\Mail\UserPasswordReseted;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Mail;
-use App\Interfaces\UserRepositoryInterface;
+
 
 class UsersController extends Controller
 {
 
     private $userRepository;
 
-	public function __construct(UserRepositoryInterface $userRepository) 
+	public function __construct(UserRepository $userRepository) 
     {
         $this->userRepository = $userRepository;
     }
@@ -69,11 +69,6 @@ class UsersController extends Controller
         $msg = 'La contraseña fué reseteada. - Nueva contraseña: '.$user->documento_nro;
 
         return back()->with('success', $msg);
-    }
-
-    public function recuperarPassword()
-    {
-        return view('sitio.recuperar-contrasenia');
     }
 
     public function sendEmailPasswordReset(Request $request)

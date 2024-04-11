@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,6 +17,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Validator::extend('recaptcha','App\\Validators\\ReCaptcha@validate');
+
+
+        Blade::directive('truncateString', function ($expression) {
+            eval("\$params = $expression;");
+            list($string, $length) = $params;
+        
+            return "<?php echo mb_strimwidth($string, 0, $length, '...') ?>";
+        });
     }
 
     /**
@@ -25,9 +34,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('App\Interfaces\UserRepositoryInterface','App\Repositories\UserRepository');
-        $this->app->bind('App\Interfaces\CursoRepositoryInterface','App\Repositories\CursoRepository');
-        $this->app->bind('App\Interfaces\InscriptionRepositoryInterface','App\Repositories\InscriptionRepository');
-        $this->app->bind('App\Interfaces\MercadoPagoIntegrationInterface','App\Repositories\MercadoPagoIntegration');
     }
 }

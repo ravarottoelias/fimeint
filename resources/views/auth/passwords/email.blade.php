@@ -1,47 +1,56 @@
-@extends('layouts.app')
+@extends('sitio.layout')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
 
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
 
-                    <form class="form-horizontal" method="POST" action="{{ route('password.email') }}">
-                        {{ csrf_field() }}
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12 col-md-10 col-lg-6">
+                <div class="card mt-4">
+                    <div class="card-body">
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                        <h3 class="text-dark my-3 text-center"><i class="fas fa-key"></i> Recuperación de contraseña</h3>
+                    	<p class="text-center">¡Busquemos tu cuenta! Ingresa el correo electrónico con el que te registraste.</p>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
+                        @if (session('status'))
+                            <div class="alert alert-success">
+                                <i class="fas fa-envelope"></i>  {{ session('status') }}
                             </div>
-                        </div>
+                        @endif
 
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Send Password Reset Link
-                                </button>
+                        <form class="form-horizontal" method="POST" action="{{ route('password.email') }}">
+                            {{ csrf_field() }}
+
+                            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                                <div class="col-12">
+                                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Correo electrónico" required>
+                                    @if ($errors->has('email'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('email') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-                    </form>
+
+                            <div class="form-group">
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="mu-btn mu-primary">
+                                        Siguiente
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="card-footer text-center">
+                        <p class=" mx-3 my-0">¿No eres miembro aún? <a href="/register">Regístrate</a></p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <p class=" mx-3 my-0">¿Ya tenes una cuenta? <a href="{{route('login')}}">Iniciar Sesión</a></p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-@endsection
+
+@stop

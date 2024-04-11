@@ -41,8 +41,12 @@
 		<div class="row d-flex justify-content-center">
 			<div class="col-md-10">
 				<div class="mu-blog-left">
-				 
-				 @include('sitio.includes.flash-message')	
+				
+				<div class="row mt-3">
+					<div class="col-12">
+						@include('sitio.includes.flash-message')	
+					</div>
+				</div>
 
 				 @if( $curso->permitir_inscripcion == 1 )
 					<div class="container-stepwizard" id="container-stepwizard">
@@ -73,6 +77,7 @@
 							<div class="stepwizard-contenido py-2 py-md-5 mx-4 ">
 								<section class="payment-section mt-4">
 									<div class="row justify-content-center">
+										@if (\App\Helpers\Utils::getSetting('mercadopago_integration_enabled') == '1')										
 										<div class="col-lg-12 col-12 mb-3">
 											<div class="box featured py-3">
 												<h3>Pago Argentinos</h3>
@@ -80,29 +85,28 @@
 												<ul>
 													<li><i class="bx bx-check"></i> Realiza tu pago con Mercadopago</li>
 												</ul>
-
 												<table class="table table-borderless">
 													<tbody>
 														@if ($curso->cantidad_cuotas == 1)
 														<tr>
-															<td class="text-right">Abonar total. - 1 x $ {{ number_format($curso->unit_price, 0, ',', '.') }}</td>
+															<td class="text-right">Abonar total. - 1 x $ {{ App\Helpers\Utils::formatPrice($curso->unit_price) }}</td>
 															<td><div class="btn-mp-container d-flex justify-content-center_"></div></td>
 														</tr>
 														@endif
 														@if ($curso->cantidad_cuotas == 2)
 															@if ($inscription->estado_del_pago == App\Inscripcion::PENDIENTE)
 																<tr>
-																	<td class="text-right">Abonar total. - 1 x $ {{ number_format($curso->unit_price, 0, ',', '.') }}</td>
+																	<td class="text-right">Abonar total. - 1 x $ {{ App\Helpers\Utils::formatPrice($curso->unit_price) }}</td>
 																	<td><div class="btn-mp-container d-flex justify-content-center_"></div></td>
 																</tr>
 																<tr>
-																	<td class="text-right">Abonar cuota. - 2 x $	{{ number_format($cursoFee->unit_price, 0, ',', '.') }}</td>
+																	<td class="text-right">Abonar cuota. - 2 x $ {{ App\Helpers\Utils::formatPrice($cursoFee->calcularValorCuota()) }}</td>
 																	<td><div class="btn-mp-container-fee d-flex justify-content-center_"></div></td>
 																</tr>
 															@endif
 															@if ($inscription->estado_del_pago == App\Inscripcion::PAGADO_PARCIAL)
-																<tr>
-																	<td class="text-right">Abonar cuota 2. - $	{{ number_format($cursoFee->unit_price, 0, ',', '.') }}</td>
+															<tr>
+																	<td class="text-right">Abonar cuota 2. - $	{{ App\Helpers\Utils::formatPrice($cursoFee->calcularValorCuota()) }}</td>
 																	<td><div class="btn-mp-container-fee d-flex justify-content-center_"></div></td>
 																</tr>
 															@endif
@@ -111,9 +115,55 @@
 												</table>
 												
 												
-												
 											</div>
 										</div>
+										@endif
+									
+										
+										@if (\App\Helpers\Utils::getSetting('paypal_integration_enabled') == '1')										
+											<div class="col-lg-12 col-12 mb-3">
+												<div class="box featured py-3">
+													<h3>Pago Extranjeros</h3>
+													{{-- <h4><sup>$</sup>{{ $curso->unit_price }}</h4> --}}
+													<ul>
+														<li><i class="bx bx-check"></i> Realiza tu pago con PayPal</li>
+													</ul>
+
+													<table class="table table-borderless">
+														<tbody>
+															@if ($curso->cantidad_cuotas == 1)
+															<tr>
+																<td class="text-right">Abonar total. - 1 x $ {{ App\Helpers\Utils::formatPrice($curso->unit_price) }}</td>
+																<td><a class="btn btn-primary mercadopago-button" href="{{ route('pay_with_paypal', ['inscription' => $inscription->id, 'paymentType' => 'total']) }}">Pagar</a></td>
+															</tr>
+															@endif
+															@if ($curso->cantidad_cuotas == 2)
+																@if ($inscription->estado_del_pago == App\Inscripcion::PENDIENTE)
+																	<tr>
+																		<td class="text-right">Abonar total. - 1 x $ {{ App\Helpers\Utils::formatPrice($curso->unit_price) }}</td>
+																		<td><a class="btn btn-primary mercadopago-button" href="{{ route('pay_with_paypal', ['inscription' => $inscription->id, 'paymentType' => 'total']) }}">Pagar</a></td>
+																	</tr>
+																	<tr>
+																		<td class="text-right">Abonar cuota. - 2 x $ {{ App\Helpers\Utils::formatPrice($cursoFee->calcularValorCuota()) }}</td>
+																		<td><a class="btn btn-primary mercadopago-button" href="{{ route('pay_with_paypal', ['inscription' => $inscription->id, 'paymentType' => 'fee']) }}">Pagar cuota</a></td>
+																	</tr>
+																@endif
+																@if ($inscription->estado_del_pago == App\Inscripcion::PAGADO_PARCIAL)
+																	<tr>
+																		<td class="text-right">Abonar cuota 2. - $ {{ App\Helpers\Utils::formatPrice($cursoFee->calcularValorCuota()) }}</td>
+																		<td><a class="btn btn-primary mercadopago-button" href="{{ route('pay_with_paypal', ['inscription' => $inscription->id, 'paymentType' => 'fee']) }}">Pagar</a></td>
+																	</tr>
+																@endif
+															@endif
+														</tbody>
+													</table>
+													
+													
+													
+												</div>
+											</div>
+										@endif
+
 										@if($curso->scriptsDePagos()->count()>0)
 										<div class="col-lg-12 col-12">
 											<div class="box featured">

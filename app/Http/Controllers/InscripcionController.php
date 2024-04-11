@@ -10,9 +10,10 @@ use App\Mail\SuccessfulInscription;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use App\Interfaces\CursoRepositoryInterface;
-use App\Interfaces\InscriptionRepositoryInterface;
-use App\Interfaces\MercadoPagoIntegrationInterface;
+use App\Repositories\CursoRepository;
+use App\Repositories\PaypalIntegration;
+use App\Repositories\InscriptionRepository;
+use App\Repositories\MercadoPagoIntegration;
 
 class InscripcionController extends Controller
 {
@@ -20,15 +21,18 @@ class InscripcionController extends Controller
     private $cursoRepository;
     private $mercadopagoService;
     private $inscriptionRepository;
+    private $paypalService;
 
 	public function __construct(
-        CursoRepositoryInterface $cursoRepository, 
-        InscriptionRepositoryInterface $inscriptionRepository,
-        MercadoPagoIntegrationInterface $mercadopagoService){
+        CursoRepository $cursoRepository, 
+        InscriptionRepository $inscriptionRepository,
+        MercadoPagoIntegration $mercadopagoService,
+        PaypalIntegration $paypalService){
 
         $this->cursoRepository = $cursoRepository;
         $this->inscriptionRepository = $inscriptionRepository;
         $this->mercadopagoService = $mercadopagoService;
+        $this->paypalService = $paypalService;
 
     }
 
@@ -107,19 +111,14 @@ class InscripcionController extends Controller
         return;
     }
 
-    public function paymentDetails(Request $request, $paymentId)
+    function inscriptions(Request $request) 
     {
+        $inscriptions = Inscripcion::with('alumno')
+            ->with('curso')
+            ->orderBy('created_at', 'DESC')
+            ->paginate(15);
 
-        $paymentResponse = $this->mercadopagoService->getPaymentById($paymentId);
-        $payment = (Object) $paymentResponse;
-
-        $inscription = $this->inscriptionRepository->getInscriptionById($payment->additional_info['items'][0]['id']);
-        $student = $inscription->alumno()->first();
-        
-        $payment->student = $student;
-
-
-        return view('admin.inscriptions.payment-details', compact('payment'));
+        return view('admin.inscriptions.index', compact('inscriptions')); 
     }
 
 
@@ -134,7 +133,6 @@ class InscripcionController extends Controller
         $curso = $this->cursoRepository->findOrFailById($request->curso_id); 
         
         if (!$user->estaInscriptoEn($curso->id)){
-            //no registra inscripcion => Inscribir
             $this->inscriptionRepository->saveInscription($user->id, $curso->id, $canal);
     
             Mail::to($user->email)->send(new SuccessfulInscription($curso, $user));
@@ -169,18 +167,24 @@ class InscripcionController extends Controller
         }
         
         $inscription = $this->inscriptionRepository->findInscriptionByUserIdCursoId($curso->id, $user->id); 
-        
         if ( $inscription->pagado() ) {
             return view('sitio.inscripcion.payment-status', compact('curso', 'inscription', 'user'));
         }
 
         //PAGO TOTAl
-        $preference = $this->mercadopagoService->createPreferenceMP($inscription, $curso, $user);
+        $data = (object) [
+            'titulo' => $curso->titulo,
+            'unit_price' => $curso->unit_price,
+        ];
+        $preference = $this->mercadopagoService->createPreferenceMP($inscription, $data, $user);
 
         //PAGO EN 2 CUOTAS
-        $cursoFee->unit_price = ($curso->unit_price + $curso->unit_price * config('custom.payments.course_fee_tax')) / 2;
-        $preferenceFee = $this->mercadopagoService->createPreferenceMP($inscription, $cursoFee, $user);
-        
+        $data = (object) [
+            'titulo' => $curso->titulo,
+            'unit_price' => $curso->calcularValorCuota(),
+        ];
+        $preferenceFee = $this->mercadopagoService->createPreferenceMP($inscription, $data, $user);
+
         return view('sitio.inscripcion.payment', compact('curso', 'cursoFee', 'preference', 'preferenceFee', 'inscription'));
     }
 
@@ -188,4 +192,5 @@ class InscripcionController extends Controller
     {
         return view('admin.inscriptions.show', compact('inscription'));
     }
+
 }

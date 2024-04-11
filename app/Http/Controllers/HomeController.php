@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Interfaces\CursoRepositoryInterface;
-use App\Interfaces\InscriptionRepositoryInterface;
+use App\Repositories\CursoRepository;
+use App\Repositories\PaymentRepository;
+use App\Repositories\InscriptionRepository;
 
 class HomeController extends Controller
 {
     private $inscriptionRepository;
-    private $cursoRepository;
+    private $paymentsRepository;
 
 	public function __construct( 
-        InscriptionRepositoryInterface $inscriptionRepository,
-        CursoRepositoryInterface $cursoRepository)
+        InscriptionRepository $inscriptionRepository,
+        PaymentRepository $paymentsRepository)
     {
         $this->middleware('auth');
         $this->inscriptionRepository = $inscriptionRepository;
-        $this->cursoRepository = $cursoRepository;
+        $this->paymentsRepository = $paymentsRepository;
     }
 
 
@@ -34,10 +34,10 @@ class HomeController extends Controller
     public function dashboard()
     {
 
-        $payments = $this->inscriptionRepository->getLastPayments();
-        $cursos = $this->cursoRepository->findCursosEnCurso();
+        $payments = $this->paymentsRepository->getLastPayments();
+        $inscriptions = $this->inscriptionRepository->getLastInscriptions(10);
 
-        return view('admin.dashboard', compact('payments', 'cursos'));
+        return view('admin.dashboard', compact('payments', 'inscriptions'));
     }
 
 }

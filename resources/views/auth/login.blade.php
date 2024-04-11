@@ -24,6 +24,16 @@ body{
             <div class="card border-primary mb-3">
                 <div class="card-body">
                     <h3 class="text-dark my-3 text-center">Iniciar Sesión</h3>
+                    @if (session('confirmation-success'))
+                        <div class="alert alert-success my-3">
+                            {{ session('confirmation-success') }}
+                        </div>
+                    @endif
+                    @if (session('confirmation-danger'))
+                        <div class="alert alert-danger my-3">
+                            {!! session('confirmation-danger') !!}
+                        </div>
+                    @endif
                     <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -65,7 +75,7 @@ body{
                     <p class=" mx-3 my-0">¿No eres miembro aún? <a href="/register">Regístrate</a></p>
                 </div>
                 <div class="card-footer text-center">
-                    <p class=" mx-3 my-0">¿Olvidaste tu contraseña? <a href="{{route('reset_password')}}">Recuperar</a></p>
+                    <p class=" mx-3 my-0">¿Olvidaste tu contraseña? <a href="{{route('password.request')}}">Recuperar</a></p>
                 </div>
             </div>
         </div>

@@ -30,7 +30,6 @@ class MessageRecived extends Mailable
      */
     public function build()
     {
-        // dd($this->message);
         return $this->view('email.message-recived')->subject('Mensaje Sitio web FIMe');
     }
 }
