@@ -10,7 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Repositories\CursoRepository;
 use App\Http\Requests\ReCaptchataTestFormRequest;
-
+use App\Jobs\SendEmailContact;
+use Illuminate\Support\Facades\Log;
 
 class SitioController extends Controller
 {
@@ -108,9 +109,9 @@ class SitioController extends Controller
         ]);
 
         $data = $request->all();
-        $receiver = 'info@fimeint.org';
+        $data['receiver'] = 'info@fimeint.org';
 
-        Mail::to($receiver)->send(new MessageRecived($data));
+        SendEmailContact::dispatch($data)->onQueue('emails');
 
         return back()->with('success', 'Gracias por comunicarte con nosotros');
     }
