@@ -24,13 +24,13 @@ class InscriptionPayment extends Model
         return $this->belongsTo('App\Inscripcion', 'inscription_id');
     }
 
-    // public function setAmountAttribute($value)
-    // {
-    //     $this->attributes['amount'] = $value * 100;
-    // }
+    public function setAmountAttribute($value)
+    {
+        $this->attributes['amount'] = $value * 100;
+    }
 
-    // public function getAmountAttribute($value)
-    // {
-    //     return $value / 100;
-    // }
+    public function getAmountAttribute($value)
+    {
+        return $value / 100;
+    }
 }

@@ -25,14 +25,9 @@ class SettingsTableSeeder extends Seeder
             ],
         ];
 
-        // foreach ($settings as $setting) {
-        //     Setting::create($setting);
-        // }
-
-        $payments = InscriptionPayment::all();
-        foreach($payments as $payment){
-            $payment->amount = $payment->amount*100;
-            $payment->save();
+        foreach ($settings as $setting) {
+            Setting::create($setting);
         }
+
     }
 }
