@@ -1,6 +1,7 @@
 <?php
 
 use App\Setting;
+use App\InscriptionPayment;
 use Illuminate\Database\Seeder;
 
 class SettingsTableSeeder extends Seeder
@@ -24,8 +25,14 @@ class SettingsTableSeeder extends Seeder
             ],
         ];
 
-        foreach ($settings as $setting) {
-            Setting::create($setting);
+        // foreach ($settings as $setting) {
+        //     Setting::create($setting);
+        // }
+
+        $payments = InscriptionPayment::all();
+        foreach($payments as $payment){
+            $payment->amount = $payment->amount*100;
+            $payment->save();
         }
     }
 }
