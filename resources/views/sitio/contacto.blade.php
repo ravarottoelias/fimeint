@@ -88,7 +88,7 @@
 											</div>
 											<div class="form-group">
 												<div class="g-recaptcha" 
-											         data-sitekey="{{env('GOOGLE_RECAPTCHA_KEY')}}">
+											         data-sitekey="{{$reCaptchaGpublicKey}}">
 											    </div>
 												@if ($errors->has('g-recaptcha-response'))
 												    <span class="text-danger">

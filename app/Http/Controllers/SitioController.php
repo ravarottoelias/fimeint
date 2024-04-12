@@ -45,7 +45,8 @@ class SitioController extends Controller
 
     public function contacto( Request $request)
     {
-    	return view('sitio.contacto');
+        $reCaptchaGpublicKey = config('custom.recaptchagoogle')['site_public_key'];
+    	return view('sitio.contacto', compact('reCaptchaGpublicKey'));
     }
 
     public function nosotros( Request $request)
