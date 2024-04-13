@@ -110,7 +110,7 @@ class SitioController extends Controller
         ]);
 
         $data = $request->all();
-        $data['receiver'] = 'info@fimeint.org';
+        $data['receiver'] = config('custom.commons')['email_contact_receiver'];
 
         SendEmailContact::dispatch($data)->onQueue('emails');
 
