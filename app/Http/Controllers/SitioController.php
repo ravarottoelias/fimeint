@@ -110,7 +110,6 @@ class SitioController extends Controller
         ]);
 
         $data = $request->all();
-        dd(config('custom.commons'));
         $data['receiver'] = config('custom.commons')['email_contact_receiver'];
         SendEmailContact::dispatch($data)->onQueue('emails');
 
