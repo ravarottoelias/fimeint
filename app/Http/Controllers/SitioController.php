@@ -106,7 +106,6 @@ class SitioController extends Controller
             'email' => 'required',
             'telefono' => 'required',
             'message' => 'required',
-            //'g-recaptcha-response' => 'required',
         ]);
 
         $data = $request->all();
