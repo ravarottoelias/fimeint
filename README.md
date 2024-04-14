@@ -23,8 +23,13 @@ Correr migraciones y seeders.
 ### Queue and Jobs
 Luego del despliegue ejecutar el siguiente comando para correr los jobs en background
 ```sh
-nohup php artisan queue:work --queue=emails,payments,default --tries=3 --daemon >/dev/null 2>&1 &
+php artisan queue:listen --queue=default,emails,payments --tries=1 --memory=128 --timeout=300 >>  storage/logs/queue_log.log &
 ```
+Verificar si el comando está corriendo
+```
+ps -aux | grep artisan
+```
+
 Se debe tener configurado en el .env
 ```
 QUEUE_DRIVER=database

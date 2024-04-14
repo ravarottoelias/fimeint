@@ -106,12 +106,10 @@ class SitioController extends Controller
             'email' => 'required',
             'telefono' => 'required',
             'message' => 'required',
-            'g-recaptcha-response' => 'required',
         ]);
 
         $data = $request->all();
         $data['receiver'] = config('custom.commons')['email_contact_receiver'];
-
         SendEmailContact::dispatch($data)->onQueue('emails');
 
         return back()->with('success', 'Gracias por comunicarte con nosotros');
