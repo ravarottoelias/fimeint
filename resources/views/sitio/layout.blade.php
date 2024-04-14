@@ -4,6 +4,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!--===============================================================================================-->
+    <meta property="og:site_name" content="FIME Int" />
+    <meta property="og:title" content="Fundación Instituto de Mediación" />
+    <meta property="og:description" content="Fundación Instituto de Mediación - Chaco Resistencia" />
+    <meta property="og:url" content="https://fimeint.org/" />
+    <meta property="og:determiner" content="the" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:locale:alternate" content="es_ES" />
+    <meta property="og:image" content="https://fimeint.org/images/nuevo-logo-fime.png" />
+  
+    <!--===============================================================================================-->
     <link rel="shortcut icon" type="image/icon" href="{{asset('images/favicon.png')}}"/>
     @yield('title_and_meta')
     <!--===============================================================================================-->
