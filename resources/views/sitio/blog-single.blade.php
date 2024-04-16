@@ -102,8 +102,9 @@
 											@endif
 											
 										</div>
-
-										@include('sitio.cursos.inscription-payment-actions')
+										@if ($curso->permitir_inscripcion)
+											@include('sitio.cursos.inscription-payment-actions')
+										@endif
 
 									</article>
 
