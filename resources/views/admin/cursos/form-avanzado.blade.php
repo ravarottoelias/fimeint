@@ -68,8 +68,8 @@
 						<div class="form-group requerido">
 							<label class="control-label mb-1">Permitir Inscripción</label>
 							<select class="form-control"  name="permitir_inscripcion">
-						 		<option value="0" @if($curso->permitir_inscripcion == 1) selected @endif> SI </option>
-						 		<option value="1" @if($curso->permitir_inscripcion == 0) selected @endif> NO </option>
+						 		<option value="1" @if($curso->permitir_inscripcion == 1) selected @endif> SI </option>
+						 		<option value="0" @if($curso->permitir_inscripcion == 0) selected @endif> NO </option>
 							</select>
 						</div>
 					</div>
