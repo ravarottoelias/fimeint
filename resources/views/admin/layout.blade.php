@@ -99,6 +99,10 @@
 
         @yield('script')
 
+        <script src="{{ URL::asset('assets/js/fimeint.js') }}" type="text/javascript"></script>
+
+        @yield('footer_script_init')
+
         <script type="text/javascript">
             
             //Dropzone General Config

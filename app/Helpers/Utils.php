@@ -32,4 +32,17 @@ class Utils
 
         return $settings_array;
     }
+
+    public static function verifiedUsersData()
+    {
+        $data = [];
+
+            $verified = User::where('confirmed', '=', '1')->count();
+            $notVerified = User::where('confirmed', '=', '0')->count();
+            $data[] = ['label' => 'Verificados', 'value' => $verified];
+            $data[] = ['label' => 'No verificados', 'value' => $notVerified];
+
+
+        return json_encode($data);
+    }
 }

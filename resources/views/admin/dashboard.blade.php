@@ -13,6 +13,26 @@
     </ol>
 
 	<div class="row">
+		<div class="col-lg-6">
+			<div class="panel bg-white">
+				<div class="panel-title">
+					<div class="panel-head"> Usuarios Verificados </div>
+				</div>
+				<div class="panel-body padding-top-10">
+					@if(!empty($verifiedUsers))
+						<div id="fimeint-verified-users" class="chart"></div>
+					@else
+						<div class="tab-empty-panel font-size-24 color-grey-300">
+							<div id="fimeint-verified-users" class="chart"></div>
+							No Data
+						</div>
+					@endif
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
 		<div class="col-12">
 			<div class="card">
                 <div class="card-body">
@@ -132,6 +152,17 @@
 		</div>
 
 	</div>
+@stop
 
+@section('script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.2.7/morris.min.js" integrity="sha512-nF4mXN+lVFhVGCieWAK/uWG5iPru9+/z1iz0MJbYTto85I/k7gmbTFFFNgU+xVRkF0LI2nRCK20AhxFIizNsXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js" integrity="sha512-tBzZQxySO5q5lqwLWfu8Q+o4VkTcRGOeQGVQ0ueJga4A1RKuzmAu5HXDOXLEjpbKyV7ow9ympVoa6wZLEzRzDg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+@stop
 
+@section('footer_script_init')
+    <script type="text/javascript">
+        $(document).ready(function () {
+            fimeint.loadmorris();
+        });
+    </script>
 @stop
