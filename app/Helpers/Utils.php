@@ -1,6 +1,8 @@
 <?php
 namespace App\Helpers;
 
+use App\Inscripcion;
+use App\User;
 use App\Setting;
 
 class Utils
@@ -31,5 +33,31 @@ class Utils
         }
 
         return $settings_array;
+    }
+
+    public static function verifiedUsersData()
+    {
+        $data = [];
+
+            $verified = User::where('confirmed', '=', '1')->count();
+            $notVerified = User::where('confirmed', '=', '0')->count();
+            $data[] = ['label' => 'Verificados', 'value' => $verified];
+            $data[] = ['label' => 'No verificados', 'value' => $notVerified];
+
+
+        return json_encode($data);
+    }
+
+    public static function inscriptionChannels($cursoId = null, $fromDate = null, $endDate = null)
+    {
+        $channels = config('custom.commons.inscription_channels');
+        $data = [];
+
+        foreach($channels as $channel){
+            $inscriptions = Inscripcion::where('canal', $channel)->count();
+            $data[] = ['label' => $channel, 'value' => $inscriptions];
+        }
+        //dd($data);
+        return json_encode($data);
     }
 }
