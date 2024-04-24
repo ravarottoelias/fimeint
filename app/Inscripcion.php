@@ -23,7 +23,7 @@ class Inscripcion extends Model
 
     public function curso()
     {
-        return $this->belongsTo('App\Curso');
+        return $this->belongsTo('App\Curso', 'curso_id');
     }
 
     public function pagado(){

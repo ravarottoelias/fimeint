@@ -6,27 +6,27 @@ var fimeint = (function ($) {
 		/* --------------------------------- */
 		loadmorris: function () {
 
-			// LINE CHART
-			var line = new Morris.Line({
-				element: 'gymie-registrations-trend',
-				resize: true,
-				data: JSON.parse(jsRegistraionsCount),
-				xkey: 'month',
-				ykeys: ['registrations'],
-				labels: [jsRegistraionTrendLabel],
-				hideHover: 'auto',
-				lineColors: ['#27ae60']
-			});
-
 			//DONUT CHART
-			var donut = new Morris.Donut({
+			const donut = new Morris.Donut({
 				element: 'fimeint-verified-users',
 				resize: true,
 				colors: ["#e74c3c", "#e67e22", "#3498db"],
-				data: JSON.parse(jsMembersPerPlan),
+				data: JSON.parse(jsVerifiedUsersCountData),
 				hideHover: 'auto'
+			});
+			
+			const bar = new Morris.Bar({
+				resize: true,
+				data: JSON.parse(jsInscriptionChannels),
+				hideHover: 'always',
+				element: 'fimeint-inscription-channels',
+				xkey: 'label',
+				ykeys: ['value'],
+				labels: ['Inscripciones'], 
+				barColors: ["#007bff"],
+				xLabelMargin: 12
 			});
 
 		},
-    }
-}
+    };
+})(jQuery);
