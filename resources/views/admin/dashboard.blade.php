@@ -158,10 +158,9 @@
 @stop
 
 @section('script')
-	<script src="{{ URL::asset('assets/plugins/morris/raphael-2.1.0.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('assets/plugins/morris/morris.min.js') }}" type="text/javascript"></script>
-    
-	<script type="text/javascript">
+	<script src="{{ URL::asset('/js/morris/raphael-2.1.0.min.js') }}" type="text/javascript"></script>
+    <script src="{{ URL::asset('/js/morris/morris.min.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
         $(document).ready(function () {
             fimeint.loadmorris();	
         });

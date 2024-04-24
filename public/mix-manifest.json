@@ -1,9 +1,9 @@
 {
-    "/js/app.js": "/js/app.js?id=1f0293f170b3096acaea",
-    "/css/app.css": "/css/app.css?id=fd5e7446c4a381d25868",
-    "/css/slick.css": "/css/slick.css?id=366b74df71fddf1f6ad9",
-    "/css/sb-admin/sb-admin.css": "/css/sb-admin/sb-admin.css?id=d43bd8257648eb4bbc9c",
-    "/css/app-dashboard.css": "/css/app-dashboard.css?id=5712165d4411e611ef50",
-    "/js/app-dashboard.js": "/js/app-dashboard.js?id=fe31a0363d31f5a1e10c",
-    "/js/counter.js": "/js/counter.js?id=980f37af78b957acee4e"
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/css/slick.css": "/css/slick.css",
+    "/css/sb-admin/sb-admin.css": "/css/sb-admin/sb-admin.css",
+    "/css/app-dashboard.css": "/css/app-dashboard.css",
+    "/js/app-dashboard.js": "/js/app-dashboard.js",
+    "/js/counter.js": "/js/counter.js"
 }
