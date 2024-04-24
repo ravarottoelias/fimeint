@@ -78,11 +78,12 @@
   <!-- Gallery Lightbox -->
   <script type="text/javascript" src="{{asset('js/jquery.magnific-popup.min.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   
 	<script type="text/javascript">
 
     @if(session('success'))
-      var msg = '{{ session('success') }}';
+      const msg = '{{ session('success') }}';
       swal.fire({
         position: 'center',
         type: 'success',

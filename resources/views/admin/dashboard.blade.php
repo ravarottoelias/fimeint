@@ -7,14 +7,37 @@
     $mercadopagoImageB64 = "data:image/webp;base64,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";
 @endphp
 
-<h1 class="mt-4">Panel {{ env('APP_NAME') }}</h1>
+	<h1 class="mt-4 mb-1">Panel {{ env('APP_NAME') }}</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item active">Panel</li>
     </ol>
 
 	<div class="row">
+		<div class="col-lg-6">
+			<div class="card card-panel">
+				<div class="card-header">
+					Usuarios Verificados
+				</div>
+				<div class="card-body padding-top-10">
+					<div id="fimeint-verified-users" class="chart"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="card card-panel">
+				<div class="card-header">
+					Inscripciones por canal
+				</div>
+				<div class="card-body padding-top-10">
+					<div id="fimeint-inscription-channels" class="chart"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row mt-4">
 		<div class="col-12">
-			<div class="card">
+			<div class="card card-panel">
                 <div class="card-body">
                     <!-- title -->
                     <div class="d-md-flex align-items-center mb-3">
@@ -70,9 +93,9 @@
 		</div>
 	</div>
 
-	<div class="row mt-3">
+	<div class="row mt-4">
 		<div class="col-12">
-			<div class="card">
+			<div class="card card-panel">
 				<div class="card-body">
 					<!-- title -->
 					<div class="d-md-flex align-items-center mb-3">
@@ -132,6 +155,15 @@
 		</div>
 
 	</div>
-
-
 @stop
+
+@section('script')
+	<script src="{{ URL::asset('/js/morris/raphael-2.1.0.min.js') }}" type="text/javascript"></script>
+    <script src="{{ URL::asset('/js/morris/morris.min.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
+        $(document).ready(function () {
+            fimeint.loadmorris();	
+        });
+    </script>
+@stop
+

@@ -1,5 +1,4 @@
 
-import swal from 'sweetalert2';
 window._ = require('lodash');
 
 /**
@@ -15,7 +14,7 @@ try {
     require('bootstrap');
 	
 	require('hover.css');
-	window.swal = swal
+
 } catch (e) {}
 
 

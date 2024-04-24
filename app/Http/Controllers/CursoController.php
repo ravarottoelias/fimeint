@@ -117,7 +117,7 @@ class CursoController extends Controller
     {
         $curso = $this->cursoRepository->findOrFailById($curso);
 
-        $request->merge(array('permitir_inscripcion' => $request->has('permitir_inscripcion') ? 1 : 0));
+        $request->merge(array('permitir_inscripcion' => (bool) $request->permitir_inscripcion));
 
         $curso->update($request->all());
 

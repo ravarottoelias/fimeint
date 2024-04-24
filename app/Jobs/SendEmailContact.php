@@ -36,6 +36,7 @@ class SendEmailContact implements ShouldQueue
     {
         Log::info("Sending email contact message ...");
         Mail::to($this->data['receiver'])->send(new MessageRecived($this->data));
+        Log::info($this->data);
         Log::info("Sending email contact message success");
     }
 }
