@@ -42,14 +42,6 @@
 						<h3>Información de Contacto</h3>
 						<ul class="list-unstyled">
 						  <li class="media d-flex align-items-center">
-						    <div class="icon-mu-social-media">
-						  		<i class="fas fa-location-arrow"></i>
-						  	</div>
-						    <div class="media-body">
-						    	<p>Hipólito Yrigoyen 645, Resistencia, Chaco</p>
-						    </div>
-						  </li>
-						  <li class="media d-flex align-items-center">
 						  	<div class="icon-mu-social-media">
 						  		<i class="fa fa-phone"></i>
 						  	</div>
