@@ -104,15 +104,6 @@
 								<div class="col-md-4 col-xs-12 px-3 py-3">
 									<!-- Start single service -->
 										<div class="mu-single-service my-2">
-											<div class="mu-single-service-icon"><i class="fas fa-location-arrow"></i></div>
-											<div class="mu-single-service-content">
-												<h3 class="text-justify">Dirección</h3>
-												<p class="text-justify">Hipólito Yrigoyen 645, Resistencia, Chaco</p>
-											</div>
-										</div>
-									<!-- End single service -->
-									<!-- Start single service -->
-										<div class="mu-single-service my-2">
 											<div class="mu-single-service-icon"><i class="fa fa-phone" aria-hidden="true"></i></div>
 											<div class="mu-single-service-content">
 												<h3 class="text-justify">Teléfono</h3>
@@ -171,10 +162,4 @@
 			</div>
 		</section>
 		<!-- End Contact -->
-
-
-		<!-- Google map -->
-		<div id="mu-google-map">
-			<figure><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3540.4567322110615!2d-58.98073394637761!3d-27.455036824628152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94450cf0257aa673%3A0xc5862df9f3030cdf!2sFundacion+Instituto+de+Mediacion!5e0!3m2!1ses-419!2sar!4v1557880015521!5m2!1ses-419!2sar" width="100%" height="450" allowfullscreen=""></iframe></figure>
-		</div>
 @stop
