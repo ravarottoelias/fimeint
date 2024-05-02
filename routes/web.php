@@ -79,6 +79,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('curso_delete_file/{id}', 'CursoController@deleteFile')->name('curso_delete_file')->middleware(['roles']);;
 	Route::get('media', 'FileController@index')->name('media')->middleware(['roles']);;
 	Route::post('media_upload_files', 'FileController@uploadFiles')->name('media_upload_fliles')->middleware(['roles']);;
+	Route::get('dashboard/search', 'HomeController@search')->name('app_search')->middleware(['roles']);;
 	
 	//Scripts de pagos
 	Route::get('curso_scripts/{id}', 'CursoController@getScriptsDePagos')->middleware(['roles']);
