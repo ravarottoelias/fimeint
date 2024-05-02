@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Filterable;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
@@ -9,8 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Curso extends Model
 {
-    
     use SoftDeletes;
+    use Filterable;
     use HasSlug;
 
     const ESTADO_PROXIMO = 'Próximo';

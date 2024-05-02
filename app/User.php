@@ -3,12 +3,14 @@
 namespace App;
 
 use App\Notifications\PasswordReset;
+use App\Traits\Filterable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use Filterable;
 
     /**
      * The attributes that are mass assignable.

@@ -2,11 +2,14 @@
 
 namespace App;
 
+use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 class File extends Model
 {
+    use Filterable;
+    
 	protected $table = 'files';
 
     public function store( $fileRequest )

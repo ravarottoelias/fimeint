@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Model;
 
 class InscriptionPayment extends Model
 {
+    use Filterable;
+    
     protected $table = 'inscription_payments';
 
     protected $fillable = [
@@ -22,6 +25,11 @@ class InscriptionPayment extends Model
     public function inscription()
     {
         return $this->belongsTo('App\Inscripcion', 'inscription_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'user_id');
     }
 
     public function setAmountAttribute($value)
