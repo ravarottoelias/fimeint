@@ -158,7 +158,7 @@ class InscripcionController extends Controller
     public function inscriptionPayment(Request $request, $slug)
     {
         $user = Auth::user();
-        
+   
         $curso = $this->cursoRepository->getCursoBySlug($slug);
         $cursoFee = $this->cursoRepository->getCursoBySlug($slug);
         

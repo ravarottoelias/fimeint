@@ -13,12 +13,12 @@
                     @break
                     @case(\App\Inscripcion::PAGADO_PARCIAL)
                         <div class="alert alert-success" role="alert">
-                            Gracias por inscribirte <i class="far fa-smile"></i>. Tienes un <b>pago pendiente</b>. Completalo <a href="#" class="alert-link"><b>aquí</b></a>.
+                            Gracias por inscribirte <i class="far fa-smile"></i>. La primer cuota fué abonada. Puedes abonar la segunda <a href="{{ route('curso_step_inscription_payment', $curso->slug) }}" class="alert-link"><b>aquí</b></a>.
                         </div>
                     @break
                     @case(\App\Inscripcion::PENDIENTE)
                         <div class="alert alert-info" role="alert">
-                            Gracias por inscribirte <i class="far fa-smile"></i>. Aún <b>no registramos tu pago</b>. Completalo <a href="#" class="alert-link"><b>aquí</b></a>.
+                            Gracias por inscribirte <i class="far fa-smile"></i>. Aún <b>no registramos tu pago</b>. Completalo <a href="{{ route('curso_step_inscription_payment', $curso->slug) }}" class="alert-link"><b>aquí</b></a>.
                         </div>
                     @break
                         
