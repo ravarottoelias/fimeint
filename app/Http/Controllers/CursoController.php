@@ -105,7 +105,6 @@ class CursoController extends Controller
         $curso = $this->cursoRepository->getCursoByIdWithTags($curso);
         $payments = $this->getAllDataPayments($curso);
 
-        dd($payments);
 
         return view('admin.cursos.edit', compact('curso', 'tags', 'categorias', 'request'));
     }
