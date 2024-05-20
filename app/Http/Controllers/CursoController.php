@@ -8,11 +8,13 @@ use App\Curso;
 use App\Categoria;
 use App\ScriptDePago;
 use App\Constants\Messages;
+use App\InscriptionPayment;
 use Illuminate\Http\Request;
 use App\Constants\FlashMessagesTypes;
-use App\Http\Requests\CursoStoreRequest;
-use App\Http\Requests\CursoUpdateRequest;
 use App\Repositories\CursoRepository;
+use App\Http\Requests\CursoStoreRequest;
+use App\Constants\MPIntegrationConstants;
+use App\Http\Requests\CursoUpdateRequest;
 
 
 class CursoController extends Controller
@@ -98,10 +100,12 @@ class CursoController extends Controller
      */
     public function edit(Request $request, $curso)
     {
-        $curso = $this->cursoRepository->getCursoByIdWithTags($curso);
-
         $tags = collect(Tag::all());
         $categorias = Categoria::all();
+        $curso = $this->cursoRepository->getCursoByIdWithTags($curso);
+        $payments = $this->getAllDataPayments($curso);
+
+        dd($payments);
 
         return view('admin.cursos.edit', compact('curso', 'tags', 'categorias', 'request'));
     }
@@ -240,6 +244,16 @@ class CursoController extends Controller
         }
 
         return $arrayOfTags;;
+    }
+
+    private function getAllDataPayments(Curso $curso)
+    {   
+        $inscriptionPayments = InscriptionPayment::leftJoin('inscripciones', 'inscripciones.id', '=', 'inscription_payments.inscription_id')
+            ->where('inscripciones.curso_id', '=', $curso->id)
+            ->where('inscription_payments.status', '=', MPIntegrationConstants::PAYMENT_STATUS_APPROVED)
+            ->get();
+
+        return $inscriptionPayments;
     }
     
     
