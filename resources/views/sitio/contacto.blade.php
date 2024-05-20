@@ -48,59 +48,8 @@
 								</div>
 							</div>
 							<!-- Start Contact Content -->
-							<div class="row">
-								<div class="col-md-6 col-xs-12">
-
-									<div class="mu-contact-form-area">
-										<div id="form-messages"></div>
-										<form method="post" action="{{ route('submit_form_contact') }}" class="mu-contact-form">
-											{{ csrf_field() }}
-											<div class="form-group">  
-												<span class="fa fa-user mu-contact-icon"></span>              
-												<input type="text" class="form-control" placeholder="Nombre" name="name" required>
-												<span class="text-danger">
-													{{  $errors->first('name') }}
-												</span>
-											</div>
-
-											<div class="form-group">  
-												<span class="fa fa-envelope mu-contact-icon"></span>              
-												<input type="email" class="form-control" placeholder="Ingrese su email" name="email" required>
-												<span class="text-danger">
-													{{  $errors->first('email') }}
-												</span>
-											</div>    
-
-											<div class="form-group"> 
-												<span class="fa fa-phone mu-contact-icon"></span>                
-												<input type="text" class="form-control" placeholder="Teléfono de contacto" name="telefono" required>
-												<span class="text-danger">
-													{{  $errors->first('telefono') }}
-												</span>
-											</div>
-
-											<div class="form-group">
-												<span class="fa fa-pencil-square-o mu-contact-icon"></span> 
-												<textarea class="form-control" placeholder="Mensaje" name="message" required></textarea>
-												<span class="text-danger">
-													{{  $errors->first('name') }}
-												</span>
-											</div>
-											<div class="form-group">
-												<div class="g-recaptcha" 
-											         data-sitekey="{{$reCaptchaGpublicKey}}">
-											    </div>
-												@if ($errors->has('g-recaptcha-response'))
-												    <span class="text-danger">
-												        <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
-												    </span>
-												@endif
-											</div>
-											<button type="submit" class="mu-send-msg-btn"><span>Enviar</span></button>
-							        	</form>
-									</div>
-								</div>
-								<div class="col-md-1 col-xs-12 px-3 py-3"></div>
+							<div class="row ">
+								<div class="col-md-4"></div>
 								<div class="col-md-4 col-xs-12 px-3 py-3">
 									<!-- Start single service -->
 										<div class="mu-single-service my-2">
@@ -154,6 +103,7 @@
 										</div>
 									<!-- End single service -->
 								</div>
+								<div class="col-md-4"></div>
 							</div>
 							<!-- End Contact Content -->
 						</div>
