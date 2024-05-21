@@ -35,3 +35,5 @@ Se debe tener configurado en el .env
 QUEUE_DRIVER=database
 ```
 
+### Otros
+
