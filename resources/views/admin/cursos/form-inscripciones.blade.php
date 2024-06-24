@@ -51,15 +51,19 @@
       <td id="td-estado_del_pago-{{$i->id}}">
         @if($i->estado_del_pago == \App\Inscripcion::PAGADO) 
           <span class="badge badge-pill badge-success">{{$i->estado_del_pago}}</span>
-        @else 
-          <span class="badge badge-pill badge-warning">{{$i->estado_del_pago}}</span>
+        @endif
+        @if($i->estado_del_pago == \App\Inscripcion::PAGADO_PARCIAL) 
+         <span class="badge badge-pill badge-warning">{{$i->estado_del_pago}}</span>
+        @endif
+        @if($i->estado_del_pago == \App\Inscripcion::PENDIENTE) 
+         <span class="badge badge-pill badge-dark">{{$i->estado_del_pago}}</span>
         @endif
       </td>
       <td id="td-mercadopago-status-{{$i->id}}">
           <a href="{{ route('inscription_show', $i->id) }}"> Ver </a>
       </td>
       <td id="td-actions-{{$i->id}}">
-        <a href="#" class="btn btn-default btn-sm" title="Editar Inscripción" data-toggle="modal" data-target="#modalEditarInscripcion" onclick="editarInscripcion({{$i}})"><i class="fa fa-edit" title="Editar Inscripcion"></i></a>
+        {{-- <a href="#" class="btn btn-default btn-sm" title="Editar Inscripción" data-toggle="modal" data-target="#modalEditarInscripcion" onclick="editarInscripcion({{$i}})"><i class="fa fa-edit" title="Editar Inscripcion"></i></a> --}}
         <a href="#" class="btn btn-danger btn-sm" title="Eliminar Inscripción" onclick="eliminarInscripcion({{$i}})"><i class="fa fa-user-times"></i></a>
       </td>
     </tr>
