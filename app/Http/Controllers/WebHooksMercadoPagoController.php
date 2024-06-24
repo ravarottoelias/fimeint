@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\MPIntegrationConstants;
 use Exception;
 use App\InscriptionPayment;
 use Illuminate\Http\Request;
@@ -27,14 +28,18 @@ class WebHooksMercadoPagoController extends Controller
 
 			Log::info('WEBHOOK_MP:::PagoRecibido');     
 			Log::info('WEBHOOK_MP:::PaymentId: ' . $payment_id);     
-			
 			Log::info('WEBHOOK_MP:::BuscandoPagoPorID: ' . $payment_id);     
 			$paymentResponse = $this->mercadoPagoIntegration->getPaymentById($payment_id);
 			
 			$item = $paymentResponse['additional_info']['items'][0];
 			$inscription = $this->inscriptionRepository->getInscriptionById($item['id']);
+
+			if($paymentResponse['status'] != MPIntegrationConstants::PAYMENT_STATUS_APPROVED){
+				Log::info('WEBHOOK_MP:::PagoNOAprobado: ' . $payment_id . ' ' . $paymentResponse['status']);
+				return response()->json(['success' => 'success'], 200);
+			}
 			
-			if (InscriptionPayment::where('payment_identifier', $payment_id)->where('status', '!=', $paymentResponse['status'] )->count() == 0) {				
+			if (InscriptionPayment::where('payment_identifier', $payment_id)->where('status', $paymentResponse['status'] )->count() == 0) {				
 				Log::info('WEBHOOK_MP:::RegistrandoPago: ' . $payment_id);
 				$payment = InscriptionPayment::create([
 					'inscription_id' => $inscription->id,
