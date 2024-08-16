@@ -44,6 +44,10 @@
 				 
 				 	@include('sitio.includes.flash-message')	
 
+					@php
+						$esPreInscripcion = $curso->unit_price < 1 ? true : false;
+					@endphp
+
 				 	@if( $curso->permitir_inscripcion == 1 )
 						<div class="container-stepwizard" id="container-stepwizard">
 							<div class="wizard-header text-center mx-3">
@@ -60,7 +64,13 @@
 									{{-- ACTIVO --}}
 									<div class="stepwizard-step">
 										<button type="button" class="btn btn-primary btn-circle"><i class="fas fa-pencil-alt"></i></button>
-										<p class="text-dark d-none d-sm-block">Inscripción</p>
+										<p class="text-dark d-none d-sm-block">
+											@if ($esPreInscripcion)
+												Pre Inscripción
+												@else
+												Inscripción
+											@endif
+										</p>
 									</div>
 									<div class="stepwizard-step">
 										<button type="button" class="btn btn-default btn-circle"><i class="fas fa-money-check-alt"></i></button>
@@ -125,7 +135,12 @@
 												</div>
 											</div>
 											<div class="w-100 my-5 my-md-4 d-flex justify-content-center">
-												<button type="submit" class="mu-primary-btn font-weight-normal"><i class="fas fa-pencil-alt"></i> INSCRIBIRME</button>
+												<button type="submit" class="mu-primary-btn font-weight-normal"><i class="fas fa-pencil-alt"></i> 
+													@if ($esPreInscripcion)
+													Pre Inscribirme
+													@else
+													Inscribirme
+												@endif</button>
 											</div>
 										</form>
 									</div>
@@ -142,29 +157,3 @@
 
 
 @stop
-
-
-{{-- @section('script')
-	<script type="text/javascript">
-
-		function initializeCheckoutMP() {
-			const mp = new MercadoPago("{{ config('services.mercadopago.key') }}", {
-				locale: "es-AR",
-			});
-
-			mp.checkout({
-				preference: {
-				id: '{{ $preference->id }}',
-				},
-				render: {
-				container: ".btn-mp-container",
-				label: "Pagar",
-				},
-				autoOpen: false
-			});
-			}
-
-
-		initializeCheckoutMP();
-	</script>
-@stop --}}
