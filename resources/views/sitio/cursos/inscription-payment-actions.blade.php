@@ -1,3 +1,11 @@
+@php
+    $esPreInscripcion = $curso->unit_price < 1 ? true : false;
+    if ($esPreInscripcion) {
+        $btnText = 'Quiero pre inscribirme';
+    } else {
+        $btnText = ' Quiero inscribirme';
+    }
+@endphp
 <div class="row my-md-5 my-sm-5">
     <div class="col d-flex justify-content-center">
         @if(Auth::user())
@@ -24,10 +32,10 @@
                         
                 @endswitch
             @else
-                <a class="mu-primary-btn" href="{{ route('curso_inscription', $curso->slug) }}"> Quiero inscribirme <i class="fas fa-arrow-right"></i></a>
+                <a class="mu-primary-btn" href="{{ route('curso_inscription', $curso->slug) }}"> {{ $btnText }} <i class="fas fa-arrow-right"></i></a>
             @endif     
         @else
-            <a class="mu-primary-btn" href="{{ route('curso_inscription', $curso->slug) }}"> Quiero inscribirme <i class="fas fa-arrow-right"></i></a>
+            <a class="mu-primary-btn" href="{{ route('curso_inscription', $curso->slug) }}"> {{ $btnText }} <i class="fas fa-arrow-right"></i></a>
         @endif  
     </div>
 </div>
