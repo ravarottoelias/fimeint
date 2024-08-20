@@ -83,9 +83,10 @@
 										<div class="row">
 											<div class="col-12">
 												<h3 class="text-center">Pre Inscripción</h3>
-													<ul>
-														<li class="text-center">Los pagos se podran realizar una vez finalizada la etapa de pre-inscripción.</li>
-													</ul>
+												<p class="text-center"><i class="text-success fas fa-check-circle"></i> Su pre inscripcion ha sido exitosa </p>
+												<ul>
+													<li class="text-center">Los pagos se podran realizar una vez finalizada la etapa de pre-inscripción.</li>
+												</ul>
 											</div>
 										</div>
 										@else
