@@ -7,7 +7,7 @@
                 <div class="card mt-4">
                     <div class="card-body">
                         <h3 class="text-dark my-3 text-center"><i class="fas fa-key"></i> Nueva contraseña</h3>
-                    	<p class="text-center">Ingresa tu correo electrónico y crea una nueva contraseña.</p>
+                    	<p class="text-center">Crea tu nueva contraseña.</p>
 
                         <form class="form-horizontal" method="POST" action="{{ route('password.request') }}">
                             {{ csrf_field() }}
@@ -16,7 +16,7 @@
                                 <label for="email" class="col-md-4 control-label">Email</label>
     
                                 <div class="col-12">
-                                    <input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" required autofocus>
+                                    <input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" required readonly>
     
                                     @if ($errors->has('email'))
                                         <span class="help-block">
@@ -41,7 +41,7 @@
                             </div>
     
                             <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                                <label for="password-confirm" class="col-md-4 control-label">Confirmar contraseña</label>
+                                <label for="password-confirm" class="col-md-12 control-label">Confirmar contraseña</label>
                                 <div class="col-12">
                                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
     
