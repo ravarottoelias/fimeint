@@ -49,7 +49,10 @@ class PasswordReset extends Notification
             ->line("Si no solicitó un restablecimiento de contraseña, no es necesario realizar ninguna otra acción.")
             ->salutation('Saludos, FIMe.')
             ->action("Restablecer la contraseña", 
-                url(route('password.reset', [$this->token])));
+                url(route('password.reset', [
+                    'token' => $this->token,
+                    'email' => $notifiable->getEmailForPasswordReset(),
+                ])));
     }
 
     /**
