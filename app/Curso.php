@@ -32,6 +32,9 @@ class Curso extends Model
         'unit_price',
         'publicado',
         'cantidad_cuotas',
+        'fecha_inicio',
+        'fecha_fin',
+        'total_hs',
     ];
 
     protected $attributes = [

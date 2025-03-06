@@ -1,3 +1,11 @@
+@section('stylesheet')
+<style>
+	.datepicker td, .datepicker th {
+    width: 1.5em;
+    height: 1.5em;
+}
+	</style>
+@stop
 @php
 	$estado_proximo = \App\Curso::ESTADO_PROXIMO;
 	$estado_en_curso = \App\Curso::ESTADO_EN_CURSO;
@@ -7,7 +15,7 @@
 @endphp
 
 <div class="row mb-5">
-	<div class="col-12 col-md-6">
+	<div class="col-12 col-md-4">
 		<div class="row px-3">
 			<div class="col-12 col-md-8">
 				<div class="form-group requerido">
@@ -30,27 +38,38 @@
 				</div>
 			</div>
 		</div>
-		<div class="row px-3">
-			<div class="col-12 col-md-12">
-				<div class="form-group requerido">
-					<label class="control-label mb-1">Etiquetas</label>
-					<select class="tags-select form-control"  multiple="multiple" name="tags[]">
-				 	@foreach( $tags as $tag )
-					  	<option value="{{$tag->nombre}}" @if($curso->tags->contains('id', $tag->id)) selected @endif >{{$tag->nombre}}</option>
-					@endforeach
-					</select>
-				</div>
-			</div>
-		</div>
 	</div>
 
-	<div class="col-12 col-md-6">
-		<div class="row px-3">
-			<div class="col-md-12">
-				<label>Adjuntar Archivos</label>
-				<div class="content" id="content_dropzone"></div>
+	<div class="col-12 col-md-8">
+			<div class="row px-3">
+				<div class="col-12 col-md-4">
+					<label class="control-label mb-1">Fecha Inicio</label>
+					<div class="input-group date">
+						<div class="input-group-prepend">
+						  <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+						</div>
+						<input type="text" class="form-control" value="12-02-2012" name="fecha_inicio" id="datepicker">
+					</div>
+				</div>
+				<div class="col-12 col-md-4">
+					<label class="control-label mb-1">Fecha Fin</label>
+					<div class="input-group date">
+						<div class="input-group-prepend">
+						  <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+						</div>
+						<input type="text" class="form-control" value="12-02-2012" name="fecha_fin" id="datepicker">
+					</div>
+				</div>
+				<div class="col-12 col-md-4">
+					<label class="control-label mb-1">Total Hs</label>
+					<div class="input-group date">
+						<div class="input-group-prepend">
+						  <div class="input-group-text"><i class="far fa-clock"></i></div>
+						</div>
+						<input type="text" class="form-control" name="total_hs" id="datepicker">
+					</div>
+				</div>
 			</div>
-		</div>
 	</div>
 </div>
 
@@ -137,7 +156,7 @@
 							  	
 							  </tbody>
 							</table>
-							
+						
 							<!-- Button trigger modal -->
 							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scriptsPagosModal">
 								<i class="fa fa-plus"></i> Nuevo

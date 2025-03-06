@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Exports\CursoAlumnosExport;
 use App\Mail\SuccessfulInscription;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\CursoController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
@@ -20,6 +21,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 |
 */
 
+Route::get('test', 'Auth\LoginController@test');
 // Auth::routes(['except' => 'register']);
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
@@ -70,7 +72,21 @@ Route::post('/webhooks', 'WebHooksMercadoPagoController@webhookMp')->name('webho
 
 Route::group(['middleware' => 'auth'], function(){
 
-	Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard')->middleware(['roles']);;
+	Route::post('projects/media', 'CursoController@storeMedia')->name('projects.storeMedia');
+
+	//BORRAR LUEGO DE EJECUTAR
+	Route::get('/copydni', 'UsersController@copyDniToCuil')->middleware(['roles']);
+
+	Route::get('/dashboard/certificates', 'CertificatesController@index')->name('certificates')->middleware(['roles']);
+	Route::post('/dashboard/certificates', 'CertificatesController@store')->name('certificates_store')->middleware(['roles']);
+	Route::get('/dashboard/certificates/create', 'CertificatesController@create')->name('certificates_create')->middleware(['roles']);
+	Route::get('/dashboard/certificates/{idCertificado}', 'CertificatesController@show')->name('certificates_show')->middleware(['roles']);
+	Route::get('/dashboard/certificates/{idCertificado}/delete', 'CertificatesController@deleteCert')->name('certificates_delete')->middleware(['roles']);
+	
+	Route::get('/dashboard/api/students', 'UsersController@search')->name('users_search')->middleware(['roles']);
+	Route::get('/dashboard/api/inscriptions/{studentId}/student', 'InscripcionController@inscriptionsByUser')->name('inscription_by_user')->middleware(['roles']);
+
+	Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard')->middleware(['roles']);
 	Route::resource('users', 'UsersController')->middleware(['roles']);
 	Route::get('users/reset-password/{id}', 'UsersController@resetPassword')->name('user_reset_password')->middleware(['roles']);;
 	Route::resource('cursos', 'CursoController')->middleware(['roles']);

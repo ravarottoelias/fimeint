@@ -36,7 +36,7 @@
       <th scope="col">Alumno</th>
       <th scope="col">Fecha Insc.</th>
       <th scope="col">Pago</th>
-      <th scope="col">Detalle de pago</th>
+      <th scope="col">Detalles</th>
       <th scope="col"></th>
     </tr>
   </thead>

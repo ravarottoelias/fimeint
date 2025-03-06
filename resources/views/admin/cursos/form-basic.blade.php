@@ -54,6 +54,19 @@
 		</div>
 
 		<div class="row">
+			<div class="col-12 col-md-12">
+				<div class="form-group requerido">
+					<label class="control-label mb-1">Etiquetas</label>
+					<select class="tags-select form-control"  multiple="multiple" name="tags[]">
+				 	@foreach( $tags as $tag )
+					  	<option value="{{$tag->nombre}}" @if($curso->tags->contains('id', $tag->id)) selected @endif >{{$tag->nombre}}</option>
+					@endforeach
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
 			<div class="col-md-12">
 				<div class="form-group requerido">
 					<label class="control-label mb-1">Contenido</label>
@@ -62,6 +75,22 @@
 					</textarea>
 					<div class="invalid-feedback">{{ $errors->first('contenido') }}</div>
 				</div>
+			</div>
+		</div>
+		{{-- <div class="row">
+			<div class="col-12">
+				<div class="row px-3">
+					<div class="col-md-12">
+						<label>Adjuntar Archivos</label>
+						<div class="content" id="content_dropzone"></div>
+					</div>
+				</div>
+			</div>
+		</div> --}}
+		<div class="form-group">
+			<label for="document">Documents</label>
+			<div class="needsclick dropzone" id="document-dropzone">
+	
 			</div>
 		</div>
 
@@ -127,55 +156,58 @@
 
     }
 
+
     $( document ).ready(readyFn);
+
+	//Dropzone Curso Files - insertar form cuando hace click en el tab.
+	// if(!document.getElementById('dropzone-curso-files')){
+	// 	var newspan = document.createElement('span');
+	// 	newspan.innerHTML =`<form class="dropzone" action="{{route('media_upload_fliles')}}" id="dropzone-curso-files">
+	// 						<div class="dz-message" data-dz-message><span><i class="fas fa-upload"></i> Clic o arrastrar los archivos aquí para subir.</span></div>
+	// 						</form>`;
+
+	// 	document.getElementById('content_dropzone').append(newspan);
+
+	// 	var dropzoneCursoFiles = new Dropzone("#dropzone-curso-files",{ 
+	// 		maxFilesize: 10,  // 3 mb
+	// 		acceptedFiles: ".jpeg,.jpg,.png,.pdf",
+	// 		addRemoveLinks: true,
+	// 		removedfile: function(file) {
+	// 			axios
+	// 				.get('/curso_delete_file/'+file.id)
+	// 				.then(res=>{
+	// 					var _ref;
+	// 					return (_ref = file.previewElement)!= null ? _ref.parentNode.removeChild (file.previewElement): void 0;
+	// 				})
+	// 		},
+	// 		init: function() {
+	// 			this.on("success", function(file, response) {
+	// 				console.log(response);
+	// 			});
+	// 			//listar archivos
+	// 			var mocks = files;
+	// 			for (var i = 0; i < mocks.length; i++) {
+	// 				var mock = mocks[i];
+	// 				mock.accepted = true;
+
+	// 				this.files.push(mock);
+	// 				this.emit('addedfile', mock);
+	// 				this.createThumbnailFromUrl(mock, mock.public_path);
+	// 				this.emit('complete', mock);
+	// 			}
+	// 		}
+	// 	});
+	// 	dropzoneCursoFiles.on("sending", function(file, xhr, formData) {
+	// 		formData.append("_token", CSRF_TOKEN);
+	// 		formData.append("notable_type", "App\\Curso");
+	// 		formData.append("notable_id", {{$curso->id}});
+	// 	}); 
+	// }
+
 
     // click en el tab de formulario avanzado
     let files = {!! $curso->files()->get() !!}
     $( "#list-tab-curso #list-form-avanzado" ).click(function() {
-		//Dropzone Curso Files - insertar form cuando hace click en el tab.
-        if(!document.getElementById('dropzone-curso-files')){
-            var newspan = document.createElement('span');
-            newspan.innerHTML =`<form class="dropzone" action="{{route('media_upload_fliles')}}" id="dropzone-curso-files">
-                                <div class="dz-message" data-dz-message><span><i class="fas fa-upload"></i> Clic o arrastrar los archivos aquí para subir.</span></div>
-                              </form>`;
-
-            document.getElementById('content_dropzone').append(newspan);
-
-            var dropzoneCursoFiles = new Dropzone("#dropzone-curso-files",{ 
-                maxFilesize: 3,  // 3 mb
-                acceptedFiles: ".jpeg,.jpg,.png,.pdf",
-             	addRemoveLinks: true,
-                removedfile: function(file) {
-                	axios
-                    	.get('/curso_delete_file/'+file.id)
-                    	.then(res=>{
-	                    	var _ref;
-							return (_ref = file.previewElement)!= null ? _ref.parentNode.removeChild (file.previewElement): void 0;
-                    	})
-                },
-                init: function() {
-                    this.on("success", function(file, response) {
-                        console.log(response);
-                    });
-                    //listar archivos
-                    var mocks = files;
-				    for (var i = 0; i < mocks.length; i++) {
-				        var mock = mocks[i];
-				        mock.accepted = true;
-
-				        this.files.push(mock);
-				        this.emit('addedfile', mock);
-				        this.createThumbnailFromUrl(mock, mock.public_path);
-				        this.emit('complete', mock);
-				    }
-                }
-            });
-            dropzoneCursoFiles.on("sending", function(file, xhr, formData) {
-               formData.append("_token", CSRF_TOKEN);
-               formData.append("notable_type", "App\\Curso");
-               formData.append("notable_id", {{$curso->id}});
-            }); 
-        }
 
         // cargar la tabla de links de pago
         getScriptsDePagos();
@@ -201,12 +233,12 @@
 
 	function getScriptsDePagos()
 	{
-		var curso_id = $('#scriptsPagosModal [name ="curso_id"]').val()
-		axios
-			.get('/curso_scripts/'+curso_id)
-			.then(res=>{
-				imprimirTablaScripts(res.data)
-			})
+		// var curso_id = $('#scriptsPagosModal [name ="curso_id"]').val()
+		// axios
+		// 	.get('/curso_scripts/'+curso_id)
+		// 	.then(res=>{
+		// 		imprimirTablaScripts(res.data)
+		// 	})
 	}
 
 	function guardarScriptDePago()
@@ -314,6 +346,53 @@
 			})
 		}
 	}
+
+	var uploadedDocumentMap = {};
+	new Dropzone("#document-dropzone",{
+		url: '{{ route('projects.storeMedia') }}',
+		maxFilesize: 10, // MB
+		addRemoveLinks: true,
+		headers: {
+			'X-CSRF-TOKEN': "{{ csrf_token() }}"
+		},
+		success: function (file, response) {
+			$('form').append('<input type="hidden" name="document[]" value="' + response.name + '">')
+			uploadedDocumentMap[file.name] = response.name
+		},
+		removedfile: function (file) {
+			file.previewElement.remove()
+			var name = ''
+			if (typeof file.name !== 'undefined') {
+				name = file.name
+			} else {
+				name = uploadedDocumentMap[file.name]
+			}
+			$('form').find('input[name="document[]"][value="' + name + '"]').remove()
+		},
+		init: function () {
+			@if(isset($curso) && $curso->files)
+				var files =
+				{!! json_encode($curso->files) !!}
+				for (var i in files) {
+					console.log(files[i])
+					var file = files[i]
+					this.options.addedfile.call(this, file)
+					file.previewElement.classList.add('dz-complete')
+					$('form').append('<input type="hidden" name="document[]" value="' + file.name + '">')
+				}
+			@endif
+		}
+	});
+
+	$('#datepicker').datepicker({
+        weekStart: 1,
+        daysOfWeekHighlighted: "6,0",
+        autoclose: true,
+        todayHighlight: true,
+    });
+    
+
         
 </script>
 @stop
+

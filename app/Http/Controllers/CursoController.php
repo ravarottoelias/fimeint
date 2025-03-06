@@ -12,6 +12,7 @@ use App\InscriptionPayment;
 use Illuminate\Http\Request;
 use App\Constants\FlashMessagesTypes;
 use App\Repositories\CursoRepository;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\CursoStoreRequest;
 use App\Constants\MPIntegrationConstants;
 use App\Http\Requests\CursoUpdateRequest;
@@ -118,6 +119,7 @@ class CursoController extends Controller
      */
     public function update(CursoUpdateRequest $request, $curso)
     {
+
         $curso = $this->cursoRepository->findOrFailById($curso);
 
         $request->merge(array('permitir_inscripcion' => (bool) $request->permitir_inscripcion));
@@ -143,21 +145,32 @@ class CursoController extends Controller
             $curso->tags()->sync($tags);
         }
 
-        $files = $request->file('files');
-        if ($request->hasFile('files')) {
-            foreach ($files as $f) {
-                $filename = $f->store('/', ['disk' => 'uploads']);
-                $file = new File;
-                $file->path = $filename;
-                $file->public_path = 'uploads/'.$filename;
-                $file->extension = $f->extension();
-                $file->name = $f->getClientOriginalName();
-                $file->save();
+        if (count($curso->files) > 0) {
+            foreach ($curso->files as $file) {
+                if (!in_array($file->name, $request->input('document', []))) {
+                    $file->delete();
+                }
+            }
+        }
 
+
+        $media = $curso->files->pluck('name')->toArray();
+        foreach ($request->input('document', []) as $document) {
+            if (count($media) === 0 || !in_array($document, $media)) {
+                Storage::move('tmp/uploads/' . $document, '/public/documents/' . $document);
+                
+                $filename = $document;
+                $ext = explode('.', $filename);
+                $file = new File();
+                $file->path = Storage::url('app/public/documents/'.$filename);
+                $file->public_path = Storage::url('/documents/'.$filename);
+                $file->extension = end($ext);
+                $file->name = $filename;
+                $file->save();
                 $curso->files()->save($file);
             }
-
         }
+        
 
         if ($curso->categoria_id == 1 || $curso->categoria_id == 2)
             return redirect('/cursos')->with( FlashMessagesTypes::SUCCESS, Messages::UPDATED_SUCCESSFULL );
@@ -253,6 +266,27 @@ class CursoController extends Controller
             ->get();
 
         return $inscriptionPayments;
+    }
+
+
+    public function storeMedia(Request $request)
+    {
+        $path = storage_path('app/tmp/uploads');
+
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+
+        $file = $request->file('file');
+
+        $name = uniqid() . '_' . trim($file->getClientOriginalName());
+
+        $file->move($path, $name);
+
+        return response()->json([
+            'name'          => $name,
+            'original_name' => $file->getClientOriginalName(),
+        ]);
     }
     
     

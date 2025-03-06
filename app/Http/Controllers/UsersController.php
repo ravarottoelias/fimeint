@@ -7,9 +7,10 @@ use App\Helpers\Helper;
 use App\Constants\Messages;
 use Illuminate\Http\Request;
 use App\Mail\UserPasswordReseted;
+use Illuminate\Support\Facades\DB;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Mail;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UsersController extends Controller
 {
@@ -89,5 +90,37 @@ class UsersController extends Controller
 
         return view('sitio.recuperar-contrasenia-email-enviado', compact('user'));
 
+    }
+
+    public function copyDniToCuil() {
+        $users = User::whereNull('cuit')->get();
+        foreach ($users as $user) {
+            $charListReplacement = array(".", ",", " ");
+            $user->cuit = str_replace($charListReplacement, "", $user->documento_nro);
+            $user->save();
+        }
+    }
+
+    /**
+     * Api de busqueda de Usuarios por CUIT o Nombre
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function search(Request $request) : JsonResponse{
+        $data = [];
+
+        if($request->has('q')){
+            $search = $request->q;
+            $data = User::where('name','LIKE',"%$search%")->orWhere('cuit', 'LIKE', "%$search%")->get()
+            ->map(function ($item){
+                return [
+                    'id' => $item->id,
+                    'name' =>  $item->cuit . " - " . $item->name
+                ];
+            });
+        }
+
+        return response()->json($data);
     }
 }
