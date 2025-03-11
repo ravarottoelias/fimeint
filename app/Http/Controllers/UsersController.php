@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Helpers\Helper;
 use App\Constants\Messages;
+use App\Http\Requests\UserStoreRequest;
 use Illuminate\Http\Request;
 use App\Mail\UserPasswordReseted;
 use App\Repositories\UserRepository;
@@ -52,7 +53,7 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserStoreRequest $request, $id)
     {
         $user = $this->userRepository->updateUser($id, $request->all());
 

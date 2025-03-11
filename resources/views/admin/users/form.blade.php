@@ -48,10 +48,10 @@
     <div class="form-group col-md-6">
       <label>Teléfono</label>
       <div class="form-row">
-        <div class="col-md-2">
+        <div class="col-md-4">
           <input type="text" class="form-control" name="codigo_tel_pais" value="{{$user->codigo_tel_pais}}">
         </div>
-        <div class="col-md-10">
+        <div class="col-md-8">
           <input type="text" class="form-control" name="telefono" value="{{$user->telefono}}">
         </div>
       </div>
@@ -59,6 +59,15 @@
     <div class="col-md-6">
       <label>Email</label>
       <input type="email" class="form-control" name="email" value="{{$user->email or old('email')}}">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="inputCity">Email Verificado</label>
+      <select name="confirmed" class="form-control">
+        <option @if($user->confirmed == 1) selected @endif value="1">SI</option>
+        <option @if($user->confirmed == 0) selected @endif value="0">NO</option>
+      </select>
     </div>
   </div>
   <div class="form-row">
@@ -83,4 +92,5 @@
       <label for="inputCity">Profesión</label>
       <input type="text" class="form-control" name="profesion" value="{{$user->profesion or old('profesion')}}">
     </div>
+    
   </div>

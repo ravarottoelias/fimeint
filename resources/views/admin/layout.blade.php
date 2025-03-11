@@ -26,21 +26,7 @@
 
 </head>
 
-
-    {{-- <nav class="navbar navbar-expand navbar-dark bg-primary">
-    </nav>
-    
-    <div class="d-flex">
-        <div class="sidebar sidebar-dark bg-dark">
-            @include('admin.includes.sidebar')
-        </div>
-        
-        <div class="content p-4">
-            @include('admin.includes.flashmessage')
-            @yield('content')
-        </div>
-    </div> --}}
-    
+   
     <body class="sb-nav-fixed">
         @include('admin.includes.navbar')
         

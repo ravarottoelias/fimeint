@@ -10,6 +10,7 @@
     <li class="breadcrumb-item active">{{$user->fullName()}}</li>
 </ol>
 
+@include('admin.includes.flashmessage')
 <div class="card">
 	<div class="card-body">
 		<div class="w-100 text-right">
