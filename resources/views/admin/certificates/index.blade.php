@@ -9,7 +9,7 @@
     </ol>
 
 	<div class="d-flex justify-content-end mb-2">
-		<a class="btn btn-primary" href="{{ route('certificates_create') }}">
+		<a class="btn btn-primary" href="{{ route('certificates_create_step_one') }}">
 			<i class="fa-solid fa-plus"></i> Nuevo
 		</a>
 	</div>
@@ -27,7 +27,7 @@
 				</tr>
 			</thead>
 			<tbody class="body-files">
-			@foreach($certificates as $cert)
+			@foreach($certificates->data as $cert)
 				<tr>
 					<td>{{$cert->codigoQr}}</td>
 					<td>
@@ -43,6 +43,8 @@
 			@endforeach
 			</tbody>
 		</table>
+
+		  @include('admin.includes.paginationApi', ['data' => $certificates])
 	</div>
 
 @stop

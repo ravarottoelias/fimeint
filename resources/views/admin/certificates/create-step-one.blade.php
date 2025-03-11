@@ -13,8 +13,8 @@
 <div class="card">
 	<div class="card-body">
         
-        <form action="{{ route('certificates_store') }}" method="POST" novalidate="novalidate">
-            {{ csrf_field() }}
+        <form action="{{ route('certificates_create_step_two') }}" method="GET" novalidate="novalidate">
+
               <div class="form-group row">
                 <label for="colFormLabel" class="col-sm-2 col-form-label">Alumno</label>
                 <div class="col-sm-10 col-md-8">
@@ -28,7 +28,10 @@
                     <select class="iscription-select2 form-control" name="inscripcionId"></select>     
                 </div>
               </div>
-              <button type="submit" class="btn btn-primary">Generar</button>
+              <div class="w-100 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary text-right">Continuar</button>
+            </div>
+              
         </form>
        
 	</div>

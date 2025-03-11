@@ -79,7 +79,8 @@ Route::group(['middleware' => 'auth'], function(){
 
 	Route::get('/dashboard/certificates', 'CertificatesController@index')->name('certificates')->middleware(['roles']);
 	Route::post('/dashboard/certificates', 'CertificatesController@store')->name('certificates_store')->middleware(['roles']);
-	Route::get('/dashboard/certificates/create', 'CertificatesController@create')->name('certificates_create')->middleware(['roles']);
+	Route::get('/dashboard/certificates/create-one', 'CertificatesController@createStepOne')->name('certificates_create_step_one')->middleware(['roles']);
+	Route::get('/dashboard/certificates/create-two', 'CertificatesController@createStepTwo')->name('certificates_create_step_two')->middleware(['roles']);
 	Route::get('/dashboard/certificates/{idCertificado}', 'CertificatesController@show')->name('certificates_show')->middleware(['roles']);
 	Route::get('/dashboard/certificates/{idCertificado}/delete', 'CertificatesController@deleteCert')->name('certificates_delete')->middleware(['roles']);
 	

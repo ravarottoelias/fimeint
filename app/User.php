@@ -47,6 +47,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class, 'assigned_roles');
     }
 
+    public function inscriptions()
+    {
+        return $this->hasMany('App\Inscripcion');
+    }
+
     public function hasRoles( array $roles)
     {
         foreach ($roles as $role) {

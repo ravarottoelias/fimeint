@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Mail\UserPasswordReseted;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\UserRepository;
+use App\RestClients\MSCertValidation;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -16,10 +17,12 @@ class UsersController extends Controller
 {
 
     private $userRepository;
+    private $msCertValidation;
 
-	public function __construct(UserRepository $userRepository) 
+	public function __construct(UserRepository $userRepository, MSCertValidation $msCertValidation) 
     {
         $this->userRepository = $userRepository;
+        $this->msCertValidation = $msCertValidation;
     }
 
     /**
@@ -43,7 +46,9 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        return view('admin.users.edit', compact('user'));
+        $certificates = $this->msCertValidation->getCertificates()->response->data;
+
+        return view('admin.users.edit', compact('user', 'certificates'));
     }
 
     /**

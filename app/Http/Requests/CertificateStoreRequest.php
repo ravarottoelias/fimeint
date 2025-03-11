@@ -24,8 +24,9 @@ class CertificateStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'alumnoId' => 'required',
-            'inscripcionId' => 'required',
+            'inscripcion_id' => 'required',
+            'certificado_numero' => 'required',
+            'tf_certificado_numero' => 'required',
         ];
     }
 }

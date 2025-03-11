@@ -17,6 +17,7 @@ class AddCertificatefieldsCursoTable extends Migration
             $table->string('total_hs')->nullable();
             $table->string('fecha_inicio')->nullable();
             $table->string('fecha_fin')->nullable();
+            $table->string('curso_homologacion')->nullable();
         });
     }
 

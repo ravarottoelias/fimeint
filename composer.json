@@ -18,6 +18,7 @@
         "paypal/rest-api-sdk-php": "*",
         "psr/container": "1.0.0",
         "rap2hpoutre/laravel-log-viewer": "^2.3",
+        "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-sluggable": "^2.1"
     },
     "require-dev": {

@@ -21,6 +21,7 @@
     <!--===============================================================================================-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <link rel="stylesheet" href="{{ asset('css/sb-admin/yeti-bootstrap.min.css') }}">
 
     @yield('stylesheet')
 

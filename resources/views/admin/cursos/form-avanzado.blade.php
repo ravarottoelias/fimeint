@@ -66,7 +66,15 @@
 						<div class="input-group-prepend">
 						  <div class="input-group-text"><i class="far fa-clock"></i></div>
 						</div>
-						<input type="text" class="form-control" name="total_hs" id="datepicker">
+						<input type="text" class="form-control" value="{{ $curso->total_hs or old('total_hs') }}" name="total_hs" id="datepicker">
+					</div>
+				</div>
+			</div>
+			<div class="row px-3">
+				<div class="col-12">
+					<div class="form-group">
+						<label class="control-label mb-1">Homologación</label>
+						<input type="text" class="form-control" value="{{ $curso->curso_homologacion or old('curso_homologacion') }}" name="curso_homologacion">
 					</div>
 				</div>
 			</div>
