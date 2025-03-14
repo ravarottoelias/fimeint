@@ -29,7 +29,8 @@ class User extends Authenticatable
         'pais', 
         'provincia', 
         'codigo_tel_pais', 
-        'telefono'
+        'telefono',
+        'confirmed',
     ];
 
     /**
