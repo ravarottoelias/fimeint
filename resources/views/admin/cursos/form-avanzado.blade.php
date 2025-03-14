@@ -48,7 +48,7 @@
 						<div class="input-group-prepend">
 						  <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
 						</div>
-						<input type="text" class="form-control" value="12-02-2012" name="fecha_inicio" id="datepicker">
+						<input type="text" class="form-control" value="{{ $curso->fecha_inicio or old('fecha_inicio') }}" name="fecha_inicio" id="datepicker">
 					</div>
 				</div>
 				<div class="col-12 col-md-4">
@@ -57,7 +57,7 @@
 						<div class="input-group-prepend">
 						  <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
 						</div>
-						<input type="text" class="form-control" value="12-02-2012" name="fecha_fin" id="datepicker">
+						<input type="text" class="form-control" value="{{ $curso->fecha_fin or old('fecha_fin') }}" name="fecha_fin" id="datepicker2">
 					</div>
 				</div>
 				<div class="col-12 col-md-4">

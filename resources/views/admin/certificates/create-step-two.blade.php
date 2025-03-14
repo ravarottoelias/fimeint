@@ -86,7 +86,8 @@
                     <p class="mb-0"><i class="fas fa-exclamation-circle"></i> La inscripción no registra el total de los pagos. <a href="{{ route('inscription_show', $inscripcion->id) }}" target="_blank" class="alert-link">ver pagos</a>.</p>
                 </div>
                 @endif
-                @if (!$curso->isFinalizado() || $curso->fecha_inicio == null || $curso->fecha_fin == null || $curso->totdal_hs == null || $curso->homologacion == null)
+                
+                @if (!$curso->isFinalizado() || $curso->fecha_inicio == null || $curso->fecha_fin == null || $curso->total_hs == null || $curso->curso_homologacion == null)
                 <div class="alert alert-dismissible alert-warning">
                     <p class="mb-0"><i class="fas fa-exclamation-circle"></i> El curso no se encuentra finalizado o faltan datos. <a href="/cursos/{{ $curso->id }}/edit" target="_blank" class="alert-link">ver detalles del curso</a>.</p>
                 </div>

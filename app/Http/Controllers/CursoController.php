@@ -173,7 +173,7 @@ class CursoController extends Controller
         
 
         if ($curso->categoria_id == 1 || $curso->categoria_id == 2)
-            return redirect('/cursos')->with( FlashMessagesTypes::SUCCESS, Messages::UPDATED_SUCCESSFULL );
+            return redirect('/cursos/'.$curso->id . '/edit')->with( FlashMessagesTypes::SUCCESS, Messages::UPDATED_SUCCESSFULL );
         if ($curso->categoria_id == 3)
             return redirect('/novedades')->with( FlashMessagesTypes::SUCCESS, Messages::UPDATED_SUCCESSFULL );
     }

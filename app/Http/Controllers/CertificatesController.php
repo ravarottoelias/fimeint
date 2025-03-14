@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Redirect;
 
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Http\Requests\CertificateStoreRequest;
+use GuzzleHttp\Exception\ClientException;
 
 class CertificatesController extends Controller
 {
@@ -46,9 +47,18 @@ class CertificatesController extends Controller
             $certificate = $this->msCertValidation->getCertificateDetails($idCertificado)->response;
             $qrcode = QrCode::format('png')->size(300)->format('png')->generate($certificate->codigoQr);
             $qrcode = base64_encode($qrcode);
-            return view('admin.certificates.show', compact('certificate', 'qrcode'));
-        } catch (\Throwable $ex) {
-            dd($ex);
+            $inscription = null;
+            try{
+                $inscription = Inscripcion::where('curso_id', $certificate->cursoId)->where('user_id', $certificate->alumnoId)->first();
+            } catch(Exception $ex) {
+                Log::error("Error al buscar inscripcion. Certificado ID: " . $certificate->id, $ex);
+            }
+            return view('admin.certificates.show', compact('certificate', 'qrcode', 'inscription'));
+        } catch (Exception $ex) {
+            if($ex instanceof ClientException){
+                $errorCode = $ex->getCode();
+                return view('admin.errorpage', compact('errorCode'));
+            }
             Log::error("Error al obtener el certificado: " . $ex->getMessage());
             $certificate = null;
             Session::flash('error', "Error al obtener el certificado. " . $ex->getMessage()); 
@@ -86,12 +96,12 @@ class CertificatesController extends Controller
             $curso = Curso::find($inscripcion->curso_id);
             $msRequest = [
                 'codigo_qr' => $curso->id . '-' . $alumno->id,
-                'cuit' => str_replace('-', '', $alumno->cuit),
+                'cuit_alumno' => str_replace('-', '', $alumno->cuit),
                 'alumno_id' => $alumno->id,
                 'nombre_alumno' => strtoupper($alumno->fullName()),
                 'curso_id' => $curso->id,
                 'titulo_curso' => $curso->titulo,
-                'fecha_curso' => $curso->created_at->format('m-Y'), // porbablemente eliminar.
+                'fecha_curso' => $curso->fecha_inicio, // porbablemente eliminar.
                 'curso_total_hs' => $curso->total_hs,
                 'curso_fecha_inicio' => $curso->fecha_inicio,
                 'curso_fecha_fin' => $curso->fecha_fin,
@@ -100,7 +110,10 @@ class CertificatesController extends Controller
                 'certificado_numero' => $request->certificado_numero,
                 'tf_certificado_numero' => $request->tf_certificado_numero,
             ];
+
             $certificate = $this->msCertValidation->createCert($msRequest)->response;
+            $inscripcion->ms_certificate_id = $certificate->id;
+            $inscripcion->save();
             Session::flash('success', "El certificado se creó correctamente."); 
             return Redirect::route('certificates_show', $certificate->id)->with('message', 'State saved correctly!!!'); 
         } catch(Exception $ex) {
