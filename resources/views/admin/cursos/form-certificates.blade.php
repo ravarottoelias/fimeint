@@ -6,13 +6,6 @@
 }
 	</style>
 @stop
-@php
-	$estado_proximo = \App\Curso::ESTADO_PROXIMO;
-	$estado_en_curso = \App\Curso::ESTADO_EN_CURSO;
-	$estado_finalizado = \App\Curso::ESTADO_FINALIZADO;
-	$publicado = \App\Curso::PUBLICADO;
-	$no_publicado = \App\Curso::NO_PUBLICADO;
-@endphp
 
 <div class="row">
 

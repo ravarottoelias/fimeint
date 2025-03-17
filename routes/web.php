@@ -21,8 +21,6 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 |
 */
 
-Route::get('test', 'Auth\LoginController@test');
-// Auth::routes(['except' => 'register']);
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('login_alumno', 'Auth\LoginAlumnoController@login')->name('login_alumno');
