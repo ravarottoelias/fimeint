@@ -91,6 +91,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::resource('users', 'UsersController')->middleware(['roles']);
 	Route::get('users/reset-password/{id}', 'UsersController@resetPassword')->name('user_reset_password')->middleware(['roles']);;
 	Route::resource('cursos', 'CursoController')->middleware(['roles']);
+	Route::post('cursos/{id}/cert-massive-generation', 'CursoController@certificatesMassiveGeneration')->middleware(['roles'])->name('curso_cert_generation');
+	Route::get('cursos/{id}/cert-massive-generation', 'CursoController@certificatesMassiveGenerationForm')->middleware(['roles'])->name('curso_cert_generation_form');
 	Route::get('subscriber', 'SubscriberController@index')->middleware(['roles'])->name('subscriber_index');
 	Route::resource('post_admin', 'PostController')->middleware(['roles']);
 	Route::get('curso_delete_file/{id}', 'CursoController@deleteFile')->name('curso_delete_file')->middleware(['roles']);;

@@ -14,81 +14,42 @@
 	$no_publicado = \App\Curso::NO_PUBLICADO;
 @endphp
 
-<div class="row mb-5">
-	<div class="col-12 col-md-4">
-		<div class="row px-3">
-			<div class="col-12 col-md-8">
-				<div class="form-group requerido">
-					<label class="control-label mb-1">Estado</label>
-					<select class="form-control"  name="estado">
-				 		<option>Seleccionar</option>
-				 		<option value="{{$estado_proximo}}" @if($curso->estado == $estado_proximo) selected @endif> {{$estado_proximo}} </option>
-				 		<option value="{{$estado_en_curso}}" @if($curso->estado == $estado_en_curso) selected @endif> {{$estado_en_curso}} </option>
-				 		<option value="{{$estado_finalizado}}" @if($curso->estado == $estado_finalizado) selected @endif> {{$estado_finalizado}} </option>
-					</select>
-				</div>
-			</div>
-			<div class="col-12 col-md-4">
-				<div class="form-group requerido">
-					<label class="control-label mb-1">Publicado</label>
-					<select class="form-control"  name="publicado">				 		
-				 		<option value="{{$publicado}}" @if($curso->publicado == $publicado) selected @endif> SI </option>
-				 		<option value="{{$no_publicado}}" @if($curso->publicado == $no_publicado) selected @endif> NO </option>
-					</select>
-				</div>
-			</div>
-		</div>
-	</div>
 
-	<div class="col-12 col-md-8">
-			<div class="row px-3">
-				<div class="col-12 col-md-4">
-					<label class="control-label mb-1">Fecha Inicio</label>
-					<div class="input-group date">
-						<div class="input-group-prepend">
-						  <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
-						</div>
-						<input type="text" class="form-control" value="{{ $curso->fecha_inicio or old('fecha_inicio') }}" name="fecha_inicio" id="datepicker">
-					</div>
-				</div>
-				<div class="col-12 col-md-4">
-					<label class="control-label mb-1">Fecha Fin</label>
-					<div class="input-group date">
-						<div class="input-group-prepend">
-						  <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
-						</div>
-						<input type="text" class="form-control" value="{{ $curso->fecha_fin or old('fecha_fin') }}" name="fecha_fin" id="datepicker2">
-					</div>
-				</div>
-				<div class="col-12 col-md-4">
-					<label class="control-label mb-1">Total Hs</label>
-					<div class="input-group date">
-						<div class="input-group-prepend">
-						  <div class="input-group-text"><i class="far fa-clock"></i></div>
-						</div>
-						<input type="text" class="form-control" value="{{ $curso->total_hs or old('total_hs') }}" name="total_hs" id="datepicker">
-					</div>
-				</div>
-			</div>
-			<div class="row px-3">
-				<div class="col-12">
-					<div class="form-group">
-						<label class="control-label mb-1">Homologación</label>
-						<input type="text" class="form-control" value="{{ $curso->curso_homologacion or old('curso_homologacion') }}" name="curso_homologacion">
-					</div>
-				</div>
-			</div>
-	</div>
-</div>
 
 <div class="card">
 	<div class="card-body">
+		<div class="row">
+			<div class="col-12 col-md-4">
+				<div class="row ">
+					<div class="col-12 col-md-8">
+						<div class="form-group requerido">
+							<label class="control-label mb-1">Estado</label>
+							<select class="form-control"  name="estado">
+								<option>Seleccionar</option>
+								<option value="{{$estado_proximo}}" @if($curso->estado == $estado_proximo) selected @endif> {{$estado_proximo}} </option>
+								<option value="{{$estado_en_curso}}" @if($curso->estado == $estado_en_curso) selected @endif> {{$estado_en_curso}} </option>
+								<option value="{{$estado_finalizado}}" @if($curso->estado == $estado_finalizado) selected @endif> {{$estado_finalizado}} </option>
+							</select>
+						</div>
+					</div>
+					<div class="col-12 col-md-4">
+						<div class="form-group requerido">
+							<label class="control-label mb-1">Publicado</label>
+							<select class="form-control"  name="publicado">				 		
+								<option value="{{$publicado}}" @if($curso->publicado == $publicado) selected @endif> SI </option>
+								<option value="{{$no_publicado}}" @if($curso->publicado == $no_publicado) selected @endif> NO </option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="row mb-3">
 			<div class="col-12">
 				<h5>Inscripciones y Pagos</h5>
 			</div>
 		</div>
-		<div class="row mx-3">
+		<div class="row">
 			<div class="col-12 col-md-6">
 				<div class="row">
 					<div class="col-12 col-md-4">

@@ -10,13 +10,15 @@ use App\ScriptDePago;
 use App\Constants\Messages;
 use App\InscriptionPayment;
 use Illuminate\Http\Request;
+use App\Helpers\CursosHelper;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Constants\FlashMessagesTypes;
 use App\Repositories\CursoRepository;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\CursoStoreRequest;
 use App\Constants\MPIntegrationConstants;
 use App\Http\Requests\CursoUpdateRequest;
-
+use App\Imports\ExcelCertGeneratorImport;
 
 class CursoController extends Controller
 {
@@ -119,7 +121,6 @@ class CursoController extends Controller
      */
     public function update(CursoUpdateRequest $request, $curso)
     {
-
         $curso = $this->cursoRepository->findOrFailById($curso);
 
         $request->merge(array('permitir_inscripcion' => (bool) $request->permitir_inscripcion));
@@ -287,6 +288,26 @@ class CursoController extends Controller
             'name'          => $name,
             'original_name' => $file->getClientOriginalName(),
         ]);
+    }
+
+    public function certificatesMassiveGenerationForm($id) {
+        $curso = Curso::findOrFail($id);
+
+        return view('admin.cursos.form-certificates-generation', compact('curso'));
+    }
+
+    public function certificatesMassiveGeneration(Request $request) {
+
+        $curso = Curso::findOrfail($request->id);
+        $import = new ExcelCertGeneratorImport();
+        Excel::import($import, $request->file('excel_file'));
+        $dniList = $import->getData();
+
+        $result = CursosHelper::generateMassiveCertificates($dniList, $curso);
+
+        return back()
+            ->with('success', 'Archivo procesado correctamente.')
+            ->with('result', $result);
     }
     
     

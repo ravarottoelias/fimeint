@@ -98,7 +98,6 @@
 
 @section('script')
 <script type="text/javascript">
-
 	var openFile = function(event) {
         var input = event.target;
 
@@ -159,51 +158,6 @@
 
     $( document ).ready(readyFn);
 
-	//Dropzone Curso Files - insertar form cuando hace click en el tab.
-	// if(!document.getElementById('dropzone-curso-files')){
-	// 	var newspan = document.createElement('span');
-	// 	newspan.innerHTML =`<form class="dropzone" action="{{route('media_upload_fliles')}}" id="dropzone-curso-files">
-	// 						<div class="dz-message" data-dz-message><span><i class="fas fa-upload"></i> Clic o arrastrar los archivos aquí para subir.</span></div>
-	// 						</form>`;
-
-	// 	document.getElementById('content_dropzone').append(newspan);
-
-	// 	var dropzoneCursoFiles = new Dropzone("#dropzone-curso-files",{ 
-	// 		maxFilesize: 10,  // 3 mb
-	// 		acceptedFiles: ".jpeg,.jpg,.png,.pdf",
-	// 		addRemoveLinks: true,
-	// 		removedfile: function(file) {
-	// 			axios
-	// 				.get('/curso_delete_file/'+file.id)
-	// 				.then(res=>{
-	// 					var _ref;
-	// 					return (_ref = file.previewElement)!= null ? _ref.parentNode.removeChild (file.previewElement): void 0;
-	// 				})
-	// 		},
-	// 		init: function() {
-	// 			this.on("success", function(file, response) {
-	// 				console.log(response);
-	// 			});
-	// 			//listar archivos
-	// 			var mocks = files;
-	// 			for (var i = 0; i < mocks.length; i++) {
-	// 				var mock = mocks[i];
-	// 				mock.accepted = true;
-
-	// 				this.files.push(mock);
-	// 				this.emit('addedfile', mock);
-	// 				this.createThumbnailFromUrl(mock, mock.public_path);
-	// 				this.emit('complete', mock);
-	// 			}
-	// 		}
-	// 	});
-	// 	dropzoneCursoFiles.on("sending", function(file, xhr, formData) {
-	// 		formData.append("_token", CSRF_TOKEN);
-	// 		formData.append("notable_type", "App\\Curso");
-	// 		formData.append("notable_id", {{$curso->id}});
-	// 	}); 
-	// }
-
 
     // click en el tab de formulario avanzado
     let files = {!! $curso->files()->get() !!}
@@ -231,15 +185,6 @@
 		});
 	}
 
-	function getScriptsDePagos()
-	{
-		// var curso_id = $('#scriptsPagosModal [name ="curso_id"]').val()
-		// axios
-		// 	.get('/curso_scripts/'+curso_id)
-		// 	.then(res=>{
-		// 		imprimirTablaScripts(res.data)
-		// 	})
-	}
 
 	function guardarScriptDePago()
 	{
@@ -396,6 +341,10 @@
         autoclose: true,
         todayHighlight: true,
     });
+
+	function submit_form_cert_generation(){
+	document.getElementById("form_cert_generation").submit();
+}
     
 
         
