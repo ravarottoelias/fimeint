@@ -60,4 +60,11 @@ class Utils
         //dd($data);
         return json_encode($data);
     }
+
+
+    public static function generarCodigo() {
+        $letras = substr(str_shuffle('abcdefghijklmnopqrstuvwxyz'), 0, 4);
+        $numeros = substr(str_shuffle('0123456789'), 0, 2);
+        return $letras . $numeros;
+    }
 }

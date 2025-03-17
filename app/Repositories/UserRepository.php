@@ -34,10 +34,11 @@ class UserRepository
         return $user;
     }
         
-    public function resetUserPassword($userId)
+    public function resetUserPassword($userId, $newPass)
     {
         $user = User::findOrFail($userId);
-        $user->password = bcrypt($user->documento_nro);
+        $user->password = bcrypt($newPass);
+        $user->confirmed = true;
         $user->update();
 
         return $user;

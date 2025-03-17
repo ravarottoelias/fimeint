@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Helpers\Helper;
 use App\Constants\Messages;
+use App\Helpers\Utils;
 use App\Http\Requests\UserStoreRequest;
 use Illuminate\Http\Request;
 use App\Mail\UserPasswordReseted;
-use Illuminate\Support\Facades\DB;
+use App\Notifications\NewTemporaryPasswordNotification;
 use App\Repositories\UserRepository;
 use App\RestClients\MSCertValidation;
 use Illuminate\Support\Facades\Mail;
@@ -71,9 +72,12 @@ class UsersController extends Controller
      */
     public function resetPassword($id)
     {
-        $user = $this->userRepository->resetUserPassword($id);
+        $tempPassword = Utils::generarCodigo();
+        $user = $this->userRepository->resetUserPassword($id, $tempPassword);
 
-        $msg = 'La contraseña fué reseteada. - Nueva contraseña: '.$user->documento_nro;
+        $user->notify(new NewTemporaryPasswordNotification($tempPassword));
+
+        $msg = "La contraseña fué reseteada. Se envió un email a $user->email con la nueva clave temporal";
 
         return back()->with('success', $msg);
     }
