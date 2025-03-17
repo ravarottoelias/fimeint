@@ -14,10 +14,10 @@ class AddCertificatefieldsCursoTable extends Migration
     public function up()
     {
         Schema::table('cursos', function (Blueprint $table) {
-            // $table->string('total_hs')->nullable();
-            // $table->string('fecha_inicio')->nullable();
-            // $table->string('fecha_fin')->nullable();
-            // $table->string('curso_homologacion')->nullable();
+            $table->string('total_hs')->nullable();
+            $table->string('fecha_inicio')->nullable();
+            $table->string('fecha_fin')->nullable();
+            $table->string('curso_homologacion')->nullable();
             $table->text('cuerpo_certificado');
         });
     }
