@@ -14,6 +14,7 @@ use App\Repositories\CursoRepository;
 use App\Repositories\PaypalIntegration;
 use App\Repositories\InscriptionRepository;
 use App\Repositories\MercadoPagoIntegration;
+use Illuminate\Http\JsonResponse;
 
 class InscripcionController extends Controller
 {
@@ -191,6 +192,10 @@ class InscripcionController extends Controller
     public function show(Request $request, Inscripcion $inscription)
     {
         return view('admin.inscriptions.show', compact('inscription'));
+    }
+
+    public function inscriptionsByUser($studentId) : JsonResponse {
+        return response()->json(Inscripcion::where('user_id', $studentId)->with('curso')->with('alumno')->get());
     }
 
 }

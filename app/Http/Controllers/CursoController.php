@@ -10,12 +10,15 @@ use App\ScriptDePago;
 use App\Constants\Messages;
 use App\InscriptionPayment;
 use Illuminate\Http\Request;
+use App\Helpers\CursosHelper;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Constants\FlashMessagesTypes;
 use App\Repositories\CursoRepository;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\CursoStoreRequest;
 use App\Constants\MPIntegrationConstants;
 use App\Http\Requests\CursoUpdateRequest;
-
+use App\Imports\ExcelCertGeneratorImport;
 
 class CursoController extends Controller
 {
@@ -143,24 +146,35 @@ class CursoController extends Controller
             $curso->tags()->sync($tags);
         }
 
-        $files = $request->file('files');
-        if ($request->hasFile('files')) {
-            foreach ($files as $f) {
-                $filename = $f->store('/', ['disk' => 'uploads']);
-                $file = new File;
-                $file->path = $filename;
-                $file->public_path = 'uploads/'.$filename;
-                $file->extension = $f->extension();
-                $file->name = $f->getClientOriginalName();
-                $file->save();
-
-                $curso->files()->save($file);
+        if (count($curso->files) > 0) {
+            foreach ($curso->files as $file) {
+                if (!in_array($file->name, $request->input('document', []))) {
+                    $file->delete();
+                }
             }
-
         }
 
+
+        $media = $curso->files->pluck('name')->toArray();
+        foreach ($request->input('document', []) as $document) {
+            if (count($media) === 0 || !in_array($document, $media)) {
+                Storage::move('tmp/uploads/' . $document, '/public/documents/' . $document);
+                
+                $filename = $document;
+                $ext = explode('.', $filename);
+                $file = new File();
+                $file->path = Storage::url('app/public/documents/'.$filename);
+                $file->public_path = Storage::url('/documents/'.$filename);
+                $file->extension = end($ext);
+                $file->name = $filename;
+                $file->save();
+                $curso->files()->save($file);
+            }
+        }
+        
+
         if ($curso->categoria_id == 1 || $curso->categoria_id == 2)
-            return redirect('/cursos')->with( FlashMessagesTypes::SUCCESS, Messages::UPDATED_SUCCESSFULL );
+            return redirect('/cursos/'.$curso->id . '/edit')->with( FlashMessagesTypes::SUCCESS, Messages::UPDATED_SUCCESSFULL );
         if ($curso->categoria_id == 3)
             return redirect('/novedades')->with( FlashMessagesTypes::SUCCESS, Messages::UPDATED_SUCCESSFULL );
     }
@@ -253,6 +267,47 @@ class CursoController extends Controller
             ->get();
 
         return $inscriptionPayments;
+    }
+
+
+    public function storeMedia(Request $request)
+    {
+        $path = storage_path('app/tmp/uploads');
+
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+
+        $file = $request->file('file');
+
+        $name = uniqid() . '_' . trim($file->getClientOriginalName());
+
+        $file->move($path, $name);
+
+        return response()->json([
+            'name'          => $name,
+            'original_name' => $file->getClientOriginalName(),
+        ]);
+    }
+
+    public function certificatesMassiveGenerationForm($id) {
+        $curso = Curso::findOrFail($id);
+
+        return view('admin.cursos.form-certificates-generation', compact('curso'));
+    }
+
+    public function certificatesMassiveGeneration(Request $request) {
+
+        $curso = Curso::findOrfail($request->id);
+        $import = new ExcelCertGeneratorImport();
+        Excel::import($import, $request->file('excel_file'));
+        $dniList = $import->getData();
+
+        $result = CursosHelper::generateMassiveCertificates($dniList, $curso);
+
+        return back()
+            ->with('success', 'Archivo procesado correctamente.')
+            ->with('result', $result);
     }
     
     

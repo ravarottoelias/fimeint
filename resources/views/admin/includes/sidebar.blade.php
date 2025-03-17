@@ -20,6 +20,7 @@
                     <a class="nav-link" href="/cursos">Cursos</a>
                     <a class="nav-link" href="{{ route('inscriptions') }}">Inscripciones</a>
                     <a class="nav-link" href="{{ route('payments') }}">Pagos</a>
+                    <a class="nav-link" href="{{ route('certificates') }}">Certificados</a>
                 </nav>
             </div>
             <a class="nav-link" href="/post_admin?category=rse">

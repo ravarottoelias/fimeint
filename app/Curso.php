@@ -32,6 +32,10 @@ class Curso extends Model
         'unit_price',
         'publicado',
         'cantidad_cuotas',
+        'fecha_inicio',
+        'fecha_fin',
+        'total_hs',
+        'curso_homologacion',
     ];
 
     protected $attributes = [
@@ -95,6 +99,10 @@ class Curso extends Model
     public function calcularValorCuota() : float
     {
         return ($this->unit_price + $this->unit_price * config('custom.payments.course_fee_tax')) / 2;
+    }
+
+    public function isFinalizado() {
+        return $this->estado == self::ESTADO_FINALIZADO;
     }
 
 

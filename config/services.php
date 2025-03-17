@@ -50,6 +50,9 @@ return [
             'log.FileName' => storage_path('logs/paypal.log'),
             'log.LogLevel' => 'ERROR',
         ]
+        ],
+    'ms_cert_validation' => [
+        'api_url' => env('MS_CERT_VALIDATION_API_URL', 'localhost:8089')
     ]
 
 ];

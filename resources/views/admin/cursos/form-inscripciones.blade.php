@@ -36,7 +36,7 @@
       <th scope="col">Alumno</th>
       <th scope="col">Fecha Insc.</th>
       <th scope="col">Pago</th>
-      <th scope="col">Detalle de pago</th>
+      <th scope="col">Detalles</th>
       <th scope="col"></th>
     </tr>
   </thead>
@@ -63,7 +63,11 @@
           <a href="{{ route('inscription_show', $i->id) }}"> Ver </a>
       </td>
       <td id="td-actions-{{$i->id}}">
-        {{-- <a href="#" class="btn btn-default btn-sm" title="Editar Inscripción" data-toggle="modal" data-target="#modalEditarInscripcion" onclick="editarInscripcion({{$i}})"><i class="fa fa-edit" title="Editar Inscripcion"></i></a> --}}
+        @if ($i->ms_certificate_id != null)
+          <a href="{{ route('certificates_show', $i->ms_certificate_id)}}" class="btn btn-success btn-sm" title="Ver Certificado"><i class="fas fa-certificate"></i></a>  
+        @else
+          <a href="{{ route('certificates_create_step_two', ['inscripcionId' => $i->id])}}" class="btn btn-primary btn-sm" title="Generar Certificado"><i class="far fa-file-alt"></i></a>
+        @endif
         <a href="#" class="btn btn-danger btn-sm" title="Eliminar Inscripción" onclick="eliminarInscripcion({{$i}})"><i class="fa fa-user-times"></i></a>
       </td>
     </tr>

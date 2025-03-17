@@ -1,3 +1,11 @@
+@section('stylesheet')
+<style>
+	.datepicker td, .datepicker th {
+    width: 1.5em;
+    height: 1.5em;
+}
+	</style>
+@stop
 @php
 	$estado_proximo = \App\Curso::ESTADO_PROXIMO;
 	$estado_en_curso = \App\Curso::ESTADO_EN_CURSO;
@@ -6,62 +14,42 @@
 	$no_publicado = \App\Curso::NO_PUBLICADO;
 @endphp
 
-<div class="row mb-5">
-	<div class="col-12 col-md-6">
-		<div class="row px-3">
-			<div class="col-12 col-md-8">
-				<div class="form-group requerido">
-					<label class="control-label mb-1">Estado</label>
-					<select class="form-control"  name="estado">
-				 		<option>Seleccionar</option>
-				 		<option value="{{$estado_proximo}}" @if($curso->estado == $estado_proximo) selected @endif> {{$estado_proximo}} </option>
-				 		<option value="{{$estado_en_curso}}" @if($curso->estado == $estado_en_curso) selected @endif> {{$estado_en_curso}} </option>
-				 		<option value="{{$estado_finalizado}}" @if($curso->estado == $estado_finalizado) selected @endif> {{$estado_finalizado}} </option>
-					</select>
-				</div>
-			</div>
-			<div class="col-12 col-md-4">
-				<div class="form-group requerido">
-					<label class="control-label mb-1">Publicado</label>
-					<select class="form-control"  name="publicado">				 		
-				 		<option value="{{$publicado}}" @if($curso->publicado == $publicado) selected @endif> SI </option>
-				 		<option value="{{$no_publicado}}" @if($curso->publicado == $no_publicado) selected @endif> NO </option>
-					</select>
-				</div>
-			</div>
-		</div>
-		<div class="row px-3">
-			<div class="col-12 col-md-12">
-				<div class="form-group requerido">
-					<label class="control-label mb-1">Etiquetas</label>
-					<select class="tags-select form-control"  multiple="multiple" name="tags[]">
-				 	@foreach( $tags as $tag )
-					  	<option value="{{$tag->nombre}}" @if($curso->tags->contains('id', $tag->id)) selected @endif >{{$tag->nombre}}</option>
-					@endforeach
-					</select>
-				</div>
-			</div>
-		</div>
-	</div>
 
-	<div class="col-12 col-md-6">
-		<div class="row px-3">
-			<div class="col-md-12">
-				<label>Adjuntar Archivos</label>
-				<div class="content" id="content_dropzone"></div>
-			</div>
-		</div>
-	</div>
-</div>
 
 <div class="card">
 	<div class="card-body">
+		<div class="row">
+			<div class="col-12 col-md-4">
+				<div class="row ">
+					<div class="col-12 col-md-8">
+						<div class="form-group requerido">
+							<label class="control-label mb-1">Estado</label>
+							<select class="form-control"  name="estado">
+								<option>Seleccionar</option>
+								<option value="{{$estado_proximo}}" @if($curso->estado == $estado_proximo) selected @endif> {{$estado_proximo}} </option>
+								<option value="{{$estado_en_curso}}" @if($curso->estado == $estado_en_curso) selected @endif> {{$estado_en_curso}} </option>
+								<option value="{{$estado_finalizado}}" @if($curso->estado == $estado_finalizado) selected @endif> {{$estado_finalizado}} </option>
+							</select>
+						</div>
+					</div>
+					<div class="col-12 col-md-4">
+						<div class="form-group requerido">
+							<label class="control-label mb-1">Publicado</label>
+							<select class="form-control"  name="publicado">				 		
+								<option value="{{$publicado}}" @if($curso->publicado == $publicado) selected @endif> SI </option>
+								<option value="{{$no_publicado}}" @if($curso->publicado == $no_publicado) selected @endif> NO </option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="row mb-3">
 			<div class="col-12">
 				<h5>Inscripciones y Pagos</h5>
 			</div>
 		</div>
-		<div class="row mx-3">
+		<div class="row">
 			<div class="col-12 col-md-6">
 				<div class="row">
 					<div class="col-12 col-md-4">
@@ -137,7 +125,7 @@
 							  	
 							  </tbody>
 							</table>
-							
+						
 							<!-- Button trigger modal -->
 							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scriptsPagosModal">
 								<i class="fa fa-plus"></i> Nuevo

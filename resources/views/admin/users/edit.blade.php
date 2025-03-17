@@ -10,22 +10,40 @@
     <li class="breadcrumb-item active">{{$user->fullName()}}</li>
 </ol>
 
-@include('admin.includes.flashmessage')
-<div class="card">
-	<div class="card-body">
-		<div class="w-100 text-right">
-			<a href="{{route('user_reset_password', $user->id)}}" type="submit" class="btn btn-sm btn-warning mt-0 mb-4 text" onclick="return confirm('Desea Resetear la contraseña de {{$user->name}}?')" title="Resetear contraseña"><i class="fas fa-key"></i> Resetear Clave</a>
-		</div>
-		<form action="{{ route('users.update', $user->id) }}" method="POST" novalidate="novalidate" autocomplete="off" enctype="multipart/form-data" files="true">
-			{{ csrf_field() }}
-			<input name="_method" type="hidden" value="PUT">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#profile"> <i class="far fa-user-circle"></i> Perfil</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#inscriptions"><i class="fas fa-pen-square"></i> Inscripciones</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#certificates"><i class="fas fa-certificate"></i> Certificados</a>
+        </li>
+    </ul>
+    <div class="card mb-3">
+        <div class="card-body">
+            <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade active show" id="profile">
+                <form action="{{ route('users.update', $user->id) }}" method="POST" novalidate="novalidate" autocomplete="off" enctype="multipart/form-data" files="true">
+                    {{ csrf_field() }}
+                    <input name="_method" type="hidden" value="PUT">
+        
+                    @include('admin.users.form')
+                    
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="inscriptions">
+                @include('admin.users.form-inscriptions')
+            </div>
+            <div class="tab-pane fade" id="certificates">
+                @include('admin.users.form-certificates')
+            </div>
+            </div>
+        </div>
+    </div>
 
-    		@include('admin.users.form')
-    		
-    		<button type="submit" class="btn btn-primary">Guardar</button>
-		</form>
-	</div>
-</div>
 @stop
 
 @section('script')
