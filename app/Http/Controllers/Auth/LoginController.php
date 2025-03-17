@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\RestClients\MSCertValidation;
 use Bestmomo\LaravelEmailConfirmation\Traits\AuthenticatesUsers;
 //use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -40,14 +39,5 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function test()
-    {
-        $client = new MSCertValidation();
-        return $client->getCertificates();
-    }
+    
 }
