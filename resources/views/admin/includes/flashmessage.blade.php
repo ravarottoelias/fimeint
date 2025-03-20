@@ -27,3 +27,20 @@
         </div>
     </div>
 @endif
+@if (session('apiValidationErrors'))
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="alert alert-danger">
+              @foreach (session('apiValidationErrors') as $key => $value)
+              {{ $key }}
+              <ul>
+                  @foreach ($value as $ix => $message)
+                    <li>{{ $message }}</li>
+                  @endforeach
+                </ul>
+              @endforeach
+              
+            </div>
+        </div>
+    </div>
+@endif

@@ -18,9 +18,15 @@ class MSCertValidation
         $this->baseUrl = config('services.ms_cert_validation.api_url');
     }
 
-    public function getCertificates() {
+    public function getCertificates(array $query = []) {
         Log::info("MSCertValidation::getCertificates ...");
-        $response = $this->httpClient->request('GET', $this->baseUrl . '/api/v1/certificates');
+        $response = $this->httpClient->request(
+            'GET', 
+            $this->baseUrl . '/api/v1/certificates',
+            [
+                'query' => $query
+            ]
+        );
         $body = $response->getBody();
         $data = json_decode($body);
         return $data;

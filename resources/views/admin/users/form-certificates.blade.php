@@ -20,8 +20,7 @@
         </a>
     @empty    
         <div class="alert alert-dismissible alert-light">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Nada por aqui!</strong> No se encontraron certificados.
+            <strong>Nada por aqui!</strong> No se encontraron certificados para el usuario.
         </div>
     @endforelse
   </div>

@@ -2,7 +2,12 @@
   $paises = \App\Helpers\Helper::getCountries()
 @endphp
 
- 
+@include('admin.includes.flashmessage')
+<div class="row">
+  <div class="col-12 text-right">
+    <a class="btn btn-info" href="{{ route('user_reset_password', $user->id) }}">Resetear Contraseña</a>
+  </div>
+</div>
   <div class="form-row">
       <div class="form-group col-md-6">
         <label for="Apellidos">Apellidos</label>

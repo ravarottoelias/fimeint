@@ -9,11 +9,12 @@ use App\Inscripcion;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Helpers\CursosHelper;
+use Illuminate\Http\Response;
 use App\Helpers\CertificatesHelper;
 use Illuminate\Support\Facades\Log;
 use App\RestClients\MSCertValidation;
-use Illuminate\Support\Facades\Session;
 
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use GuzzleHttp\Exception\ClientException;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -97,16 +98,26 @@ class CertificatesController extends Controller
             $inscripcion = Inscripcion::findOrFail($request->inscripcion_id);
             $alumno = User::find($inscripcion->user_id);
             $curso = Curso::find($inscripcion->curso_id);
-            $msRequest = CertificatesHelper::buildStoreCertificateRequest($curso, $alumno, 1, 2);
+            $msRequest = CertificatesHelper::buildStoreCertificateRequest($curso, $alumno, $request->certificado_numero, $request->tf_certificado_numero);
 
             $certificate = $this->msCertValidation->createCert($msRequest)->response;
             $inscripcion->ms_certificate_id = $certificate->id;
             $inscripcion->save();
             Session::flash('success', "El certificado se creó correctamente."); 
             return Redirect::route('certificates_show', $certificate->id)->with('message', 'State saved correctly!!!'); 
-        } catch(Exception $ex) {
+        } 
+        catch (ClientException $ex){
+            if($ex->getResponse()->getStatusCode() == Response::HTTP_BAD_REQUEST){
+                $errors = json_decode($ex->getResponse()->getBody()->getContents(), true);
+                Session::flash('apiValidationErrors', $errors['errors']); 
+                return Redirect::back();
+            }
             Log::error('Error al crear el certificado: ' . $ex->getMessage());
             Session::flash('error', "Error al crear el certificado. " . $ex->getMessage()); 
+            return Redirect::back();
+        } 
+        catch(Exception $ex) {
+            Session::flash('error', "Error al crear el certificado. Detalles en el log." . $ex->getMessage()); 
             return Redirect::back();
         }
     }

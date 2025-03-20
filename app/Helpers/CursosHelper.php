@@ -37,16 +37,19 @@ class CursosHelper
         return CursosHelper::getCursoByStatus(Curso::ESTADO_FINALIZADO);
     }
 
-    public static function mergeCuerpoCertificado(string $body) : string
+    public static function mergeCuerpoCertificado($body)
     {
-        $newBody = str_replace(CursoConstants::ALUMNO_REPLACEMENT, "ELIAS R.-", $body);
-        $newBody = str_replace(CursoConstants::DNI_REPLACEMENT, "ELIAS R.-", $body);
-        $newBody = str_replace(CursoConstants::CUIT_REPLACEMENT, "ELIAS R.-", $body);
-        $newBody = str_replace(CursoConstants::CURSO_REPLACEMENT, "ELIAS R.-", $body);
-        $newBody = str_replace(CursoConstants::FECHA_INICIO_REPLACEMENT, "ELIAS R.-", $body);
-        $newBody = str_replace(CursoConstants::FECHA_FIN_REPLACEMENT, "ELIAS R.-", $body);
-        $newBody = str_replace(CursoConstants::HOMOLOGACION_REPLACEMENT, "ELIAS R.-", $body);
-        return $newBody;
+        if($body){
+            $newBody = str_replace(CursoConstants::ALUMNO_REPLACEMENT, "ELIAS R.-", $body);
+            $newBody = str_replace(CursoConstants::DNI_REPLACEMENT, "ELIAS R.-", $body);
+            $newBody = str_replace(CursoConstants::CUIT_REPLACEMENT, "ELIAS R.-", $body);
+            $newBody = str_replace(CursoConstants::CURSO_REPLACEMENT, "ELIAS R.-", $body);
+            $newBody = str_replace(CursoConstants::FECHA_INICIO_REPLACEMENT, "ELIAS R.-", $body);
+            $newBody = str_replace(CursoConstants::FECHA_FIN_REPLACEMENT, "ELIAS R.-", $body);
+            $newBody = str_replace(CursoConstants::HOMOLOGACION_REPLACEMENT, "ELIAS R.-", $body);
+            return $newBody;
+        }
+        return $body;
     }
 
     public static function generateMassiveCertificates(array $dniList, Curso $curso) : stdClass {

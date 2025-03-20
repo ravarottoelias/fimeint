@@ -55,34 +55,36 @@
         </div>
         <div class="tab-pane fade" id="details">
             @if ($inscription == null)
-                
-            @else
-            <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">Alumno</h5>
-                    <small>#{{ $inscription->user_id }}</small>
-                </div>
-                <p class="mb-1">{{ $inscription->alumno->fullName()}} - Cuit:  {{ $inscription->alumno->cuit }} - Email: {{ $inscription->alumno->email }}</p>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Curso</h5>
-                        <small class="text-muted">#{{ $inscription->curso_id }}</small>
-                    </div>
-                    <p class="mb-1">{{ $inscription->curso->titulo }} - Fecha: {{ $inscription->curso->fecha_inicio }} al {{ $inscription->curso->fecha_inicio }}</p>
-                    
-                </a>
-                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Inscripción</h5>
-                        <small class="text-muted">#{{ $inscription->id }}</small>
-                    </div>
-                    <p class="mb-1">Pago: {{ $inscription->estado_del_pago }} - Certificado ID: {{ $inscription->ms_certificate_id }} - Creado en: {{ $inscription->created_at }}</p>
-                    
-                </a>
+            <div class="alert alert-dismissible alert-light">
+                <strong>Algo anda mal!</strong> No se encontró inscripcion del alumno al curso {{ $certificate->cursoNombre }}
             </div>
-        @endif
+            @else
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">Alumno</h5>
+                        <small>#{{ $inscription->user_id }}</small>
+                    </div>
+                    <p class="mb-1">{{ $inscription->alumno->fullName()}} - Cuit:  {{ $inscription->alumno->cuit }} - Email: {{ $inscription->alumno->email }}</p>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Curso</h5>
+                            <small class="text-muted">#{{ $inscription->curso_id }}</small>
+                        </div>
+                        <p class="mb-1">{{ $inscription->curso->titulo }} - Fecha: {{ $inscription->curso->fecha_inicio }} al {{ $inscription->curso->fecha_inicio }}</p>
+                        
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Inscripción</h5>
+                            <small class="text-muted">#{{ $inscription->id }}</small>
+                        </div>
+                        <p class="mb-1">Pago: {{ $inscription->estado_del_pago }} - Certificado ID: {{ $inscription->ms_certificate_id }} - Creado en: {{ $inscription->created_at }}</p>
+                        
+                    </a>
+                </div>
+            @endif
         </div>
     
     </div>
