@@ -72,9 +72,6 @@ Route::group(['middleware' => 'auth'], function(){
 
 	Route::post('projects/media', 'CursoController@storeMedia')->name('projects.storeMedia');
 
-	//BORRAR LUEGO DE EJECUTAR
-	Route::get('/copydni', 'UsersController@copyDniToCuil')->middleware(['roles']);
-
 	Route::get('/dashboard/certificates', 'CertificatesController@index')->name('certificates')->middleware(['roles']);
 	Route::post('/dashboard/certificates', 'CertificatesController@store')->name('certificates_store')->middleware(['roles']);
 	Route::get('/dashboard/certificates/create-one', 'CertificatesController@createStepOne')->name('certificates_create_step_one')->middleware(['roles']);

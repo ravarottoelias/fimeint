@@ -3,17 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Helpers\Utils;
 use App\Helpers\Helper;
 use App\Constants\Messages;
-use App\Helpers\Utils;
-use App\Http\Requests\UserStoreRequest;
 use Illuminate\Http\Request;
 use App\Mail\UserPasswordReseted;
-use App\Notifications\NewTemporaryPasswordNotification;
+use Illuminate\Support\Facades\Log;
 use App\Repositories\UserRepository;
-use App\RestClients\MSCertValidation;
 use Illuminate\Support\Facades\Mail;
+use App\RestClients\MSCertValidation;
+use App\Http\Requests\UserStoreRequest;
+use GuzzleHttp\Exception\ClientException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Notifications\NewTemporaryPasswordNotification;
 
 class UsersController extends Controller
 {
@@ -48,7 +50,15 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        $certificates = $this->msCertValidation->getCertificates()->response->data;
+        $certificates = null;
+        $query = [
+            'alumnoId' => $user->id
+        ];
+        try{
+            $certificates = $this->msCertValidation->getCertificates($query)->response->data;
+        } catch(ClientException $ex){
+            Log::error("Error al obtener certificados del usuario $user->id.", $ex->getMessage());
+        }
 
         return view('admin.users.edit', compact('user', 'certificates'));
     }
@@ -63,7 +73,6 @@ class UsersController extends Controller
     public function update(UserStoreRequest $request, $id)
     {
         $user = $this->userRepository->updateUser($id, $request->all());
-
         return back()->with('success', Messages::UPDATED_SUCCESSFULL);
     }
 
@@ -100,15 +109,6 @@ class UsersController extends Controller
 
         return view('sitio.recuperar-contrasenia-email-enviado', compact('user'));
 
-    }
-
-    public function copyDniToCuil() {
-        $users = User::whereNull('cuit')->get();
-        foreach ($users as $user) {
-            $charListReplacement = array(".", ",", " ");
-            $user->cuit = str_replace($charListReplacement, "", $user->documento_nro);
-            $user->save();
-        }
     }
 
     /**

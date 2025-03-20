@@ -1,5 +1,5 @@
 <div class="list-group">
-    @foreach ($user->inscriptions as $i)
+    @forelse ($user->inscriptions as $i)
         <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
                 <h6 class="mb-1">{{ $i->curso->titulo }}</h6>
@@ -16,5 +16,9 @@
             </p>
             <small></small>
         </a>
-    @endforeach
+    @empty
+    <div class="alert alert-dismissible alert-light">
+        <strong>Nada por aqui!</strong> No se encontraron inscripciones para el usuario.
+    </div>
+    @endforelse
   </div>
