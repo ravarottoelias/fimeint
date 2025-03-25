@@ -52,7 +52,9 @@ return [
         ]
         ],
     'ms_cert_validation' => [
-        'api_url' => env('MS_CERT_VALIDATION_API_URL', 'localhost:8089')
+        'api_url' => env('MS_CERT_VALIDATION_API_URL', 'localhost:8089'),
+        'user_email' => env('MS_CERT_VALIDATION_USER_EMAIL', 'user@email.com'),
+        'user_password' => env('MS_CERT_VALIDATION_USER_PASSWORD', 'password'),
     ]
 
 ];

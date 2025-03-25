@@ -4,16 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Tag;
 use App\File;
+use stdClass;
 use App\Curso;
 use App\Categoria;
 use App\ScriptDePago;
 use App\Constants\Messages;
 use App\InscriptionPayment;
 use Illuminate\Http\Request;
+use App\Helpers\CursoService;
 use App\Helpers\CursosHelper;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Constants\FlashMessagesTypes;
 use App\Repositories\CursoRepository;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\CursoStoreRequest;
 use App\Constants\MPIntegrationConstants;
@@ -24,12 +27,14 @@ class CursoController extends Controller
 {
 
     private $cursoRepository;
+    private $cursoService;
 
 	public function __construct( 
-        CursoRepository $cursoRepository){
-
+        CursoRepository $cursoRepository,
+        CursoService $cursoService
+    ) {
+        $this->cursoService = $cursoService;
         $this->cursoRepository = $cursoRepository;
-
     }
 
     /**
@@ -303,11 +308,10 @@ class CursoController extends Controller
         Excel::import($import, $request->file('excel_file'));
         $dniList = $import->getData();
 
-        $result = CursosHelper::generateMassiveCertificates($dniList, $curso);
-
+        $result = $this->cursoService->generateMassiveCertificates($dniList, $curso);
+        Session::flash('result', $result);
         return back()
-            ->with('success', 'Archivo procesado correctamente.')
-            ->with('result', $result);
+            ->with('success', 'Archivo procesado correctamente.');
     }
     
     

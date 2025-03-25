@@ -26,7 +26,7 @@ class ExcelCertGeneratorImport implements ToArray
             
             // Mostrar en logs
             Log::info("Nombre: {$element->nombre}, DNI: {$element->dni}");
-            array_push($data, $element);
+            array_push($this->data, $element);
         }
     }
 

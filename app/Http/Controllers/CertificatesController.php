@@ -8,12 +8,10 @@ use Exception;
 use App\Inscripcion;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use App\Helpers\CursosHelper;
 use Illuminate\Http\Response;
 use App\Helpers\CertificatesHelper;
 use Illuminate\Support\Facades\Log;
 use App\RestClients\MSCertValidation;
-
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use GuzzleHttp\Exception\ClientException;

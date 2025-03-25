@@ -13,13 +13,14 @@ class CheckRoles
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, ...$roles)
     {
-        $roles = ['admin'];
+        $adminRole = ['admin'];
         
-        if (auth()->user()->hasRoles($roles)) {
+        if (auth()->user()->hasRoles($adminRole)) {
            return $next($request);
         }
-           return redirect('/');
+
+           return redirect()->back();
     }
 }

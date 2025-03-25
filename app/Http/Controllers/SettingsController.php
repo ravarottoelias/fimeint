@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Setting;
 use App\Helpers\Utils;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class SettingsController extends Controller
 {
@@ -17,14 +18,15 @@ class SettingsController extends Controller
     {
         $settings = Utils::getSettings();
 
-        return view('settings.show', compact('settings'));
+        return view('admin.settings.edit', compact('settings'));
     }
 
     public function edit()
     {
         $settings = Utils::getSettings();
 
-        return view('settings.edit', compact('settings'));
+
+        return view('admin.settings.edit', compact('settings'));
     }
 
     public function save(Request $request)
@@ -36,7 +38,7 @@ class SettingsController extends Controller
         foreach ($settings as $key => $value) {
             Setting::where('key', '=', $key)->update(['value' => $value]);
         }
-
-        return redirect('settings/edit')->back()->with('success', 'Setting was successfully updated'); ;
+        Session::flash('success', 'Los ajustes se guardaron con éxito.'); 
+        return back();
     }
 }

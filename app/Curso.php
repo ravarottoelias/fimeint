@@ -36,6 +36,7 @@ class Curso extends Model
         'fecha_fin',
         'total_hs',
         'curso_homologacion',
+        'cuerpo_certificado',
     ];
 
     protected $attributes = [
