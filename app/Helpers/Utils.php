@@ -21,6 +21,13 @@ class Utils
 
         return $settingValue[0];
     }
+    
+    public static function saveSetting($key, $value)
+    {
+        Setting::where('key', '=', $key)->update(['value' => $value]);
+
+        return;
+    }
 
     //get Settings
     public static function getSettings()

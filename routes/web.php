@@ -116,15 +116,23 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('dashboard/inscriptions/{inscription}', 'InscripcionController@show')->name('inscription_show')->middleware(['roles']);
 
 	Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('log_viwer');
+	Route::get('dashboard/settings', 'SettingsController@edit')->name('settings');
+	Route::post('dashboard/settings', 'SettingsController@save')->name('settings_save');
 
-	Route::get('/profile', 'ProfileController@editProfile')->name('edit_profile');
-	Route::post('/profile/{user}', 'ProfileController@updateProfile')->name('update_profile');
-
+	
 	Route::get('/posts/{slug}/inscription', 'InscripcionController@inscription')->name('curso_inscription');
 	Route::get('/posts/{slug}/inscription/payment', 'InscripcionController@inscriptionPayment')->name('curso_step_inscription_payment');
 	
 	Route::get('/inscription/{inscription}/payment/paypal', 'InscriptionPaymentController@payWithPaypal')->name('pay_with_paypal');
 	Route::get('/inscription/paypal/execute-payment', 'InscriptionPaymentController@paypalExecutePayment')->name('inscript_paypal_execute_payment');
+	
+	//user account
+	Route::get('/panel', 'ProfileController@panel')->name('profile');
+	Route::get('/panel/account/{user}', 'ProfileController@showAccount')->name('show_account');
+	Route::post('/panel/account/{userId}', 'ProfileController@updateAccount')->name('update_account');
+	Route::get('/panel/account/{userId}/change-password', 'ProfileController@formChangePassword')->name('profile_form_change_password');
+	Route::post('/panel/account/{userId}/change-password', 'ProfileController@updatePassword')->name('profile_change_password');
+	
 
 
 });

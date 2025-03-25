@@ -54,7 +54,7 @@
 	<div class="col-12">
 		<div class="form-group">
 			<label for="cuerpoCertificadoTextarea">Cuerpo Certificado</label>
-			<textarea class="form-control" id="cuerpoCertificadoTextarea" rows="3" name="cuerpo_certificado"></textarea>
+			<textarea class="form-control" id="cuerpoCertificadoTextarea" rows="3" name="cuerpo_certificado">{{ $curso->cuerpo_certificado }}</textarea>
 			<small id="fileHelp" class="form-text text-primary">Variables disponibles: <strong>%ALUMNO%</strong> (Nombre completo del alumno). <strong>%DNI%</strong> (DNI del alumno). <strong>%CURSO%</strong> (Título del curso) <strong>%TOTAL_HS%</strong></small>
 		</div>
 	</div>

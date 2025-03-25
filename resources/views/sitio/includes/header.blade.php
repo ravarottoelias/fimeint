@@ -11,7 +11,7 @@
 		</ul>
 		<ul class="navbar-nav">
 			<li class="nav-item">
-				<a class="nav-link" href="{{ route('edit_profile') }}">
+				<a class="nav-link" href="{{ route('profile') }}">
 				{{Auth::user()->name}} |
 				</a>
 			</li>
@@ -32,7 +32,7 @@
 	<nav class="navbar navbar-expand-xs navbar-expand-sm navbar-expand-lg bg-fime-secundary navbar-user-registered d-flex justify-content-end">
 		<ul class="navbar-nav">
 			<li class="nav-item">
-				<a class="nav-link" href="{{ route('edit_profile') }}">
+				<a class="nav-link" href="{{ route('profile') }}">
 				{{Auth::user()->name}} |
 				</a>
 			</li>

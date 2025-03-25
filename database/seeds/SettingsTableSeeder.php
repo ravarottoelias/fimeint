@@ -15,12 +15,24 @@ class SettingsTableSeeder extends Seeder
     {
         // Create settings
         $settings = [
+            // [
+            //     'key' => 'paypal_integration_enabled',
+            //     'value' => '1',
+            // ],
+            // [
+            //     'key' => 'mercadopago_integration_enabled',
+            //     'value' => '1',
+            // ],
             [
-                'key' => 'paypal_integration_enabled',
+                'key' => 'last_certificate_number',
                 'value' => '1',
             ],
             [
-                'key' => 'mercadopago_integration_enabled',
+                'key' => 'last_certificate_tomo',
+                'value' => '1',
+            ],
+            [
+                'key' => 'last_certificate_folio',
                 'value' => '1',
             ],
         ];
