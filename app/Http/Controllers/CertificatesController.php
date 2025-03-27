@@ -6,6 +6,7 @@ use App\User;
 use App\Curso;
 use Exception;
 use App\Inscripcion;
+use App\Helpers\Utils;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -45,7 +46,8 @@ class CertificatesController extends Controller
     function show($idCertificado) : View {
         try {
             $certificate = $this->msCertValidation->getCertificateDetails($idCertificado)->response;
-            $qrcode = QrCode::format('png')->size(300)->format('png')->generate($certificate->codigoQr);
+            $qrDecoded = config('services.ms_cert_validation.app_cert_validation_url') . "?qr=$certificate->codigoQr";
+            $qrcode = QrCode::format('png')->size(300)->format('png')->generate($qrDecoded);
             $qrcode = base64_encode($qrcode);
             $inscription = null;
             try{
@@ -53,7 +55,8 @@ class CertificatesController extends Controller
             } catch(Exception $ex) {
                 Log::error("Error al buscar inscripcion. Certificado ID: " . $certificate->id, $ex);
             }
-            return view('admin.certificates.show', compact('certificate', 'qrcode', 'inscription'));
+            return view('admin.certificates.show', compact('certificate', 'qrcode', 'qrDecoded', 'inscription'));
+
         } catch (Exception $ex) {
             Log::error("Error al obtener el certificado: " . $ex->getMessage());
             if($ex instanceof ClientException){
@@ -88,7 +91,11 @@ class CertificatesController extends Controller
         $inscripcion = Inscripcion::findOrFail($request->inscripcionId);
         $alumno = User::find($inscripcion->user_id);
         $curso = Curso::find($inscripcion->curso_id);
-        return view('admin.certificates.create-step-two', compact('inscripcion', 'alumno', 'curso'));
+        $certificado_nro = Utils::getSetting('last_certificate_number');
+        $tomo = Utils::getSetting('last_certificate_tomo');
+        $folio = Utils::getSetting('last_certificate_folio');
+        $tomo_folio = "T: $tomo. F: $folio";
+        return view('admin.certificates.create-step-two', compact('inscripcion', 'alumno', 'curso', 'certificado_nro', 'tomo_folio'));
     }
 
     function store(CertificateStoreRequest $request) {
@@ -100,15 +107,17 @@ class CertificatesController extends Controller
 
             $certificate = $this->msCertValidation->createCert($msRequest)->response;
             $inscripcion->ms_certificate_id = $certificate->id;
-            $inscripcion->save();
+            $inscripcion->save(); 
+            
             Session::flash('success', "El certificado se creó correctamente."); 
             return Redirect::route('certificates_show', $certificate->id)->with('message', 'State saved correctly!!!'); 
         } 
         catch (ClientException $ex){
             if($ex->getResponse()->getStatusCode() == Response::HTTP_BAD_REQUEST){
-                $errors = json_decode($ex->getResponse()->getBody()->getContents(), true);
-                Session::flash('apiValidationErrors', $errors['errors']); 
-                return Redirect::back();
+                $apiErrors = json_decode($ex->getResponse()->getBody()->getContents(), true);     
+                Session::flash('apiErrors', $apiErrors['errors']); 
+                //dd($apiErrors);
+                return redirect()->back();
             }
             Log::error('Error al crear el certificado: ' . $ex->getMessage());
             Session::flash('error', "Error al crear el certificado. " . $ex->getMessage()); 

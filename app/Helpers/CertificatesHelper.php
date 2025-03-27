@@ -27,7 +27,7 @@ class CertificatesHelper
             'alumno_id' => $alumno->id,
             'nombre_alumno' => strtoupper($alumno->fullName()),
             'curso_id' => $curso->id,
-            'titulo_curso' => $curso->titulo,
+            'curso_titulo' => $curso->titulo,
             'fecha_curso' => $curso->fecha_inicio, // porbablemente eliminar.
             'curso_total_hs' => $curso->total_hs,
             'curso_fecha_inicio' => $curso->fecha_inicio,
@@ -36,7 +36,7 @@ class CertificatesHelper
             'habilitacion_numero' => config('custom.certificates.cert_habilitacion_nro'),
             'certificado_numero' => $certificadoNumero,
             'tf_certificado_numero' => $tfCertificadoNumero,
-            'cuerpo_certificado' => CursosHelper::mergeCuerpoCertificado($curso->cuerpo_certificado),
+            'certificado_body' => CursosHelper::mergeCuerpoCertificado($curso->cuerpo_certificado),
         ];
 
         return $msRequest;

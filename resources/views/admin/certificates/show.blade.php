@@ -33,7 +33,7 @@
             <div class="row">
                 <div class="col-10 col-md-3 text-center">
                     <img class="img-fluid" src="data:image/png;base64, {{ $qrcode }}" alt="Código QR">
-                    <p class="text-center">{{ $certificate->codigoQr }}</p>
+                    <p class="text-center"><a href="{{ $qrDecoded }}">{{ $qrDecoded }}</a></p>
                 </div>
                 <div class="col-12 col-md-9">
     
