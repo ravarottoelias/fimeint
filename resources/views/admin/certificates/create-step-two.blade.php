@@ -71,12 +71,12 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label>Certificado Número</label>
-                        <input type="text" class="form-control" name="certificado_numero" value="{{ old('certificado_numero') }}" required>
+                        <input type="text" class="form-control" name="certificado_numero" value="{{ $certificado_nro or old('certificado_numero') }}" readonly>
                     </div>
                 </div><div class="col-6">
                     <div class="form-group">
                         <label>Tomo y Folio</label>
-                        <input type="text" class="form-control" name="tf_certificado_numero" value="{{ old('tf_certificado_numero') }}" required>
+                        <input type="text" class="form-control" name="tf_certificado_numero" value="{{$tomo_folio or old('tf_certificado_numero') }}" readonly>
                     </div>
                 </div>
             </div>

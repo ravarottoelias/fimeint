@@ -36,10 +36,13 @@ class CursoService
                 ->first();
                 if($inscription != null) {
                     try{
+                        $tomo_folio = "T: $lastCertificateTomo. F: $lastCertificateFolio";
                         $certificate = $this->msCertValidationClient->createCert(
-                            CertificatesHelper::buildStoreCertificateRequest($curso, $alumno, $lastCertificateNumber, "2")
+                            CertificatesHelper::buildStoreCertificateRequest($curso, $alumno, $lastCertificateNumber, $tomo_folio)
                         )->response;
                         $lastCertificateNumber++;
+                        $lastCertificateTomo++;
+                        $lastCertificateFolio++;
                     } catch (Exception $ex) {
                         array_push($result->fails, $element->dni . ' - ' . $element->nombre . '. No se pudo crear el certificado.');
                     }
@@ -56,6 +59,8 @@ class CursoService
         }
 
         Utils::saveSetting('last_certificate_number', $lastCertificateNumber);
+        Utils::saveSetting('last_certificate_tomo', $lastCertificateTomo);
+        Utils::saveSetting('last_certificate_folio', $lastCertificateFolio);
 
         return $result;
     }
