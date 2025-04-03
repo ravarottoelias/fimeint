@@ -25,8 +25,8 @@
             <div class="row">
                 <div class="col">
                     <div class="d-flex flex-row-reverse bd-highlight">
-                        <div class="mx-1"><a href="{{ route('certificates_delete', $certificate->id) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a></div>
-                        <div class=""><a href="#" class="btn btn-primary"><i class="far fa-file-pdf"></i> Ver</a></div>
+                        <div class="mx-1"><a href="{{ route('certificates_delete', $certificate->uuid) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a></div>
+                        <div class=""><a href="{{ route('certificates_pdf', $certificate->uuid) }}" class="btn btn-primary"><i class="far fa-file-pdf"></i> Ver</a></div>
                     </div>
                 </div>
             </div>

@@ -10,9 +10,11 @@ use App\Helpers\Utils;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Helpers\CertificateService;
 use App\Helpers\CertificatesHelper;
 use Illuminate\Support\Facades\Log;
 use App\RestClients\MSCertValidation;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use GuzzleHttp\Exception\ClientException;
@@ -22,16 +24,18 @@ use App\Http\Requests\CertificateStoreRequest;
 class CertificatesController extends Controller
 {
     private $msCertValidation;
+    private $certificateService;
     private $certificatesHelper;
 
-    public function __construct(MSCertValidation $msCertValidation, CertificatesHelper $certificatesHelper) {
+    public function __construct(MSCertValidation $msCertValidation, CertificatesHelper $certificatesHelper, CertificateService $certificateService) {
         $this->msCertValidation = $msCertValidation;
         $this->certificatesHelper = $certificatesHelper;
+        $this->certificateService = $certificateService;
     }
 
-    function index() : View {
+    function index(Request $request) : View {
         try {
-            $certificates = $this->msCertValidation->getCertificates()->response;
+            $certificates = $this->certificateService->getCachedCetificates($request);
             $certificates = $this->certificatesHelper->buildResponseCertificates($certificates);
             return view('admin.certificates.index', compact('certificates'));
         } catch (\Throwable $ex) {
@@ -43,12 +47,16 @@ class CertificatesController extends Controller
         
     }
 
-    function show($idCertificado) : View {
+    function show($uuid) : View {
         try {
-            $certificate = $this->msCertValidation->getCertificateDetails($idCertificado)->response;
-            $qrDecoded = config('services.ms_cert_validation.app_cert_validation_url') . "?qr=$certificate->codigoQr";
-            $qrcode = QrCode::format('png')->size(300)->format('png')->generate($qrDecoded);
-            $qrcode = base64_encode($qrcode);
+            $certificate = $this->msCertValidation->getCertificateDetails($uuid)->response;
+            $qrDecoded = config('services.ms_cert_validation.app_cert_validation_url') . "?version=1&qr=$certificate->codigoQr";
+            
+            $qrcode = Cache::remember("qr_cert_{$uuid}", now()->addMinutes(60*12), function () use ($qrDecoded){    
+                $qr = QrCode::format('png')->size(300)->format('png')->generate($qrDecoded);
+                return base64_encode($qr);
+            });
+
             $inscription = null;
             try{
                 $inscription = Inscripcion::where('curso_id', $certificate->cursoId)->where('user_id', $certificate->alumnoId)->first();
@@ -71,9 +79,15 @@ class CertificatesController extends Controller
         }
     }
 
-    function deleteCert($idCertificado) {
+    function deleteCert($uuid) {
         try {
-            $certificate = $this->msCertValidation->deleteCertificate($idCertificado)->response;
+            $certificate = $this->msCertValidation->getCertificateDetails($uuid)->response;
+            $this->msCertValidation->deleteCertificate($certificate->id)->response;
+            $inscription = Inscripcion::where('ms_certificate_id', $certificate->id)
+                ->first();
+            $inscription->ms_certificate_id = null;
+            $inscription->save();
+            Cache::flush();
             return redirect()->route('certificates');
         } catch (\Throwable $ex) {
             Log::error("Error al eliminar certificados: " . $ex->getMessage());
@@ -106,17 +120,17 @@ class CertificatesController extends Controller
             $msRequest = CertificatesHelper::buildStoreCertificateRequest($curso, $alumno, $request->certificado_numero, $request->tf_certificado_numero);
 
             $certificate = $this->msCertValidation->createCert($msRequest)->response;
+            Cache::flush();
             $inscripcion->ms_certificate_id = $certificate->id;
             $inscripcion->save(); 
             
             Session::flash('success', "El certificado se creó correctamente."); 
-            return Redirect::route('certificates_show', $certificate->id)->with('message', 'State saved correctly!!!'); 
+            return Redirect::route('certificates_show', $certificate->uuid)->with('message', 'State saved correctly!!!'); 
         } 
         catch (ClientException $ex){
             if($ex->getResponse()->getStatusCode() == Response::HTTP_BAD_REQUEST){
                 $apiErrors = json_decode($ex->getResponse()->getBody()->getContents(), true);     
                 Session::flash('apiErrors', $apiErrors['errors']); 
-                //dd($apiErrors);
                 return redirect()->back();
             }
             Log::error('Error al crear el certificado: ' . $ex->getMessage());
@@ -127,5 +141,19 @@ class CertificatesController extends Controller
             Session::flash('error', "Error al crear el certificado. Detalles en el log." . $ex->getMessage()); 
             return Redirect::back();
         }
+    }
+
+    
+    public function generatePDF($uuid) 
+    {
+        $cert = $this->certificateService->getCachedCertificateDetails($uuid);
+        $pdf = app('dompdf.wrapper');
+        
+        $pdf->loadView('pdf.certificate', ['cert' => $cert])
+            ->setPaper('a4', 'landscape')
+            ;
+        
+        // Mostrar el PDF en el navegador en stream
+        return $pdf->stream('reporte.pdf');
     }
 }

@@ -65,10 +65,10 @@ class HomeController extends Controller
 
         
         $users = User::filter($userFilter)
-        ->orderBy('created_at', 'DESC')
-        ->paginate(15)
-        ->setPageName('userPage')
-        ->appends($userFilter->request->query());
+            ->orderBy('created_at', 'DESC')
+            ->paginate(15)
+            ->setPageName('userPage')
+            ->appends($userFilter->request->query());
         
         $payments = InscriptionPayment::filter($paymentFilter)
         ->orderBy('created_at', 'DESC')
