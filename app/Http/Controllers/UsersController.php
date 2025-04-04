@@ -6,12 +6,14 @@ use App\User;
 use App\Helpers\Utils;
 use App\Helpers\Helper;
 use App\Constants\Messages;
+use App\Filters\UserFilter;
 use Illuminate\Http\Request;
 use App\Mail\UserPasswordReseted;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Mail;
 use App\RestClients\MSCertValidation;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Requests\UserStoreRequest;
 use GuzzleHttp\Exception\ClientException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -36,9 +38,18 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        $users = $this->userRepository->getAll($request->name, $request->email);
+        $userFilter = new UserFilter($request);
+
+        $query = request()->getQueryString();
         
-       return view('admin.users.index', compact('users'));
+        $users = Cache::remember("users_page_{$query}", now()->addMinutes(10), function () use ($userFilter) {
+            return User::filter($userFilter)
+                ->orderBy('created_at', 'DESC')
+                ->paginate(15)
+                ->appends($userFilter->request->query());
+        });
+        
+        return view('admin.users.index', compact('users'));
     }
 
 
@@ -73,6 +84,7 @@ class UsersController extends Controller
     public function update(UserStoreRequest $request, $id)
     {
         $user = $this->userRepository->updateUser($id, $request->all());
+        Cache::flush();
         return back()->with('success', Messages::UPDATED_SUCCESSFULL);
     }
 
@@ -83,11 +95,11 @@ class UsersController extends Controller
     {
         $tempPassword = Utils::generarCodigo();
         $user = $this->userRepository->resetUserPassword($id, $tempPassword);
-
         $user->notify(new NewTemporaryPasswordNotification($tempPassword));
-
+        
         $msg = "La contraseña fué reseteada. Se envió un email a $user->email con la nueva clave temporal";
-
+        
+        Cache::flush();
         return back()->with('success', $msg);
     }
 

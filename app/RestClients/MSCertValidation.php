@@ -44,12 +44,12 @@ class MSCertValidation
         return $data;
     } 
     
-    public function getCertificateDetails($idCertificate) {
+    public function getCertificateDetails($uuid) {
         Log::info("MSCertValidation::getCertificateDetails...");
         $token = Cache::get('api_ms_token');
         $response = $this->httpClient->request(
             'GET', 
-            $this->baseUrl . '/api/v1/certificates/' . $idCertificate,
+            $this->baseUrl . '/api/v1/certificates/' . $uuid,
             [
                 'headers' => [
                     'Authorization' => "Bearer $token",

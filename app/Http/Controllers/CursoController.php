@@ -10,12 +10,14 @@ use App\Categoria;
 use App\ScriptDePago;
 use App\Constants\Messages;
 use App\InscriptionPayment;
+use App\Filters\CursoFilter;
 use Illuminate\Http\Request;
 use App\Helpers\CursoService;
 use App\Helpers\CursosHelper;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Constants\FlashMessagesTypes;
 use App\Repositories\CursoRepository;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\CursoStoreRequest;
@@ -46,7 +48,19 @@ class CursoController extends Controller
     {
         $categoria_id = 1;
 
-        $cursos = $this->cursoRepository->getCursosCategoryOfertaAcademica();
+        $cursoFilter = new CursoFilter($request);
+
+        $query = request()->getQueryString();
+        
+        $cursos = Cache::remember("cursos_page_{$query}", now()->addMinutes(10), function () use ($cursoFilter, $categoria_id) {
+            return Curso::filter($cursoFilter)
+                ->whereIn('categoria_id', [$categoria_id])    
+                ->orderBy('created_at', 'DESC')
+                ->paginate(15)
+                ->appends($cursoFilter->request->query());
+        });
+
+        //$cursos = $this->cursoRepository->getCursosCategoryOfertaAcademica();
 
         return view('admin.cursos.index', compact('cursos', 'categoria_id'));
     }
@@ -309,6 +323,7 @@ class CursoController extends Controller
         $dniList = $import->getData();
 
         $result = $this->cursoService->generateMassiveCertificates($dniList, $curso);
+        Cache::flush();
         Session::flash('result', $result);
         return back()
             ->with('success', 'Archivo procesado correctamente.');

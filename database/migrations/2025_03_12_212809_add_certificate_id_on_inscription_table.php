@@ -14,7 +14,7 @@ class AddCertificateIdOnInscriptionTable extends Migration
     public function up()
     {
         Schema::table('inscripciones', function (Blueprint $table) {
-            $table->integer('ms_certificate_id')->nullable();
+            $table->string('ms_certificate_id')->nullable();
         });
     }
 

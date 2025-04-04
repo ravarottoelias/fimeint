@@ -7,13 +7,6 @@ use App\User;
 
 class UserRepository
 {
-    public function getAll($name, $email, $order = 'desc')
-    {
-        return User::name($name)
-                    ->email($email)
-                    ->orderBy('created_at', $order)
-                    ->get();
-    }
 
     public function getUserById($id)
     {

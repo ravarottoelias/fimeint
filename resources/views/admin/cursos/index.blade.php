@@ -23,6 +23,30 @@
 	  		<a class="btn btn-primary" href="{{ route('cursos.create') }}?categoria_id=2"><i class="fas fa-plus"></i> Nuevo</a>
   		@endif
   	</div>
+	<!-- Buscador -->
+	<div class="card">
+	<div class="card-body">
+		
+			<form action="{{route('cursos.index')}}" method="get" style="justify-content: flex-end;">
+				<div class="row">
+					<div class="col-12 col-md-8 col-lg-9">
+						<div class="form-group row">
+							<div class="col-12">
+								
+								<input type="text" class="form-control" name="searchFor" id="searchFor" placeholder="Buscar por nombre, email, dni, cuit, tel. " value="{{app('request')->input('searchFor')}}">
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-md-4 col-lg-3">
+						<div class="input-group">
+							<a href="{{route('cursos.index')}}" class="btn btn-default mb-2 mr-1"> <i class="far fa-trash-alt"></i> Limpiar</a>
+							<button type="submit" class="btn btn-primary mb-2 w-90"><i class="fas fa-search"></i> Buscar</button>
+						</div>
+					</div>
+				</div>
+			</form>
+	</div>
+	</div>
     <table class="table table-sm table-hover tabla-cursos-index">
 	    <thead>
 		    <tr>
@@ -56,6 +80,10 @@
 		    </tr>
 	    </tbody>
     </table>
+
+	<div class="d-flex justify-content-center">
+        {{ $cursos->links('vendor.pagination.bootstrap-4') }}
+    </div>
 
 
 @stop

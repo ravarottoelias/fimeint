@@ -229,7 +229,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Messagges' => App\Constants\Messagges::class,
-
+        'PDF' => Barryvdh\DomPDF\Facade\Pdf::class,
     ],
 
 ];
