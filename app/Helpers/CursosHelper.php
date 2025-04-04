@@ -32,16 +32,14 @@ class CursosHelper
         return CursosHelper::getCursoByStatus(Curso::ESTADO_FINALIZADO);
     }
 
-    public static function mergeCuerpoCertificado($body)
+    public static function mergeCuerpoCertificado($curso)
     {
+        $body = $curso->cuerpo_certificado;
         if($body){
-            $newBody = str_replace(CursoConstants::ALUMNO_REPLACEMENT, "ELIAS R.-", $body);
-            $newBody = str_replace(CursoConstants::DNI_REPLACEMENT, "ELIAS R.-", $body);
-            $newBody = str_replace(CursoConstants::CUIT_REPLACEMENT, "ELIAS R.-", $body);
-            $newBody = str_replace(CursoConstants::CURSO_REPLACEMENT, "ELIAS R.-", $body);
-            $newBody = str_replace(CursoConstants::FECHA_INICIO_REPLACEMENT, "ELIAS R.-", $body);
-            $newBody = str_replace(CursoConstants::FECHA_FIN_REPLACEMENT, "ELIAS R.-", $body);
-            $newBody = str_replace(CursoConstants::HOMOLOGACION_REPLACEMENT, "ELIAS R.-", $body);
+            $newBody = str_replace(CursoConstants::CURSO_REPLACEMENT, $curso->titulo, $body);
+            $newBody = str_replace(CursoConstants::FECHA_INICIO_REPLACEMENT, $curso->fecha_inicio, $body);
+            $newBody = str_replace(CursoConstants::FECHA_FIN_REPLACEMENT, $curso->fecha_fin, $body);
+            $newBody = str_replace(CursoConstants::HOMOLOGACION_REPLACEMENT, $curso->curso_homologacion, $body);
             return $newBody;
         }
         return $body;

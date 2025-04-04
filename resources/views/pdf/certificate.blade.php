@@ -122,8 +122,8 @@
                     <h4>FUNDACIÓN INSTITUTO DE MEDIACIÓN</h4>
                     <p>HABILITACIÓN Nº 21</p>
                     <p>LUGAR EMISIÓN: Resistencia, Chaco</p>
-                    <p>FECHA: 2 de enero de 2024</p>
-                    <p>Tº: 1 - Fº: 90 y 91 - Certificado Nº: {{ $cert->certificadoNumero }}</p>
+                    <p>FECHA: {{ $cert->createdAt }}</p>
+                    <p> {{ $cert->tfCertificadoNumero }} - Certificado Nº: {{ $cert->certificadoNumero }}</p>
                 </div>
             </div>
         </div>

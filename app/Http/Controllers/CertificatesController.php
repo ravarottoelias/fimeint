@@ -13,7 +13,6 @@ use Illuminate\Http\Response;
 use App\Helpers\CertificateService;
 use App\Helpers\CertificatesHelper;
 use Illuminate\Support\Facades\Log;
-use App\RestClients\MSCertValidation;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
@@ -23,12 +22,11 @@ use App\Http\Requests\CertificateStoreRequest;
 
 class CertificatesController extends Controller
 {
-    private $msCertValidation;
+
     private $certificateService;
     private $certificatesHelper;
 
-    public function __construct(MSCertValidation $msCertValidation, CertificatesHelper $certificatesHelper, CertificateService $certificateService) {
-        $this->msCertValidation = $msCertValidation;
+    public function __construct(CertificatesHelper $certificatesHelper, CertificateService $certificateService) {
         $this->certificatesHelper = $certificatesHelper;
         $this->certificateService = $certificateService;
     }
@@ -49,7 +47,7 @@ class CertificatesController extends Controller
 
     function show($uuid) : View {
         try {
-            $certificate = $this->msCertValidation->getCertificateDetails($uuid)->response;
+            $certificate = $this->certificateService->getCachedCertificateDetails($uuid);
             $qrDecoded = config('services.ms_cert_validation.app_cert_validation_url') . "?version=1&qr=$certificate->codigoQr";
             
             $qrcode = Cache::remember("qr_cert_{$uuid}", now()->addMinutes(60*12), function () use ($qrDecoded){    
@@ -81,17 +79,12 @@ class CertificatesController extends Controller
 
     function deleteCert($uuid) {
         try {
-            $certificate = $this->msCertValidation->getCertificateDetails($uuid)->response;
-            $this->msCertValidation->deleteCertificate($certificate->id)->response;
-            $inscription = Inscripcion::where('ms_certificate_id', $certificate->id)
-                ->first();
-            $inscription->ms_certificate_id = null;
-            $inscription->save();
+            $this->certificateService->deleteCert($uuid);
             Cache::flush();
+            Session::flash('success', "El certificado fué eliminado correctamente."); 
             return redirect()->route('certificates');
         } catch (\Throwable $ex) {
             Log::error("Error al eliminar certificados: " . $ex->getMessage());
-            $certificate = null;
             Session::flash('error', "Error al eliminar el certificado. " . $ex->getMessage()); 
             return Redirect::back();
         }
@@ -114,18 +107,10 @@ class CertificatesController extends Controller
 
     function store(CertificateStoreRequest $request) {
         try{
-            $inscripcion = Inscripcion::findOrFail($request->inscripcion_id);
-            $alumno = User::find($inscripcion->user_id);
-            $curso = Curso::find($inscripcion->curso_id);
-            $msRequest = CertificatesHelper::buildStoreCertificateRequest($curso, $alumno, $request->certificado_numero, $request->tf_certificado_numero);
-
-            $certificate = $this->msCertValidation->createCert($msRequest)->response;
+            $certificate = $this->certificateService->createCert($request);            
             Cache::flush();
-            $inscripcion->ms_certificate_id = $certificate->id;
-            $inscripcion->save(); 
-            
             Session::flash('success', "El certificado se creó correctamente."); 
-            return Redirect::route('certificates_show', $certificate->uuid)->with('message', 'State saved correctly!!!'); 
+            return Redirect::route('certificates_show', $certificate->uuid); 
         } 
         catch (ClientException $ex){
             if($ex->getResponse()->getStatusCode() == Response::HTTP_BAD_REQUEST){
@@ -147,6 +132,9 @@ class CertificatesController extends Controller
     public function generatePDF($uuid) 
     {
         $cert = $this->certificateService->getCachedCertificateDetails($uuid);
+
+        $cert =  $this->certificatesHelper->formatDataCertForPDF($cert);
+
         $pdf = app('dompdf.wrapper');
         
         $pdf->loadView('pdf.certificate', ['cert' => $cert])
@@ -154,6 +142,7 @@ class CertificatesController extends Controller
             ;
         
         // Mostrar el PDF en el navegador en stream
-        return $pdf->stream('reporte.pdf');
+        return $pdf->stream($cert->uuid.'.pdf');
     }
+    
 }

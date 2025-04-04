@@ -1,6 +1,6 @@
 <div class="list-group">
     @forelse ($certificates as $cert)
-        <a href="{{ route('certificates_show', [$cert->id]) }}" class="list-group-item list-group-item-action flex-column align-items-start">
+        <a href="{{ route('certificates_show', [$cert->uuid]) }}" class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
                 <h6 class="mb-1">{{ $cert->cursoNombre }}</h6>
                 <small>Codigo: {{ $cert->codigoQr }}</small>
