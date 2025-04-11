@@ -35,10 +35,10 @@ class SettingsTableSeeder extends Seeder
             //     'key' => 'last_certificate_folio',
             //     'value' => '1',
             // ],
-            [
-                'key' => 'quantity_folio_por_tomo',
-                'value' => '99',
-            ]
+            // [
+            //     'key' => 'quantity_folio_por_tomo',
+            //     'value' => '99',
+            // ]
         ];
 
         foreach ($settings as $setting) {

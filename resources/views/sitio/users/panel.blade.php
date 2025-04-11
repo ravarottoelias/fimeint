@@ -2,50 +2,12 @@
 
 @section('content')
 
-<h1 class="mt-4 mb-1">Mi Panel</h1>
-<ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item active">Inicio</li>
+<ol class="breadcrumb my-4">
+    <li class="breadcrumb-item active">PANEL</li>
 </ol>
 
 <div class="row">
-    <div class="col-12 col-md-6">
-        <div class="card border-primary mb-3"">
-            {{-- <div class="card-header">Mis Cursos</div> --}}
-            <div class="card-body">
-              <h4 class="card-title">Mis cursos</h4>
-              <p class="card-text">Últimos cursos realizados.</p>
-            </div>
-            <div class="list-group">
-                @foreach (Auth::user()->inscriptions()->latest()->take(3)->get() as $i)
-                    <a href="#" class="list-group-item list-group-item-actionD">{{ $i->curso->titulo }}</a>
-                @endforeach
-                <a href="#" class="list-group-item list-group-item-actionD">Ver todos <i class="fas fa-arrow-right"></i></a>
-              </div>
-          </div>
-    </div>
-    <div class="col-12 col-md-6">
-        <div class="card border-primary mb-3"">
-            {{-- <div class="card-header">Mis Cursos</div> --}}
-            <div class="card-body">
-              <h4 class="card-title">Mis Certificados</h4>
-              <p class="card-text">Últimos certificados</p>
-            </div>
-            <div class="list-group">
-                @forelse ($certificates as $cert)
-                    <a href="#" class="list-group-item list-group-item-actionD"><i class="far fa-file-pdf"></i> {{ $cert->cursoNombre}} - {{ explode(' ', $cert->createdAt, )[0]  }}</a>
-                @empty
-                    <div class="alert alert-dismissible alert-light">
-                        <strong>Nada por aqui!</strong> No se encontraron certificados.
-                    </div>
-                @endforelse
-                <a href="#" class="list-group-item list-group-item-actionD">Ver todos <i class="fas fa-arrow-right"></i></a>
-              </div>
-          </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-12 col-md-6">
+    <div class="col-12">
         <div class="card border-primary mb-3"">
             {{-- <div class="card-header">Mis Cursos</div> --}}
             <div class="card-body">
@@ -58,6 +20,34 @@
           </div>
     </div>
 </div>
+
+    <div class="card border-secondary mb-3"">
+        <div class="card-header bg-primary text-white">ÚLTIMOS CURSOS</div>
+        <div class="list-group">
+            @foreach (Auth::user()->inscriptions()->latest()->take(3)->get() as $i)
+                <a href="#" class="list-group-item list-group-item-actionD">{{ $i->curso->titulo }}</a>
+            @endforeach
+            <a href="{{ route('account_my_courses', Auth::user()->id) }}" class="list-group-item list-group-item-actionD">Ver todos <i class="fas fa-arrow-right"></i></a>
+          </div>
+    </div>    
+    
+    <div class="card border-secondary mb-3"">
+        <div class="card-header bg-primary text-white">ÚLTIMOS CERTIFICADOS</div>
+        <div class="list-group">
+            @forelse ($certificates->data as $cert)
+                <a href="#" class="list-group-item list-group-item-actionD"><i class="far fa-file-pdf"></i> {{ $cert->cursoNombre}} - {{ explode(' ', $cert->createdAt, )[0]  }}</a>
+            @empty
+                <div class="alert alert-dismissible alert-light">
+                    <strong>Nada por aqui!</strong> No se encontraron certificados.
+                </div>
+            @endforelse
+            <a href="{{ route('account_my_certificates', Auth::user()->id) }}" class="list-group-item list-group-item-actionD">Ver todos <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </div>
+
+    
+
+
 
 @endsection
 

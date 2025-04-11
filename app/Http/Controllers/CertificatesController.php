@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Redirect;
 use GuzzleHttp\Exception\ClientException;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Http\Requests\CertificateStoreRequest;
+use stdClass;
 
 class CertificatesController extends Controller
 {
@@ -36,9 +37,10 @@ class CertificatesController extends Controller
             $certificates = $this->certificateService->getCachedCetificates($request);
             $certificates = $this->certificatesHelper->buildResponseCertificates($certificates);
             return view('admin.certificates.index', compact('certificates'));
-        } catch (\Throwable $ex) {
+        } catch (Exception $ex) {          
+            $certificates = new stdClass();
+            $certificates->data = [];
             Log::error("Error al obtener certificados: " . $ex->getMessage());
-            $certificates = [];
             Session::flash('error', "Error al obtener certificados. " . $ex->getMessage()); 
             return view('admin.certificates.index', compact('certificates'));
         }

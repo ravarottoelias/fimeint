@@ -28,6 +28,7 @@ class MSCertValidation
     public function getCertificates(array $query = []) {
         Log::info("MSCertValidation::getCertificates ...");
         $token = Cache::get('api_ms_token');
+
         $response = $this->httpClient->request(
             'GET', 
             $this->baseUrl . '/api/v1/certificates',
@@ -121,7 +122,6 @@ class MSCertValidation
 
     public function getCachedToken() {
         $token = Cache::get('api_ms_token');
-
         if ($token) {
             return $token;
         } 

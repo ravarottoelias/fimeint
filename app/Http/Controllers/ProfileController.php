@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Exception;
+ 
 use App\Constants\Messages;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\View\View;
+use App\Helpers\CertificateService;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\RestClients\MSCertValidation;
 use Illuminate\Support\Facades\Session;
 use GuzzleHttp\Exception\ClientException;
 
@@ -19,25 +20,26 @@ class ProfileController extends Controller
 {
 
     private $userRepository;
-    private $msCertValidation;
+    private $certificateService;
 
-	public function __construct(UserRepository $userRepository, MSCertValidation $msCertValidation) 
+	public function __construct(UserRepository $userRepository, CertificateService $certificateService) 
     {
         $this->userRepository = $userRepository;
-        $this->msCertValidation = $msCertValidation;
+        $this->certificateService = $certificateService;
     }
 
     public function panel(Request $request)
     {
         $certificates = [];
         $user = Auth::user();
-        $query = [
-            'alumnoId' => $user->id
-        ];
+        $request->merge([
+            'alumnoId' => $user->id,
+            'orderBy' => 'created_desc'
+        ]);
         try{
-            $certificates = $this->msCertValidation->getCertificates($query)->response->data;
+            $certificates = $this->certificateService->getCachedCetificates($request);
         } catch(ClientException $ex){
-            Log::error("ProfileController::panel. Error al obtener certificados del usuario $user->id");
+            Log::error("ProfileController::panel. Error al obtener certificados del usuario $user->id", $ex->getMessage());
         }
 
         return view('sitio.users.panel', compact('user', 'certificates'));
@@ -97,7 +99,35 @@ class ProfileController extends Controller
             ]);
             Session::flash('success', 'La contraseña fué actializada.'); 
             return back();
+    }
+
+    public function myCourses() 
+    {
+        $user = Auth::user();
+
+        $inscriptions = $user->inscriptions()->with('curso')->orderBy('created_at', 'desc')->get();
+
+        return view('sitio.users.my-courses.index', compact('inscriptions'));
+        
+    }
+
+    public function myCertificates(Request $request) 
+    {
+        $certificates = [];
+        $user = Auth::user();
+        $request->merge([
+            'alumnoId' => $user->id,
+            'orderBy' => 'created_desc'
+        ]);
+        try{
+            $certificates = $this->certificateService->getCachedCetificates($request);
+        } catch (Exception $ex) {
+            Log::error("ProfileController::panel. Error al obtener certificados del usuario $user->id", $ex->getMessage());
         }
+
+        return view('sitio.users.my-certificates.index', compact('certificates'));
+        
+    }
 
 
 

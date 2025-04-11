@@ -4,7 +4,7 @@
 
 
     <ol class="breadcrumb my-4">
-        <li class="breadcrumb-item"><a href="{{ route('profile', Auth::user()->id) }}">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('my_panel', Auth::user()->id) }}">Inicio</a></li>
         <li class="breadcrumb-item active">Mis datos</li>
     </ol>
 

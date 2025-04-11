@@ -35,14 +35,13 @@ class CertificateService
     }
 
     public function getCachedCetificates(Request $request) {
-        $urlQueryParams = request()->getQueryString();
+        $urlQueryParams = null;
         $query = [];
-
-        foreach (request()->query() as $key => $value) {
+        foreach ($request->query() as $key => $value) {
             $query[$key] = $value;
+            $urlQueryParams = $urlQueryParams . "$key=$value&";
         }
-
-        
+ 
         $certificates = Cache::remember("certificates_page_{$urlQueryParams}", now()->addMinutes(60*12), function () use ($query){
             return $this->msCertValidationClient->getCertificates($query)->response;
         });

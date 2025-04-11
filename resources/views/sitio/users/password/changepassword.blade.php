@@ -3,7 +3,7 @@
 @section('content')
 
 <ol class="breadcrumb my-4">
-    <li class="breadcrumb-item"><a href="{{ route('profile') }}">Inicio</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('my_panel') }}">Inicio</a></li>
     <li class="breadcrumb-item active">Cambiar contraseña</li>
 </ol>
 
