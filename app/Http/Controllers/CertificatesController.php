@@ -101,9 +101,7 @@ class CertificatesController extends Controller
         $alumno = User::find($inscripcion->user_id);
         $curso = Curso::find($inscripcion->curso_id);
         $certificado_nro = Utils::getSetting('last_certificate_number');
-        $tomo = Utils::getSetting('last_certificate_tomo');
-        $folio = Utils::getSetting('last_certificate_folio');
-        $tomo_folio = "T: $tomo. F: $folio";
+        $tomo_folio = $this->certificateService->calculateTomoFolio($curso);
         return view('admin.certificates.create-step-two', compact('inscripcion', 'alumno', 'curso', 'certificado_nro', 'tomo_folio'));
     }
 

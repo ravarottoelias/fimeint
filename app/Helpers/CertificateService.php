@@ -68,13 +68,52 @@ class CertificateService
         $inscripcion = Inscripcion::findOrFail($request->inscripcion_id);
         $alumno = User::find($inscripcion->user_id);
         $curso = Curso::find($inscripcion->curso_id);
-        $msRequest = CertificatesHelper::buildStoreCertificateRequest($curso, $alumno, $request->certificado_numero, $request->tf_certificado_numero);
 
+        $lastCertificateNumber = Utils::getSetting('last_certificate_number');
+        
+        $tomo_folio = $this->calculateTomoFolio($curso);
+                
+        $msRequest = CertificatesHelper::buildStoreCertificateRequest($curso, $alumno, $lastCertificateNumber, $tomo_folio);
         $certificate = $this->msCertValidationClient->createCert($msRequest)->response;
 
         $inscripcion->ms_certificate_id = $certificate->uuid;
         $inscripcion->save();
 
         return $certificate;
+    }
+
+    public function calculateTomoFolio(Curso $curso) {
+        $lastCertificateLineNumber = $curso->inscripciones()->where('ms_certificate_id', '!=', null)->count();
+        $lastCertificateTomo = Utils::getSetting('last_certificate_tomo');
+        $quantityFolioPorTomo = Utils::getSetting('quantity_folio_por_tomo');
+        $lastCertificateFolio1 = Utils::getSetting('last_certificate_folio');
+        $lastCertificateFolio2 = $lastCertificateFolio1 + 1;
+        
+        //Avanzar tomo
+        if($lastCertificateFolio1 > $quantityFolioPorTomo || $lastCertificateFolio2 > $quantityFolioPorTomo){
+            $lastCertificateLineNumber = 0;
+            $lastCertificateTomo++;
+            $lastCertificateFolio1 = 1;
+            $lastCertificateFolio2 = 2;
+        }
+
+        //Avanzar folios
+        if ($lastCertificateLineNumber < 15){
+            $folio = "$lastCertificateFolio1 y $lastCertificateFolio2";
+        } else {   
+            $lastCertificateLineNumber = $lastCertificateLineNumber - 15;
+            while ($lastCertificateLineNumber > 30) {
+                $lastCertificateLineNumber = $lastCertificateLineNumber - 30;
+            } 
+            if($lastCertificateLineNumber == 30) {
+                $lastCertificateFolio1 = $lastCertificateFolio1 + 2;
+                $lastCertificateFolio2 = $lastCertificateFolio1 + 1;  
+            }
+
+            $folio = "$lastCertificateFolio1 y $lastCertificateFolio2";
+        }
+        $tomo_folio = "T: $lastCertificateTomo. F: $folio";
+
+        return $tomo_folio;
     }
 }
