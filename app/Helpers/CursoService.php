@@ -159,7 +159,6 @@ class CursoService
         Utils::saveSetting('last_certificate_number', $lastCertificateNumber);
         Utils::saveSetting('last_certificate_tomo', $lastCertificateTomo);
         Utils::saveSetting('last_certificate_folio', $lastCertificateFolio1);
-        Utils::saveSetting('last_certificate_line_number', $lastCertificateLineNumber);
 
         return $result;
     }
