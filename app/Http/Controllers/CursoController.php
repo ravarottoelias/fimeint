@@ -6,6 +6,7 @@ use App\Tag;
 use App\File;
 use stdClass;
 use App\Curso;
+use App\Setting;
 use App\Categoria;
 use App\ScriptDePago;
 use App\Helpers\Utils;
@@ -323,6 +324,13 @@ class CursoController extends Controller
         $import = new ExcelCertGeneratorImport();
         Excel::import($import, $request->file('excel_file'));
         $dniList = $import->getData();
+
+        // Get All Inputs Except '_Token' to loop through and save
+        $settings = $request->except('_token');
+        // Update All Settings
+        foreach ($settings as $key => $value) {
+            Setting::where('key', '=', $key)->update(['value' => $value]);
+        }
 
         $result = $this->cursoService->generateMassiveCertificatesV2($dniList, $curso);
         Cache::flush();
