@@ -132,12 +132,16 @@ class CertificatesController extends Controller
     public function generatePDF($uuid) 
     {
         $cert = $this->certificateService->getCachedCertificateDetails($uuid);
+        
+        $qrDecoded = config('services.ms_cert_validation.app_cert_validation_url') . "?version=1&qr=$cert->codigoQr";
+        $qrPng = QrCode::format('png')->size(300)->format('png')->generate($qrDecoded);
+        $qrB64 = base64_encode($qrPng);
 
         $cert =  $this->certificatesHelper->formatDataCertForPDF($cert);
 
         $pdf = app('dompdf.wrapper');
         
-        $pdf->loadView('pdf.certificate', ['cert' => $cert])
+        $pdf->loadView('pdf.certificate', ['cert' => $cert, 'qr' => $qrB64])
             ->setPaper('a4', 'landscape')
             ;
         
