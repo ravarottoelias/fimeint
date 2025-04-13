@@ -65,6 +65,8 @@ Route::get('/proyectos-rse', 'SitioController@proyectoRse')->name('proyectos_rse
 Route::get('/proyectos-rse/{slug}', 'SitioController@proyectoRseShow')->name('proyectos_rse_show');
 Route::post('/send-email-password-reset', 'UsersController@sendEmailPasswordReset')->name('send_email_password_reset');
 
+Route::get('/certificates/{uuid}/pdf', 'CertificatesController@generatePDF')->name('certificates_pdf');
+
 // WEBHOOK Integracion Mercadopago 
 Route::post('/webhooks', 'WebHooksMercadoPagoController@webhookMp')->name('webhooks_mp');
 
