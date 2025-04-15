@@ -23,7 +23,7 @@ class CertificatesHelper
         return $certificates;
     }
 
-    public static function buildStoreCertificateRequest($curso, $alumno, $certificadoNumero, $tfCertificadoNumero) {
+    public static function buildStoreCertificateRequest($curso, $alumno, $certificadoNumero, $tfCertificadoNumero) {           
         $msRequest = [
             'codigo_qr' => $curso->id . '-' . $alumno->id,
             'cuit_alumno' => str_replace('-', '', $alumno->documento_nro),

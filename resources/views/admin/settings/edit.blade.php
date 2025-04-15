@@ -44,8 +44,18 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="">Último número folio</label>
-                                <input type="number" value="{{ $settings['last_certificate_folio'] }}" class="form-control" name="last_certificate_folio">
-                                <small id="emailHelp" class="form-text text-muted">El próximo certificado a crear usará éste valor de folio.</small>
+                                <div class="row">
+                                    <div class="col-5">
+                                        <input type="number" value="{{ $settings['last_certificate_folio'] }}" class="form-control" name="last_certificate_folio">
+                                    </div>
+                                    <div class="col-1 d-flex justify-content-center align-items-center">
+                                        Y
+                                    </div>
+                                    <div class="col-5">
+                                        <input type="number" value="{{ $settings['last_certificate_folio'] +1 }}" class="form-control" disabled>
+                                    </div>
+                                </div>
+                                <small id="emailHelp" class="form-text text-muted">El próximo certificado a crear usará éstos valores de folios.</small>
                             </div>
                         </div>
                     </div>

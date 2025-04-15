@@ -65,6 +65,8 @@ Route::get('/proyectos-rse', 'SitioController@proyectoRse')->name('proyectos_rse
 Route::get('/proyectos-rse/{slug}', 'SitioController@proyectoRseShow')->name('proyectos_rse_show');
 Route::post('/send-email-password-reset', 'UsersController@sendEmailPasswordReset')->name('send_email_password_reset');
 
+Route::get('/certificates/{uuid}/pdf', 'CertificatesController@generatePDF')->name('certificates_pdf');
+
 // WEBHOOK Integracion Mercadopago 
 Route::post('/webhooks', 'WebHooksMercadoPagoController@webhookMp')->name('webhooks_mp');
 
@@ -128,11 +130,13 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('/inscription/paypal/execute-payment', 'InscriptionPaymentController@paypalExecutePayment')->name('inscript_paypal_execute_payment');
 	
 	//user account
-	Route::get('/panel', 'ProfileController@panel')->name('profile');
+	Route::get('/panel', 'ProfileController@panel')->name('my_panel');
 	Route::get('/panel/account/{user}', 'ProfileController@showAccount')->name('show_account');
 	Route::post('/panel/account/{userId}', 'ProfileController@updateAccount')->name('update_account');
 	Route::get('/panel/account/{userId}/change-password', 'ProfileController@formChangePassword')->name('profile_form_change_password');
 	Route::post('/panel/account/{userId}/change-password', 'ProfileController@updatePassword')->name('profile_change_password');
+	Route::get('/panel/account/{userId}/my-courses', 'ProfileController@myCourses')->name('account_my_courses');
+	Route::get('/panel/account/{userId}/my-certificates', 'ProfileController@myCertificates')->name('account_my_certificates');
 	
 
 

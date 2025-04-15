@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Redirect;
 use GuzzleHttp\Exception\ClientException;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Http\Requests\CertificateStoreRequest;
+use stdClass;
 
 class CertificatesController extends Controller
 {
@@ -36,9 +37,10 @@ class CertificatesController extends Controller
             $certificates = $this->certificateService->getCachedCetificates($request);
             $certificates = $this->certificatesHelper->buildResponseCertificates($certificates);
             return view('admin.certificates.index', compact('certificates'));
-        } catch (\Throwable $ex) {
+        } catch (Exception $ex) {          
+            $certificates = new stdClass();
+            $certificates->data = [];
             Log::error("Error al obtener certificados: " . $ex->getMessage());
-            $certificates = [];
             Session::flash('error', "Error al obtener certificados. " . $ex->getMessage()); 
             return view('admin.certificates.index', compact('certificates'));
         }
@@ -99,9 +101,7 @@ class CertificatesController extends Controller
         $alumno = User::find($inscripcion->user_id);
         $curso = Curso::find($inscripcion->curso_id);
         $certificado_nro = Utils::getSetting('last_certificate_number');
-        $tomo = Utils::getSetting('last_certificate_tomo');
-        $folio = Utils::getSetting('last_certificate_folio');
-        $tomo_folio = "T: $tomo. F: $folio";
+        $tomo_folio = $this->certificateService->calculateTomoFolio($curso);
         return view('admin.certificates.create-step-two', compact('inscripcion', 'alumno', 'curso', 'certificado_nro', 'tomo_folio'));
     }
 
@@ -132,12 +132,16 @@ class CertificatesController extends Controller
     public function generatePDF($uuid) 
     {
         $cert = $this->certificateService->getCachedCertificateDetails($uuid);
+        
+        $qrDecoded = config('services.ms_cert_validation.app_cert_validation_url') . "?version=1&qr=$cert->codigoQr";
+        $qrPng = QrCode::format('png')->size(300)->format('png')->generate($qrDecoded);
+        $qrB64 = base64_encode($qrPng);
 
         $cert =  $this->certificatesHelper->formatDataCertForPDF($cert);
 
         $pdf = app('dompdf.wrapper');
         
-        $pdf->loadView('pdf.certificate', ['cert' => $cert])
+        $pdf->loadView('pdf.certificate', ['cert' => $cert, 'qr' => $qrB64])
             ->setPaper('a4', 'landscape')
             ;
         

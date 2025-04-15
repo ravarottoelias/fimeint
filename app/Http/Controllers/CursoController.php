@@ -6,8 +6,10 @@ use App\Tag;
 use App\File;
 use stdClass;
 use App\Curso;
+use App\Setting;
 use App\Categoria;
 use App\ScriptDePago;
+use App\Helpers\Utils;
 use App\Constants\Messages;
 use App\InscriptionPayment;
 use App\Filters\CursoFilter;
@@ -311,8 +313,9 @@ class CursoController extends Controller
 
     public function certificatesMassiveGenerationForm($id) {
         $curso = Curso::findOrFail($id);
+        $settings = Utils::getSettings();
 
-        return view('admin.cursos.form-certificates-generation', compact('curso'));
+        return view('admin.cursos.form-certificates-generation', compact('curso', 'settings'));
     }
 
     public function certificatesMassiveGeneration(Request $request) {
@@ -322,7 +325,14 @@ class CursoController extends Controller
         Excel::import($import, $request->file('excel_file'));
         $dniList = $import->getData();
 
-        $result = $this->cursoService->generateMassiveCertificates($dniList, $curso);
+        // Get All Inputs Except '_Token' to loop through and save
+        $settings = $request->except('_token');
+        // Update All Settings
+        foreach ($settings as $key => $value) {
+            Setting::where('key', '=', $key)->update(['value' => $value]);
+        }
+
+        $result = $this->cursoService->generateMassiveCertificatesV2($dniList, $curso);
         Cache::flush();
         Session::flash('result', $result);
         return back()

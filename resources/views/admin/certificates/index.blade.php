@@ -69,8 +69,13 @@
 			@endforeach
 			</tbody>
 		</table>
-
-		  @include('admin.includes.paginationApi', ['data' => $certificates])
+		@if ($certificates->data)
+			@include('admin.includes.paginationApi', ['data' => $certificates])
+		@else
+		<div class="alert alert-dismissible alert-light">
+			<strong>Nada por aqui!</strong> No se encontraron certificados.
+		</div>
+		@endif
 	</div>
 
 @stop

@@ -77,7 +77,24 @@
             color: #414141;
             margin-bottom: 65px;
         }
-        </style>
+
+        .contenedor {
+            position: relative;
+            height: 100px;
+            }
+
+            .izquierda-data {
+            position: absolute;
+            left: 70;
+            top: 35;
+            }
+
+            .derecha-qr {
+            position: absolute;
+            right: 8%;
+            top: 55;
+            }
+    </style>
 </head>
 <body>
 
@@ -118,13 +135,21 @@
 
         <div class="page-2">
             <div class="page-break">
-                <div class="cert-details">
-                    <h4>FUNDACIÓN INSTITUTO DE MEDIACIÓN</h4>
-                    <p>HABILITACIÓN Nº 21</p>
-                    <p>LUGAR EMISIÓN: Resistencia, Chaco</p>
-                    <p>FECHA: {{ $cert->createdAt }}</p>
-                    <p> {{ $cert->tfCertificadoNumero }} - Certificado Nº: {{ $cert->certificadoNumero }}</p>
-                </div>
+                <div class="contenedor">
+                    <div class="izquierda-data">
+                        <div class="cert-details_">
+                            <h4>FUNDACIÓN INSTITUTO DE MEDIACIÓN</h4>
+                            <p>HABILITACIÓN Nº 21</p>
+                            <p>LUGAR EMISIÓN: Resistencia, Chaco</p>
+                            <p>FECHA: {{ $cert->createdAt }}</p>
+                            <p> {{ $cert->tfCertificadoNumero }} - Certificado Nº: {{ $cert->certificadoNumero }}</p>
+                        </div>
+
+                    </div>
+                    <div class="derecha-qr">
+                        <img height="160px" src="data:image/png;base64, {{ $qr }}" alt="Código QR">
+                    </div>
+
             </div>
         </div>
     </body>

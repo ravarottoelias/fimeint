@@ -63,9 +63,12 @@
 
 <div class="row px-3">
 	<div class="col-12">
-
 		<h3>Generación masiva de certificados</h3>
-		<p>El curso debe estar finalizado para que la generación de certificados</p>
+		<p class="text-dark mb-1">Consideraciones:</p>
+		<ul>
+			<li> El curso debe estar finalizado</li>
+			<li> Debe poseer Fecha Inicio, Fecha Fin, Total Horas y Homologación</li>
+		</ul>
 		<a class="btn btn-primary" href="{{ route('curso_cert_generation_form', $curso->id) }}">Continuar</a>
 	</div>
 </div>

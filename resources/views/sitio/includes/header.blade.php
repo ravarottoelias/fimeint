@@ -1,64 +1,21 @@
 @if(Auth::user())
-  	@if(Auth::user()->hasRoles(['admin']))
-	<nav class="navbar navbar-expand-xs navbar-expand-sm navbar-expand-lg bg-fime-secundary navbar-user-registered d-flex justify-content-between">
-		<ul class="navbar-nav">
-			<li class="nav-item">
-				<a class="nav-link" href="{{route('dashboard')}}">
-					<i class="fas fa-tachometer-alt"></i>
-					Panel
-				</a>
-			</li>
-		</ul>
-		<ul class="navbar-nav">
-			<li class="nav-item">
-				<a class="nav-link" href="{{ route('profile') }}">
-				{{Auth::user()->name}} |
-				</a>
-			</li>
-			<li class="nav-item">
-				<a href="#"
-				class="nav-link" 
-						onclick="event.preventDefault();
-								document.getElementById('logout-form').submit()">
-					Salir <i class="fas fa-sign-out-alt"></i> 
-					</a>
-					<form id="logout-form" class="d-none" action="{{ route('logout') }}" method="POST">
-						{{ csrf_field() }}
-					</form>
-			</li>
-		</ul>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-fime-primary py-2 ">
+		<a class="text-white py-0" href="#"><i class="far fa-hand-paper"></i> Hola {{ Auth::user()->name }}</a>
+		<a class="btn btn-sm text-white d-md-block d-lg-none" href="{{ route('my_panel') }}"><i class="fas fa-user-circle"></i> Mi Cuenta</a>
+		<div class="collapse navbar-collapse" id="navbarColor01">
+			<ul class="navbar-nav mr-auto"></ul>
+			@if(Auth::user()->hasRoles(['admin']))
+				<a class="btn btn-sm text-white" href="{{ route('dashboard') }}"><i class="fas fa-user-circle"></i> Mi Cuenta</a>
+			@else
+				<a class="btn btn-sm text-white" href="{{ route('my_panel') }}"><i class="fas fa-user-circle"></i> Mi Cuenta</a>
+			@endif
+		</div>
 	</nav>
-	@else
-	<nav class="navbar navbar-expand-xs navbar-expand-sm navbar-expand-lg bg-fime-secundary navbar-user-registered d-flex justify-content-end">
-		<ul class="navbar-nav">
-			<li class="nav-item">
-				<a class="nav-link" href="{{ route('profile') }}">
-				{{Auth::user()->name}} |
-				</a>
-			</li>
-			<li class="nav-item">
-				<a href="#"
-				class="nav-link" 
-				onclick="event.preventDefault();
-								document.getElementById('logout-form').submit()">
-					Salir <i class="fas fa-sign-out-alt"></i> 
-				</a>
-				<form id="logout-form" class="d-none" action="{{ route('logout') }}" method="POST">
-					{{ csrf_field() }}
-				</form>
-			</li>
-		</ul>
-	</nav>
-	@endif
 @else
-	<nav class="navbar navbar-expand-xs navbar-expand-sm navbar-expand-lg bg-fime-secundary navbar-user-registered d-flex justify-content-end">
-		<ul class="navbar-nav">
-			<li class="nav-item">
-				<a class="nav-link" href="{{ route('login') }}">
-					<i class="fas fa-sign-in-alt"></i> Iniciar Sesión
-				</a>
-			</li>
-		</ul>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-fime-primary py-2">
+		<ul class="navbar-nav mr-auto"></ul>
+		<a class="btn btn-dark btn-sm my-sm-0 mr-1" href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</a>
+		<a class="btn btn-dark btn-sm my-sm-0" href="{{ route('register') }}"><i class="fas fa-user-edit"></i> Registrarse</a>	
 	</nav>
 @endif
 
