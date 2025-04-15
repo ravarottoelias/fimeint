@@ -16,26 +16,34 @@
         <div class="row">
             <div class="col-12">
                 <div class="form-group">
-                    <label for="formGroupExampleInput">Alumno</label>
-                    <input class="form-control" type="text" value="{{ $alumno->fullName() }} - CUIT: {{ $alumno->cuit }}"  readonly>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <a href="{{ route('users.edit', $alumno->id) }}" class="btn btn-secondary"  target="_blank"><i class="fas fa-user"></i> Editar</a>
+                        </div>
+                        <input class="form-control" type="text" value="{{ $alumno->fullName() }} - DNI: {{ $alumno->documento_nro }}"  readonly>
+                      </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
                 <div class="form-group">
-                    <label for="formGroupExampleInput">Curso</label>
-                    <input class="form-control" type="text" value="{{ $curso->titulo }}"  readonly>
-                    @if ($inscripcion->pagado())
-                            <span class="badge badge-success"><i class="fas fa-check"></i> {{ $inscripcion->estado_del_pago }}</span>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                          <a href="{{ route('cursos.edit', $curso->id) }}" class="btn btn-secondary" type="button" target="_blank"><i class="fas fa-graduation-cap"></i> Editar</a>
+                        </div>
+                        <input class="form-control" type="text" value="{{ $curso->titulo }}"  readonly>
+                      </div>
+                      @if ($inscripcion->pagado())
+                                <span class="badge badge-success"><i class="fas fa-check"></i> {{ $inscripcion->estado_del_pago }}</span>
+                            @else
+                                <span class="badge badge-warning"><i class="fas fa-exclamation-circle"></i> Pago {{ $inscripcion->estado_del_pago }}</span>
+                        @endif
+                        @if ($curso->isFinalizado())
+                            <span class="badge badge-success"><i class="fas fa-check"></i> Curso Finalizado</span>
                         @else
-                            <span class="badge badge-warning"><i class="fas fa-exclamation-circle"></i> Pago {{ $inscripcion->estado_del_pago }}</span>
-                    @endif
-                    @if ($curso->isFinalizado())
-                        <span class="badge badge-success"><i class="fas fa-check"></i> Curso Finalizado</span>
-                    @else
-                        <span class="badge badge-warning"><i class="fas fa-exclamation-circle"></i> {{ $inscripcion->estado_del_pago }}</span>
-                    @endif
+                            <span class="badge badge-warning"><i class="fas fa-exclamation-circle"></i> {{ $inscripcion->estado_del_pago }}</span>
+                        @endif
                 </div>
             </div>
         </div>

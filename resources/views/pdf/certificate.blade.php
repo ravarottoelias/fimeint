@@ -23,7 +23,7 @@
         .logo-fime{
             height: 112px;
             width: 188px;
-            margin-top: 100px;
+            margin-top: 90px;
         }
         .cuerpo-certificado{
             font-size: 17px;
@@ -51,11 +51,7 @@
             height: 200px;
         }
 
-        .firmas::after {
-            content: "";
-            display: table;
-            clear: both;
-        }
+
         .firma-nombre{
             margin: 3px auto;
         }
@@ -94,6 +90,29 @@
             right: 8%;
             top: 55;
             }
+            .mb-3{
+                margin-bottom: 3px;
+            }
+
+
+    .firmas > .bloque {
+      position: absolute;
+      width: 50%;
+      opacity: 0.8; /* Para ver ambos superpuestos */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 20%;
+      top: 420;
+    }
+    
+    .firmas > .bloque1 {
+        left: 80;
+    }
+    
+    .firmas > .bloque2 {
+        right: 80;
+    }
     </style>
 </head>
 <body>
@@ -102,35 +121,31 @@
         <div class="page-1">
             <center>
                 <img class="logo-fime" src="{{ base_path('public/images/nuevo-logo-fime.png') }}" alt="">
-                <p class="titulo">Por cuanto</p>
+                <p class="titulo mb-3">Por cuanto</p>
                 <p class="nombre-yap">{{ $cert->alumnoNombreCompleto }}</p>
                 <p class="dni-nro">DNI N° {{ $cert->alumnoCuit }}</p>
             </center>
             
             <p class="cuerpo-certificado">{{ $cert->certificadoBody }}</p>
 
-            <center>
-                <p class="default-paragraph">El presente curso no implica carrera, ni título o curso de posgrado en los términos de la ley n° 24.521 de Educación Superior”, sin perjuicio del
-                    contenido ya exigido en la Resolución MJYDH N° 517/14.
-                </p>
-            </center>
-
             <div class="firmas">
-                <div class="firma firma-l">
-                    <center>
-                        <img src="{{ base_path('public/images/cert/firma-danielz.jpg') }}" alt="" height="100">
-                        <p class="firma-nombre">Dr. Daniel F. Martínez Zampa</p>
-                        <p class="firma-nombre">Docente Titular</p>
-                    </center>
+                <div class="bloque bloque1">
+                    <div class="firma firma-l">
+                        <center>
+                            <img src="{{ base_path('public/images/cert/firma-danielz.jpg') }}" alt="" height="100">
+                            <p class="firma-nombre">Dr. Daniel F. Martínez Zampa</p>
+                            <p class="firma-nombre">Docente Titular</p>
+                        </center>
+                    </div>
                 </div>
-                <div class="firma firma-r">
+                <div class="bloque bloque2">
                     <center>
                         <img src="{{ base_path('public/images/cert/firma-lilianv.jpg') }}" alt="" height="100">
                         <p class="firma-nombre">Dra. Lilian Edith Vargas</p>
                         <p class="firma-nombre">Responsable Institucional</p>
                     </center>
                 </div>
-            </div>
+              </div>
         </div>
 
         <div class="page-2">

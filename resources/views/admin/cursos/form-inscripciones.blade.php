@@ -2,7 +2,7 @@
   $pagado = \App\Inscripcion::PAGADO;
   $pendiente = \App\Inscripcion::PENDIENTE;
 @endphp
-<div class="row mb-5">
+<div class="row mb-3">
   <div class="col-12 d-flex justify-content-end">
     <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
       <div class="btn-group" role="group">
@@ -30,13 +30,13 @@
   </div>
 </div>
 
-<table class="table table-hover table-sm" id="inscriptos-table">
-  <thead>
+<table class="table table-hover" id="inscriptos-table">
+  <thead class="thead-light">
     <tr>
-      <th scope="col">Alumno</th>
-      <th scope="col">Fecha Insc.</th>
-      <th scope="col">Pago</th>
-      <th scope="col">Detalles</th>
+      <th scope="col">ALUMNO</th>
+      <th scope="col">DNI</th>
+      <th scope="col">INSCRIPCIÓN</th>
+      <th scope="col">PAGO</th>
       <th scope="col"></th>
     </tr>
   </thead>
@@ -44,29 +44,30 @@
 	@foreach($curso->inscripciones as $i)
     <tr id="tr-inscripcion_id-{{$i->id}}">
       <td id="td-alumno-{{$i->id}}">
-        <p class="mb-0">{{$i->alumno->fullName()}}</p>
+        <p class="mb-0"><a href="{{ route('users.edit', $i->alumno->id) }}" target="_blank" class="text-decoration-none">{{ $i->alumno->fullName() }}</a></p>
         <span class="text-muted" style="font-size: 13px; font-weight: 500">{{$i->alumno->email}}</span>
       </td>
+      <td id="td-dni-{{$i->id}}">
+        {{ $i->alumno->documento_nro }}
+      </td>
       <td id="td-created_at-{{$i->id}}">{{$i->created_at->format('Y-m-d H:i')}}</td>
-      <td id="td-estado_del_pago-{{$i->id}}">
+      <td id="td-estado_del_pago-{{$i->id}}" class="text-center">
         @if($i->estado_del_pago == \App\Inscripcion::PAGADO) 
-          <span class="badge badge-pill badge-success">{{$i->estado_del_pago}}</span>
+          <span class="badge badge-success">{{$i->estado_del_pago}}</span>
         @endif
         @if($i->estado_del_pago == \App\Inscripcion::PAGADO_PARCIAL) 
-         <span class="badge badge-pill badge-warning">{{$i->estado_del_pago}}</span>
+         <span class="badge  badge-warning">{{$i->estado_del_pago}}</span>
         @endif
         @if($i->estado_del_pago == \App\Inscripcion::PENDIENTE) 
-         <span class="badge badge-pill badge-dark">{{$i->estado_del_pago}}</span>
+         <span class="badge  badge-dark">{{$i->estado_del_pago}}</span>
         @endif
       </td>
-      <td id="td-mercadopago-status-{{$i->id}}">
-          <a href="{{ route('inscription_show', $i->id) }}"> Ver </a>
-      </td>
-      <td id="td-actions-{{$i->id}}">
+      <td id="td-actions-{{$i->id}}" class="text-center">
+        <a href="{{ route('inscription_show', $i->id) }}" class="btn btn-secondary btn-sm" title="Ver Inscripcón"><i class="fas fa-eye"></i></a>  
         @if ($i->ms_certificate_id != null)
           <a href="{{ route('certificates_show', $i->ms_certificate_id)}}" class="btn btn-success btn-sm" title="Ver Certificado"><i class="fas fa-certificate"></i></a>  
         @else
-          <a href="{{ route('certificates_create_step_two', ['inscripcionId' => $i->id])}}" class="btn btn-primary btn-sm" title="Generar Certificado"><i class="far fa-file-alt"></i></a>
+          <a href="{{ route('certificates_create_step_two', ['inscripcionId' => $i->id])}}" class="btn btn-secondary btn-sm" title="Generar Certificado"><i class="fas fa-certificate"></i></a>
         @endif
         <a href="#" class="btn btn-danger btn-sm" title="Eliminar Inscripción" onclick="eliminarInscripcion({{$i}})"><i class="fa fa-user-times"></i></a>
       </td>
