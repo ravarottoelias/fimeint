@@ -324,6 +324,7 @@ class CursoController extends Controller
         $import = new ExcelCertGeneratorImport();
         Excel::import($import, $request->file('excel_file'));
         $dniList = $import->getData();
+        dd($dniList);
 
         // Get All Inputs Except '_Token' to loop through and save
         $settings = $request->except('_token');

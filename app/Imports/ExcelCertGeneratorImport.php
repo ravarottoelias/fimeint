@@ -2,10 +2,8 @@
 
 namespace App\Imports;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\ToArray;
-use Maatwebsite\Excel\Concerns\ToCollection;
 use stdClass;
 
 class ExcelCertGeneratorImport implements ToArray
@@ -25,8 +23,10 @@ class ExcelCertGeneratorImport implements ToArray
             $element->nombre = trim($row[1]);
             
             // Mostrar en logs
-            Log::info("Nombre: {$element->nombre}, DNI: {$element->dni}");
-            array_push($this->data, $element);
+            if(strlen($element->dni)>0 || strlen($element->nombre)>0){
+                Log::info("Importando fila $index Nombre: {$element->nombre}, DNI: {$element->dni}");
+                array_push($this->data, $element);
+            }
         }
     }
 
