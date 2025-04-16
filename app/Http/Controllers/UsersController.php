@@ -102,19 +102,20 @@ class UsersController extends Controller
         Cache::flush();
         return back()->with('success', $msg);
     }
-
+    
     public function sendEmailPasswordReset(Request $request)
     {
-
+        
         $user = User::where('email', $request->email)->first();
-
+        
         if ($user) {
             $newPassword = Helper::makeNewPassword($user);
-
+            
             $user->password = bcrypt($newPassword);
             
             $user->update();
-    
+            
+            Cache::flush();
             Mail::to($user->email)->send(new UserPasswordReseted($user, $newPassword));
         }
              

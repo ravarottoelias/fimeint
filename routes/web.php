@@ -118,9 +118,10 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('dashboard/inscriptions', 'InscripcionController@inscriptions')->name('inscriptions')->middleware(['roles']);
 	Route::get('dashboard/inscriptions/{inscription}', 'InscripcionController@show')->name('inscription_show')->middleware(['roles']);
 
-	Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('log_viwer');
-	Route::get('dashboard/settings', 'SettingsController@edit')->name('settings');
-	Route::post('dashboard/settings', 'SettingsController@save')->name('settings_save');
+	Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware(['roles'])->name('log_viwer');
+	Route::get('dashboard/settings', 'SettingsController@edit')->middleware(['roles'])->name('settings');
+	Route::post('dashboard/settings', 'SettingsController@save')->middleware(['roles'])->name('settings_save');
+	Route::get('dashboard/clear-cache', 'SettingsController@cacheClear')->middleware(['roles'])->name('cache_clear');
 
 	
 	Route::get('/posts/{slug}/inscription', 'InscripcionController@inscription')->name('curso_inscription');
