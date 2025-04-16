@@ -56,7 +56,7 @@
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-code"></i></div>
                 Logs
             </a>
-            <a class="nav-link" href="{{ route('log_viwer') }}">
+            <a class="nav-link" href="{{ route('clear_cache') }}">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-terminal"></i></div>
                 Cache Clear
             </a>
