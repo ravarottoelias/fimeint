@@ -56,6 +56,10 @@
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-code"></i></div>
                 Logs
             </a>
+            <a class="nav-link" href="{{ route('log_viwer') }}">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-terminal"></i></div>
+                Cache Clear
+            </a>
             @endif
             {{-- <div class="sb-sidenav-menu-heading">Interface</div> --}}
             {{-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">

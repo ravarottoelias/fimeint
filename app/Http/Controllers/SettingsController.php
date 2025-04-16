@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Setting;
 use App\Helpers\Utils;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 
 class SettingsController extends Controller
@@ -39,6 +43,19 @@ class SettingsController extends Controller
             Setting::where('key', '=', $key)->update(['value' => $value]);
         }
         Session::flash('success', 'Los ajustes se guardaron con éxito.'); 
+        return back();
+    }
+
+    public function cacheClear()
+    {
+        try{
+            Cache::flush();
+            Artisan::call('config:clear');
+            Session::flash('success', 'Se limpió memoria cache.'); 
+        } catch(Exception $ex) {
+            Session::flash('error', $ex->getMessage()); 
+            Log::error("cacheClear: " . $ex->getMessage());
+        }
         return back();
     }
 }
