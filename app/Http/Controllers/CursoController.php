@@ -20,12 +20,14 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Constants\FlashMessagesTypes;
 use App\Repositories\CursoRepository;
 use Illuminate\Support\Facades\Cache;
+use App\Imports\ExcelUpdateUserImport;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\CursoStoreRequest;
 use App\Constants\MPIntegrationConstants;
 use App\Http\Requests\CursoUpdateRequest;
 use App\Imports\ExcelCertGeneratorImport;
+use App\User;
 
 class CursoController extends Controller
 {
@@ -61,8 +63,6 @@ class CursoController extends Controller
                 ->paginate(15)
                 ->appends($cursoFilter->request->query());
         });
-
-        //$cursos = $this->cursoRepository->getCursosCategoryOfertaAcademica();
 
         return view('admin.cursos.index', compact('cursos', 'categoria_id'));
     }
@@ -337,6 +337,31 @@ class CursoController extends Controller
         Session::flash('result', $result);
         return back()
             ->with('success', 'Archivo procesado correctamente.');
+    }
+
+
+    public function runExcel(Request $request) {
+        
+        $import = new ExcelUpdateUserImport();
+        Excel::import($import, $request->file('excel_file'));
+        $emails = $import->getData();
+
+        $c=0;
+        $failures = [];
+        foreach ($emails as $el) {
+            $user = User::where('email', $el->email)->first();
+            if ($user) {
+                $user->documento_nro = $el->dni;
+                $user->documento_tipo = 'DNI';
+                $user->save();
+                $c++;
+            } else {
+                Log:info($el->email);
+                array_push($failures, $el);
+            }
+        }
+        
+        return $failures;
     }
     
     

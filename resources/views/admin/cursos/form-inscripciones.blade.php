@@ -33,6 +33,7 @@
 <table class="table table-hover" id="inscriptos-table">
   <thead class="thead-light">
     <tr>
+      <th scope="col">#</th>
       <th scope="col">ALUMNO</th>
       <th scope="col">DNI</th>
       <th scope="col">INSCRIPCIÓN</th>
@@ -41,8 +42,13 @@
     </tr>
   </thead>
   <tbody>
+    @php $c = 0 @endphp
 	@foreach($curso->inscripciones as $i)
+    @php $c++ @endphp
     <tr id="tr-inscripcion_id-{{$i->id}}">
+      <td>
+        {{ $c }}
+      </td>
       <td id="td-alumno-{{$i->id}}">
         <p class="mb-0"><a href="{{ route('users.edit', $i->alumno->id) }}" target="_blank" class="text-decoration-none">{{ $i->alumno->fullName() }}</a></p>
         <span class="text-muted" style="font-size: 13px; font-weight: 500">{{$i->alumno->email}}</span>

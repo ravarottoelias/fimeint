@@ -70,7 +70,7 @@ body{
                             </div>
                         </div>
 
-                        <!-- <div class="row mx-0 {{ $errors->has('documento_tipo') ? ' has-error' : '' }}">
+                        <div class="row mx-0 {{ $errors->has('documento_tipo') ? ' has-error' : '' }}">
                             <label for="documento_tipo" class="col-md-12 control-label text-muted">Documento Tipo y Número</label>
                             <div class="col-md-5 col-sm-12 form-group">
                                 <select id="documento_tipo" class="form-control" name="documento_tipo" value="{{ old('documento_nro') }}" required>
@@ -83,6 +83,7 @@ body{
                                     <option value="Pasaporte">Pasaporte</option>
                                     <option value="CI Policia Federal">CI Policia Federal</option>
                                     <option value="Cert. Migracion">Cert. Migración</option>
+                                    <option value="OTRO">OTRO</option>
                                 </select>
                                 @if ($errors->has('documento_tipo'))
                                     <div class="text-danger">
@@ -98,11 +99,11 @@ body{
                                     </div>
                                 @endif
                             </div>
-                        </div> -->
+                        </div>
 
                         <div class="row mx-0 form-group">
                             <div class="col-md-12">
-                                <input id="cuit" type="text" class="form-control" name="cuit" value="{{ old('cuit') }}" autofocus placeholder="CUIT" required>
+                                <input id="cuit" type="text" class="form-control" name="cuit" value="{{ old('cuit') }}" autofocus placeholder="CUIT (OPCIONAL)">
                                 <small id="cuitHelp" class="form-text text-muted">En el caso de ser extranjero, completar este campo con el numero de identificacion personal que posea.</small>
                                 @if ($errors->has('cuit'))
                                     <div class="text-danger">

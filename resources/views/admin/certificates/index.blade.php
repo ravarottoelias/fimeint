@@ -41,8 +41,9 @@
 
 	<div class="table-responsive">
 		<table class="table table-sm table-hover mt-3">
-			<thead>
+			<thead class="thead-light">
 				<tr>
+					<th>#</th>
 					<th>Certificado</th>
 					<th>Alumno</th>
 					<th>Curso</th>
@@ -50,8 +51,13 @@
 				</tr>
 			</thead>
 			<tbody class="body-files">
+			@php $c = 0 @endphp
 			@foreach($certificates->data as $cert)
+			@php $c++ @endphp
 				<tr>
+					<td>
+						<p class="mb-0"><strong>{{$c}}</strong></p>
+					</td>
 					<td>
 						<p class="mb-0"><strong>N° {{$cert->certificadoNumero}}</strong> - {{$cert->tfCertificadoNumero}}</p>
 						<span class="text-muted small ">Creado: {{$cert->createdAt}}</span>
@@ -64,7 +70,10 @@
 						<p class="mb-0">{{substr($cert->cursoNombre, 0, 50)}} ...</p>
 						<span class="text-muted small ">{{$cert->cursoFecha}}</span>
 					</td>
-					<td><a href="{{route('certificates_show', $cert->uuid)}}" class="btn btn-sm btn-primary" title="Administrar"><i class="fas fa-cog"></i></a></td>
+					<td>
+						<a href="{{ route('certificates_pdf', $cert->uuid) }}" class="btn btn-sm btn-secondary"><i class="far fa-file-pdf"></i></a>
+						<a href="{{route('certificates_show', $cert->uuid)}}" class="btn btn-sm btn-primary" title="Administrar"><i class="fas fa-cog"></i></a>
+					</td>
 				</tr>
 			@endforeach
 			</tbody>
