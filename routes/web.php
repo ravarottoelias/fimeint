@@ -140,5 +140,5 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('/panel/account/{userId}/my-certificates', 'ProfileController@myCertificates')->name('account_my_certificates');
 	
 
-
+	Route::post('dashboard/run-excel', 'CursoController@runExcel')->middleware(['roles'])->name('run_excel');
 });

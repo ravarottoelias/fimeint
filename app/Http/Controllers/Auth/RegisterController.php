@@ -55,7 +55,7 @@ class RegisterController extends Controller
             'surname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'cuit' => 'required',
+            'cuit' => 'nullable|string|max:20',
             'profesion' => 'required|string',
             'pais' => 'required',
             'provincia' => 'required',
@@ -73,12 +73,15 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         Cache::flush();
+
         return User::create([
             'name' => $data['name'],
             'surname' => $data['surname'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'cuit' => $data['cuit'],
+            'documento_tipo' => $data['documento_tipo'],
+            'documento_nro' => str_replace('.', '', $data['documento_nro']),
             'profesion' => $data['profesion'],
             'pais' => $data['pais'],
             'provincia' => $data['provincia'],

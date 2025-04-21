@@ -59,24 +59,24 @@
                 </div>
                 @else
                     <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <a href="{{ route('users.edit', $certificate->alumnoId) }}" target="_blank" class="list-group-item list-group-item-action flex-column align-items-start">
                             <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">Alumno</h5>
+                            <h5 class="mb-1">ALUMNO</h5>
                             <small>#{{ $inscription->user_id }}</small>
                         </div>
-                        <p class="mb-1">{{ $inscription->alumno->fullName()}} - Cuit:  {{ $inscription->alumno->cuit }} - Email: {{ $inscription->alumno->email }}</p>
+                        <p class="mb-1">{{ $inscription->alumno->fullName()}} - {{ $inscription->alumno->documento_tipo }}:  {{ $inscription->alumno->documento_nro }} - Email: {{ $inscription->alumno->email }}</p>
                         </a>
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <a href="{{ route('cursos.edit', $certificate->cursoId) }}" target="_blank" class="list-group-item list-group-item-action flex-column align-items-start">
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">Curso</h5>
+                                <h5 class="mb-1">CURSO</h5>
                                 <small class="text-muted">#{{ $inscription->curso_id }}</small>
                             </div>
                             <p class="mb-1">{{ $inscription->curso->titulo }} - Fecha: {{ $inscription->curso->fecha_inicio }} al {{ $inscription->curso->fecha_inicio }}</p>
                             
                         </a>
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <a href="{{ route('inscription_show', $inscription->id) }}" target="_blank" class="list-group-item list-group-item-action flex-column align-items-start">
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">Inscripción</h5>
+                                <h5 class="mb-1">INSCRIPCIÓN</h5>
                                 <small class="text-muted">#{{ $inscription->id }}</small>
                             </div>
                             <p class="mb-1">Pago: {{ $inscription->estado_del_pago }} - Certificado ID: {{ $inscription->ms_certificate_id }} - Creado en: {{ $inscription->created_at }}</p>
