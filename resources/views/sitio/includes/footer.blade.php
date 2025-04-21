@@ -33,6 +33,11 @@
 									<li><a href="http://www.iadef.org/" target="_blank">IADEF</a></li>
 									<li><a href="https://franciscodiez.com.ar" target="_blank">franciscodiez.com.ar</a></li>
 								</ul>
+								<h3 class="mb-3">Autogestión</h3>
+								<ul class="mu-useful-links mt-0">
+									<li><a href="{{ route('autogestion') }}" target="_blank">Descarga de Certificados</a></li>
+									<li><a href="{{ route('autogestion') }}" target="_blank">Recupero de contraseña</a></li>
+								</ul>
 							</div>
 						</div>
 					</div>

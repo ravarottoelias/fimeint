@@ -56,6 +56,7 @@ Route::get('/empresa-de-familia', 'SitioController@empresaDeFamilia')->name('emp
 Route::get('/mediacion', 'SitioController@mediacion')->name('mediacion');
 Route::get('/negociacion', 'SitioController@negociacion')->name('negociacion');
 Route::get('/arbitraje', 'SitioController@arbitraje')->name('arbitraje');
+Route::get('/autogestion', 'SitioController@autogestion')->name('autogestion');
 Route::post('/subscriber', 'SubscriberController@store')->name('subscriber');
 Route::get('/galeria-de-videos-expositors-seminario', 'SitioController@galeriaDeVideos')->name('galeria_videos');
 Route::get('get-cursos-vigentes', 'SitioController@getCursosVigentes')->name('get_cursos_vigentes');
@@ -65,7 +66,7 @@ Route::get('/proyectos-rse', 'SitioController@proyectoRse')->name('proyectos_rse
 Route::get('/proyectos-rse/{slug}', 'SitioController@proyectoRseShow')->name('proyectos_rse_show');
 Route::post('/send-email-password-reset', 'UsersController@sendEmailPasswordReset')->name('send_email_password_reset');
 
-Route::get('/certificates/{uuid}/pdf', 'CertificatesController@generatePDF')->name('certificates_pdf');
+Route::get('/certificates/{uuid}/pdf', 'CertificatesController@generatePDF')->name('public_certificates_pdf');
 
 // WEBHOOK Integracion Mercadopago 
 Route::post('/webhooks', 'WebHooksMercadoPagoController@webhookMp')->name('webhooks_mp');
