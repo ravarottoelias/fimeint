@@ -340,29 +340,29 @@ class CursoController extends Controller
     }
 
 
-    public function runExcel(Request $request) {
+    // public function runExcel(Request $request) {
         
-        $import = new ExcelUpdateUserImport();
-        Excel::import($import, $request->file('excel_file'));
-        $emails = $import->getData();
+    //     $import = new ExcelUpdateUserImport();
+    //     Excel::import($import, $request->file('excel_file'));
+    //     $emails = $import->getData();
 
-        $c=0;
-        $failures = [];
-        foreach ($emails as $el) {
-            $user = User::where('email', $el->email)->first();
-            if ($user) {
-                $user->documento_nro = $el->dni;
-                $user->documento_tipo = 'DNI';
-                $user->save();
-                $c++;
-            } else {
-                Log:info($el->email);
-                array_push($failures, $el);
-            }
-        }
+    //     $c=0;
+    //     $failures = [];
+    //     foreach ($emails as $el) {
+    //         $user = User::where('email', $el->email)->first();
+    //         if ($user) {
+    //             $user->documento_nro = $el->dni;
+    //             $user->documento_tipo = 'DNI';
+    //             $user->save();
+    //             $c++;
+    //         } else {
+    //             Log:info($el->email);
+    //             array_push($failures, $el);
+    //         }
+    //     }
         
-        return $failures;
-    }
+    //     return $failures;
+    // }
     
     
 }
