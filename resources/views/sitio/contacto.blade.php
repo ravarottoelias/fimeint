@@ -2,7 +2,7 @@
 
 @section('title_and_meta')
     <title>FIMe</title>
-    {{-- <meta name="description" content="Derka y Vargas Concesionario Oficial Toyota en Chaco. Venta de 0KM, Usados Certificados Toyota, Usados Multimarcas. Servicios de Posventa. Plan de Ahorro 100% financiado"> --}}
+    {{-- <meta name="description" content=""> --}}
 @stop
 
 @section('mark-up-facebook')

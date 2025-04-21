@@ -10,7 +10,7 @@
 <div class="list-group mb-4">
     @forelse ($certificates->data as $cert)
          
-    <a href="{{ route('certificates_pdf', $cert->uuid) }}" target="_blank" class="list-group-item list-group-item-action ">
+    <a href="{{ route('public_certificates_pdf', $cert->uuid) }}" target="_blank" class="list-group-item list-group-item-action ">
         <div class="row">
             <div class="col-9 px-2">
                 <h5 class="mb-1">{{ $cert->cursoNombre }}</h5>

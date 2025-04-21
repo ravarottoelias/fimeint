@@ -176,4 +176,10 @@ class SitioController extends Controller
 
         return view('sitio.concursos.index', compact('concursos'));
     }
+    
+    public function autogestion(Request $request)
+    {
+
+        return view('sitio.autogestion');
+    }
 }
