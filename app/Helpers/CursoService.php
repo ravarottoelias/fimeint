@@ -38,13 +38,15 @@ class CursoService
         foreach ($dniList as $element) {
             
             $alumno = null;
-            $alumno = User::where('documento_nro', $element->dni)->first();
+            $alumno = User::where('documento_nro', $element->dni)
+                            ->where('confirmed', 1)
+                            ->orderBy('updated_at', 'DESC')
+                            ->first();
             
             if($alumno != null){
                 $inscription = null;
                 $inscription = Inscripcion::where('user_id', $alumno->id)
                     ->where('curso_id', $curso->id)
-                    ->orderBy('created_at', 'DESC')
                     ->first();
                 if($inscription != null) {
                     try{
