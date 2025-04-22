@@ -43,8 +43,9 @@ class CursoService
             if($alumno != null){
                 $inscription = null;
                 $inscription = Inscripcion::where('user_id', $alumno->id)
-                ->where('curso_id', $curso->id)
-                ->first();
+                    ->where('curso_id', $curso->id)
+                    ->orderBy('created_at', 'DESC')
+                    ->first();
                 if($inscription != null) {
                     try{
 
@@ -91,6 +92,12 @@ class CursoService
                         
                         array_push($result->success,$element->dni . ' - ' . $element->nombre . '. Certificado creado.');
                     } catch (Exception $ex) {
+                        if ($ex instanceof \GuzzleHttp\Exception\ClientException) {
+                            // Manejo específico para rate limit
+                            $retryAfter = $ex->getResponse()->getHeaders();
+                            Log::error($retryAfter);
+                          
+                        }
                         Log::error("GenerateMassiveCertificates() error al crear certificado. Usuario: $element->nombre - ". $ex->getMessage());
                         array_push($result->fails, $element->dni . ' - ' . $element->nombre . '. No se pudo crear el certificado.');
                     }
