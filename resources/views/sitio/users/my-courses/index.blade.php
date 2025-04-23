@@ -9,27 +9,28 @@
 
 <div class="list-group">
     @foreach ($inscriptions as $i)
-        
-    <a href="#" class="list-group-item list-group-item-action ">
-        <div class="row">
-            <div class="col-9 px-2">
-                <h5 class="mb-1">{{ $i->curso->titulo }}</h5>
+        @if(isset($i->curso) && $i->curso) 
+        <a href="#" class="list-group-item list-group-item-action ">
+            <div class="row">
+                <div class="col-9 px-2">
+                    <h5 class="mb-1">{{ $i->curso->titulo }}</h5>
+                </div>
+                <div class="col-3 px-2 d-flex justify-content-end">
+                    <small>{{ $i->created_at->diffForHumans() }}</small>
+                </div>
             </div>
-            <div class="col-3 px-2 d-flex justify-content-end">
-                <small>{{ $i->created_at->diffForHumans() }}</small>
+            <div class="row">
+                <div class="col-12 px-2">
+                    <p class="mb-1">{{ $i->curso->categoria->nombre }}</p>
+                    <span class="badge 
+                        {{ $i->curso->estado == 'Finalizado' ? 'badge-success' : 'badge-primary' }}
+                    ">
+                        {{ $i->curso->estado }}
+                    </span>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-12 px-2">
-                <p class="mb-1">{{ $i->curso->categoria->nombre }}</p>
-                <span class="badge 
-                    {{ $i->curso->estado == 'Finalizado' ? 'badge-success' : 'badge-primary' }}
-                ">
-                    {{ $i->curso->estado }}
-                </span>
-            </div>
-        </div>
-    </a>
+        </a>
+        @endif
     @endforeach
     
   </div>

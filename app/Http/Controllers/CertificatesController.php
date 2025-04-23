@@ -131,6 +131,7 @@ class CertificatesController extends Controller
     
     public function generatePDF($uuid) 
     {
+        Log::info("CertificatesController::generatePDF: {uuid: $uuid}");
         $cert = $this->certificateService->getCachedCertificateDetails($uuid);
         
         $qrDecoded = config('services.ms_cert_validation.app_cert_validation_url') . "?version=1&qr=$cert->codigoQr";
