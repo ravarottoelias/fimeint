@@ -51,9 +51,9 @@
             height: 200px;
         }
 
-
         .firma-nombre{
             margin: 3px auto;
+            font-size: 14px;
         }
         .page-break {
             page-break-before: always; /* O page-break-after: always; */
@@ -89,10 +89,23 @@
             position: absolute;
             right: 8%;
             top: 55;
-            }
-            .mb-3{
-                margin-bottom: 3px;
-            }
+        }
+        .mb-3{
+            margin-bottom: 3px;
+        }
+        .homologacion-container{
+            position: relative;
+            top: 350px; 
+            width: 100%;
+        }
+        .homologacion-container .row{
+            margin: 0 auto;
+            width: 80%;
+        }
+        .p-homologacion{
+            text-align: center;
+            font-size: 12px;
+        }
 
 
     .firmas > .bloque {
@@ -113,6 +126,7 @@
     .firmas > .bloque2 {
         right: 80;
     }
+
     </style>
 </head>
 <body>
@@ -132,7 +146,7 @@
                 <div class="bloque bloque1">
                     <div class="firma firma-l">
                         <center>
-                            <img src="{{ base_path('public/images/cert/firma-danielz.jpg') }}" alt="" height="100">
+                            <img src="{{ base_path('public/images/cert/firma-danielz.png') }}" alt="" height="110">
                             <p class="firma-nombre">Dr. Daniel F. Martínez Zampa</p>
                             <p class="firma-nombre">Docente Titular</p>
                         </center>
@@ -140,7 +154,7 @@
                 </div>
                 <div class="bloque bloque2">
                     <center>
-                        <img src="{{ base_path('public/images/cert/firma-lilianv.jpg') }}" alt="" height="100">
+                        <img src="{{ base_path('public/images/cert/firma-lilianv.png') }}" alt="" height="110">
                         <p class="firma-nombre">Dra. Lilian Edith Vargas</p>
                         <p class="firma-nombre">Responsable Institucional</p>
                     </center>
@@ -159,12 +173,16 @@
                             <p>FECHA: {{ $cert->createdAt }}</p>
                             <p> {{ $cert->tfCertificadoNumero }} - Certificado Nº: {{ $cert->certificadoNumero }}</p>
                         </div>
-
                     </div>
                     <div class="derecha-qr">
                         <img height="160px" src="data:image/png;base64, {{ $qr }}" alt="Código QR">
                     </div>
-
+                    <div class="homologacion-container">
+                        <div class="row">
+                            <p class="p-homologacion">Homologado por:</p>
+                            <p class="p-homologacion">{{ $cert->cursoHomologacion }}</p>
+                        </div>
+                    </div>
             </div>
         </div>
     </body>
