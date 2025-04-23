@@ -63,7 +63,7 @@
 									  
 										  <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
 											<div class="card-body">
-												<a href="#">
+												<a href="https://fimeint.org/uploads/i8jFefScHiXx86rvqv7wQHjAjbmXcYuEaPuzjzcO.pdf" target="_blank">
 													<i class="far fa-file-pdf"></i> Guía paso a paso para la <b class="text-muted">descarga de certificados digitales</b>.
 												</a>
 											</div>
@@ -79,7 +79,7 @@
 										  </div>
 										  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
 											<div class="card-body">
-												<a href="#">
+												<a href="https://fimeint.org/uploads/bM5kx2vxL70ARL341gbkK7XgMQfAqDRzFhMpYd4i.pdf" target="_blank">
 													<i class="far fa-file-pdf"></i> Guía paso a paso para <b class="text-muted">Verificación de correo electrónico</b> y <b class="text-muted">Recupero de contraseña</b>.
 												</a>
 											</div>
