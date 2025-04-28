@@ -243,7 +243,7 @@ class CursoController extends Controller
     {
 
         $sp = new ScriptDePago;
-        $sp->titulo = $request->sp_titulo;
+        $sp->titulo = $request->sp_descripcion;
         $sp->descripcion = $request->sp_descripcion;
         $sp->script = $request->sp_script;
         $sp->curso_id = $request->curso_id;

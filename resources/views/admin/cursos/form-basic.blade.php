@@ -126,6 +126,8 @@
     });
 
     function readyFn( jQuery ) {
+		fimeint.getScriptsDePagos();
+
     	//CKEDITOR Configuracion
         CKEDITOR.replace( 'editor1', {
 		  extraAllowedContent: 'a[data-*]; h1[data-*]; h2[data-*]; h3[data-*]; h4[data-*]; h5[data-*]'
@@ -161,81 +163,18 @@
 
     // click en el tab de formulario avanzado
     let files = {!! $curso->files()->get() !!}
-    $( "#list-tab-curso #list-form-avanzado" ).click(function() {
 
-        // cargar la tabla de links de pago
-        getScriptsDePagos();
-    });
 
-	function imprimirTablaScripts(scripts)
-	{
-		$("#body-scripts-de-pagos").html('')
+	const guardarScriptDePago = () => {
+		fimeint.saveScriptDePago();	
+	}
 
-		$.each( scripts, function( key, sp ) {
-		  var tr = `<tr>
-			      <th scope="row">${sp.id}</th>
-			      <td>${sp.titulo}</td>
-			      <td>${sp.descripcion}</td>
-			      <td>${sp.script}</td>
-			      <td class="text-right">
-			      	<a href="#" class="btn btn-sm btn-danger" onclick="eliminarScriptDePago(${sp.id})"><i class="fa fa-trash"></i></a>
-			      </td>
-			    </tr>`;
-			$("#body-scripts-de-pagos").append(tr);
-		});
+	const eliminarScriptDePago = (sp_id) => {
+		fimeint.deleteScriptDePago(sp_id);
 	}
 
 
-	function guardarScriptDePago()
-	{
-		var sp = {};
-
-		sp.curso_id = $('#scriptsPagosModal [name ="curso_id"]').val()
-		sp.sp_titulo = $('#scriptsPagosModal [name ="sp_titulo"]').val()
-		sp.sp_descripcion = $('#scriptsPagosModal [name ="sp_descripcion"]').val()
-		sp.sp_script = $('#scriptsPagosModal [name ="sp_script"]').val()
-		console.log(sp)
-		axios
-			.post('/curso_add_scripts', sp)
-			.then(res=>{
-				$('#scriptsPagosModal').modal('toggle');
-				$('#scriptsPagosModal [name ="sp_titulo"]').val('')
-				$('#scriptsPagosModal [name ="sp_descripcion"]').val('')
-				$('#scriptsPagosModal [name ="sp_script"]').val('')
-				getScriptsDePagos();
-			})
-	}
-
-	function eliminarScriptDePago(sp_id)
-	{
-		var url = '/curso_delete_scripts/'+sp_id;
-		console.log(url)
-        var eliminar = confirm("Eliminar el item seleccionado?");
-
-        if (eliminar) {
-            axios
-                .post(url)
-                .then(res=>{
-                    getScriptsDePagos();
-                })
-        }
-	}
-
-
-    function copy() {
-		/* Get the text field */
-		var copyText = document.getElementById("curso-token");
-
-		/* Select the text field */
-		copyText.select();
-		copyText.setSelectionRange(0, 99999); /*For mobile devices*/
-
-		/* Copy the text inside the text field */
-		document.execCommand("copy");
-	}
-
-	function editarInscripcion(insc)
-	{
+	const editarInscripcion = (insc) => {
 		$('#modalEditarInscripcion #input-alumno').val('');
 		$('#modalEditarInscripcion #select-estado-del-pago').val('');
 		$('#modalEditarInscripcion #inscripcion_id').val('');
@@ -244,6 +183,16 @@
 		$('#modalEditarInscripcion #input-alumno').val(insc.alumno.name);
 		$('#modalEditarInscripcion #select-estado-del-pago').val(insc.estado_del_pago);
 	}
+
+
+    function copy() {
+		var copyText = document.getElementById("curso-token");
+		copyText.select();
+		copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+		document.execCommand("copy");
+	}
+
+
 
 	function updateInscripcion()
 	{
@@ -341,12 +290,7 @@
         autoclose: true,
         todayHighlight: true,
     });
-
-	function submit_form_cert_generation(){
-	document.getElementById("form_cert_generation").submit();
-}
-    
-
+  
         
 </script>
 @stop

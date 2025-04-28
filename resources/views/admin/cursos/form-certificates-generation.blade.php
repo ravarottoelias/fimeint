@@ -123,27 +123,6 @@
     </div>
 </div>
 
-{{-- ELIMINAR --}}
-{{-- <form action="{{ route('run_excel') }}" method="POST" enctype="multipart/form-data" files="true">
-    {{ csrf_field() }}
-    <div class="input-group">
-        <div class="custom-file">
-            <input type="file" class="custom-file-input" name="excel_file" aria-describedby="file_excel" required>
-            <label class="custom-file-label" for="file_excel">Seleccionar excel</label>
-        </div>
-        
-        
-    </div>
-    <div class="row mt-3">
-        <div class="col-12 d-flex justify-content-end">
-            <button class="btn btn-success" type="submit" onclick="submit_form_cert_generation"><i class="fas fa-arrow-right"></i> Procesar</button>
-        </div>
-    </div>
-</form> --}}
-{{--  --}}
-        
- 
-
 
 @stop
 

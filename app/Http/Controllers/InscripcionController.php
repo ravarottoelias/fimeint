@@ -132,6 +132,10 @@ class InscripcionController extends Controller
         $user = Auth::user();
         $canal = $request->canal; 
         $curso = $this->cursoRepository->findOrFailById($request->curso_id); 
+
+        if(empty($user->documento_nro)){
+            return back()->with('error', 'Para poder inscribirte al curso, es necesario que tengas cargado tu número de documento en tu perfil.');
+        }
         
         if (!$user->estaInscriptoEn($curso->id)){
             $this->inscriptionRepository->saveInscription($user->id, $curso->id, $canal);
@@ -148,6 +152,10 @@ class InscripcionController extends Controller
         $user = Auth::user();
         
         $curso = $this->cursoRepository->getCursoBySlug($slug);
+
+        if(empty($user->documento_nro)){
+            return back()->with('error', 'Para poder inscribirte al curso, es necesario que tengas cargado tu número de documento en tu perfil.');
+        }
         
         if($user->estaInscriptoEn($curso->id)){
             return redirect()->route('curso_step_inscription_payment', $curso->slug);

@@ -52,7 +52,7 @@ class ProfileController extends Controller
         return view('sitio.users.account.edit', compact('user'));
     }
 
-    public function updateAccount(Request $request, User $user)
+    public function updateAccount(Request $request, $userId)
     {
         $request->validate([
             'documento_tipo' => 'required|max:255',
@@ -60,16 +60,28 @@ class ProfileController extends Controller
             'surname' => 'required|max:255',
             'name' => 'required|max:255',
             'documento_nro' => 'required|max:255',
-            'documento_nro' => 'required|max:255',
             'codigo_tel_pais' => 'required|max:255',
             'telefono' => 'required|max:255',
             'pais' => 'required|max:255',
             'provincia' => 'required|max:255',
         ]);
-    
-        $user = $this->userRepository->updateUser($user->id, $request->all());
 
-        return back()->with('success', Messages::UPDATED_SUCCESSFULL);
+        $user = User::findOrFail($userId);
+
+        $user->update($request->only(
+            [
+                'documento_nro',
+                'documento_tipo', 
+                'surname',
+                'name',
+                'codigo_tel_pais',
+                'telefono',
+                'pais',
+                'provincia',
+            ])
+        );
+
+        return redirect()->back()->with('success', Messages::UPDATED_SUCCESSFULL);
     }
 
     public function formChangePassword() {

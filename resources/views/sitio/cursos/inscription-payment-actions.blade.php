@@ -32,7 +32,20 @@
                         
                 @endswitch
             @else
-                <a class="mu-primary-btn" href="{{ route('curso_inscription', $curso->slug) }}"> {{ $btnText }} <i class="fas fa-arrow-right"></i></a>
+                @if(empty(Auth::user()->documento_nro))
+                    <div class="alert alert-secondary">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-1 px-2 py-3 d-flex justify-content-center align-items-center">
+                                <i class="fas fa-exclamation-circle" style="font-size: 38px"></i>
+                            </div>
+                            <div class="col-sm-12 col-md-11">
+                                <strong>Importante!</strong> Para poder inscribirte al curso, es necesario que tengas cargado tu tipo y número de documento en tu perfil. Podés hacerlo fácilmente ingresando al siguiente enlace: <a href="{{ route('show_account', Auth::user()->id) }}" class="a_lert-link"><i class="fas fa-link"></i> Mis datos</a>.
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <a class="mu-primary-btn" href="{{ route('curso_inscription', $curso->slug) }}"> {{ $btnText }} <i class="fas fa-arrow-right"></i></a>
+                @endif
             @endif     
         @else
             <a class="mu-primary-btn" href="{{ route('curso_inscription', $curso->slug) }}"> {{ $btnText }} <i class="fas fa-arrow-right"></i></a>
