@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Curso;
+use App\Exports\CursoCertificatesExport;
 use Exception;
 use App\Inscripcion;
 use App\Helpers\Utils;
@@ -148,6 +149,15 @@ class CertificatesController extends Controller
         
         // Mostrar el PDF en el navegador en stream
         return $pdf->stream($cert->uuid.'.pdf');
+    }
+
+    public function exportCertificatesToExcel(Request $request, Curso $curso) {
+        $filename = 'Certificados - ' . $curso->titulo . '.xlsx';
+
+		$certificates = $this->certificateService->getCachedCetificates($request)->data;
+
+		return (new CursoCertificatesExport(collect($certificates)))->download($filename);
+
     }
     
 }

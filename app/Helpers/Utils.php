@@ -74,4 +74,45 @@ class Utils
         $numeros = substr(str_shuffle('0123456789'), 0, 2);
         return $letras . $numeros;
     }
+
+
+    /**
+     * Extrae únicamente las propiedades especificadas de un objeto stdClass.
+     *
+     * Esta función imita el comportamiento del método `only()` usado en Eloquent y colecciones de Laravel
+     *
+     * @param stdClass $object El objeto original desde el cual se desean extraer propiedades.
+     * @param array $keys Un arreglo de nombres de propiedades que se quieren conservar.
+     *
+     * @return stdClass Un nuevo objeto stdClass que contiene solo las propiedades especificadas.
+     *
+     * @example
+     * $usuario = (object) [
+     *     'id' => 1,
+     *     'nombre' => 'Lucía',
+     *     'email' => 'lucia@example.com',
+     *     'edad' => 29
+     * ];
+     *
+     * $filtrado = onlyFromStdClass($usuario, ['nombre', 'email']);
+     * // Resultado:
+     * // stdClass Object
+     * // (
+     * //     [nombre] => Lucía
+     * //     [email] => lucia@example.com
+     * // )
+     */
+    public static function onlyFromStdClass($object, array $keys)
+    {
+        $original = (array) $object;
+        $result = [];
+
+        foreach ($keys as $key) {
+            if (array_key_exists($key, $original)) {
+                $result[$key] = $original[$key];
+            }
+        }
+
+        return (object) $result;
+    }
 }
