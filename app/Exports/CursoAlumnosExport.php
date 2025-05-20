@@ -2,7 +2,6 @@
 
 namespace App\Exports;
 
-use App\Curso;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithEvents;

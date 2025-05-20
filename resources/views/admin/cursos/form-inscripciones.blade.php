@@ -23,8 +23,8 @@
   <div class="col-12">
     <div class="form-inline">
       <div class="form-group mb-2 w-100">
-        <label for="input-filter" class="sr-only">Email, Nombre o Apellido</label>
-        <input type="text" class="form-control w-100" id="input-filter-inscriptos" placeholder="Email, Nombre o Apellido">
+        <label for="input-filter" class="sr-only"><i class="fas fa-filter"></i> Filtrar</label>
+        <input type="text" class="form-control w-100" id="input-filter-inscriptos" placeholder="Filtrar">
       </div>
     </div>
   </div>

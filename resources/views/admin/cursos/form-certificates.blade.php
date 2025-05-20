@@ -7,6 +7,21 @@
 	</style>
 @stop
 
+<div class="row mb-3">
+  <div class="col-12 d-flex justify-content-end">
+    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+      <div class="btn-group" role="group">
+        <button id="btnGroupDrop1" type="button" class="btn btn btn-outline-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border: 1px solid #ccc">
+          <i class="fas fa-download"></i> Descargar
+        </button>
+        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+          <a class="dropdown-item" href="{{route('export_certificates', $curso->id)}}?per_page=1000"><i class="far fa-file-excel"></i> Todos</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="row">
 
 
@@ -55,7 +70,7 @@
 		<div class="form-group">
 			<label for="cuerpoCertificadoTextarea">Cuerpo Certificado</label>
 			<textarea class="form-control" id="cuerpoCertificadoTextarea" rows="3" name="cuerpo_certificado">{{ $curso->cuerpo_certificado }}</textarea>
-			<small id="fileHelp" class="form-text text-primary">Variables disponibles: <strong>%ALUMNO%</strong> (Nombre completo del alumno). <strong>%DNI%</strong> (DNI del alumno). <strong>%CURSO%</strong> (Título del curso) <strong>%TOTAL_HS%</strong></small>
+			{{-- <small id="fileHelp" class="form-text text-primary">Variables disponibles: <strong>%ALUMNO%</strong> (Nombre completo del alumno). <strong>%DNI%</strong> (DNI del alumno). <strong>%CURSO%</strong> (Título del curso) <strong>%TOTAL_HS%</strong></small> --}}
 		</div>
 	</div>
 

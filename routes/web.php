@@ -82,6 +82,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('/dashboard/certificates/{uuid}', 'CertificatesController@show')->name('certificates_show')->middleware(['roles']);
 	Route::get('/dashboard/certificates/{uuid}/delete', 'CertificatesController@deleteCert')->name('certificates_delete')->middleware(['roles']);
 	Route::get('/dashboard/certificates/{uuid}/pdf', 'CertificatesController@generatePDF')->name('certificates_pdf')->middleware(['roles']);
+	Route::get('/dashboard/certificates/{curso}/export', 'CertificatesController@exportCertificatesToExcel')->name('export_certificates')->middleware(['roles']);
 	
 	Route::get('/dashboard/api/students', 'UsersController@search')->name('users_search')->middleware(['roles']);
 	Route::get('/dashboard/api/inscriptions/{studentId}/student', 'InscripcionController@inscriptionsByUser')->name('inscription_by_user')->middleware(['roles']);
