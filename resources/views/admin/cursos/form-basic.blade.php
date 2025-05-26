@@ -148,9 +148,12 @@
         $(function() {
 		  $("#input-filter-inscriptos").on("keyup", function() {
 		    var value = $(this).val().toLowerCase();
-		    $("#inscriptos-table > tbody > tr").filter(function() { 
+		    $("#inscriptos-table > tbody > tr").filter(function(index) { 
 		    	$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 		    });
+			$('#inscriptos-table tbody tr:visible').each(function(index) {
+				$(this).find('td:first').text(index + 1);
+			});
 		  });
 		});
         //END - Buscador de inscriptos

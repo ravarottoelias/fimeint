@@ -18,6 +18,7 @@ use App\Filters\CursoFilter;
 use Illuminate\Http\Request;
 use App\Helpers\CursoService;
 use App\Helpers\CursosHelper;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Constants\FlashMessagesTypes;
 use App\Repositories\CursoRepository;
@@ -129,10 +130,10 @@ class CursoController extends Controller
         $categorias = Categoria::all();
         $curso = $this->cursoRepository->getCursoByIdWithTags($curso);
         $payments = $this->getAllDataPayments($curso);
-        $reportPayment = $this->calculateTotalAmount($payments);
-    
+        $paymentsIndicator = $this->calculateTotalAmount($payments);
+        $inscriptionsIndicator = $this->calculateTotalinscriptions($curso);    
 
-        return view('admin.cursos.edit', compact('curso', 'tags', 'categorias', 'request', 'reportPayment', 'payments'));
+        return view('admin.cursos.edit', compact('curso', 'tags', 'categorias', 'request', 'paymentsIndicator', 'payments', 'inscriptionsIndicator'));
     }
 
     /**
@@ -345,13 +346,21 @@ class CursoController extends Controller
         $totalAmount=0;
         $netTotalAmount=0;
         foreach ($payments as $p) {    
-            $totalAmount += $p->amount;
-            $netTotalAmount += $p->net_received_amount;    
+            $totalAmount = $totalAmount + $p->amount;
+            $netTotalAmount = $netTotalAmount + $p->net_received_amount;    
         }
 
         return [
             'totalAmount' => $totalAmount,
             'netTotalAmount' => $netTotalAmount
+        ];
+    }
+
+    private function calculateTotalinscriptions(Curso $curso) : array {
+        return [
+            'pagado' => $curso->inscripciones()->where('estado_del_pago', Inscripcion::PAGADO)->count(),
+            'pendiente' => $curso->inscripciones()->where('estado_del_pago', Inscripcion::PENDIENTE)->count(),
+            'parcial' => $curso->inscripciones()->where('estado_del_pago', Inscripcion::PAGADO_PARCIAL)->count(),
         ];
     }
 

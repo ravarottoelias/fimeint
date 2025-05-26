@@ -56,14 +56,28 @@
                     </div>
 
                     <div class="mb-md-4 mb-sm-2">
+                        <p class="font-weight-bold">Detalles del pago</p>
+                        <table class="table table-sm ml-2">
+                            <tbody>
+                                <tr>
+                                    <td>Monto Cobrado</td>
+                                    <td> <b>$ @precio($paymentDetails->totalAmount) </b></td>
+                                </tr>
+                                <tr>
+                                    <td>Monto Recibido</td>
+                                    <td> <b>$ @precio( $paymentDetails->netReceivedAmount) </b></td>
+                                </tr>
+                            </tbody>
+                          </table>
+                    </div>
+
+                    <div class="mb-md-4 mb-sm-2">
                         <p class="font-weight-bold">Detalles del producto</p>
-                        <p>{{ $paymentDetails->description }}</p>
 
                         <table class="table table-sm ml-2">
                             <thead class="thead-light">
                               <tr>
                                 <th scope="col">ITEM</th>
-                                <th scope="col">CANTIDAD</th>
                                 <th scope="col">PRECIO UNITARIO</th>
                               </tr>
                             </thead>
@@ -71,7 +85,6 @@
                                 @foreach ($paymentDetails->items as $item)
                                 <tr>
                                     <td>{{ $item->itemDetail }}</td>
-                                    <td>{{ $item->itemQuantity }}</td>
                                     <td> <b> $ @precio($item->itemUnitPrice) </b></td>
                                 </tr>
                                 @endforeach
