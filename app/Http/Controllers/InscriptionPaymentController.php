@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Curso;
 use Exception;
 use App\Inscripcion;
 use App\Helpers\Utils;
@@ -14,6 +15,7 @@ use App\Constants\MPIntegrationConstants;
 use App\Repositories\InscriptionRepository;
 use App\Repositories\MercadoPagoIntegration;
 use App\Constants\PaypalIntegrationConstants;
+use App\Filters\PaymentsFilter;
 
 class InscriptionPaymentController extends Controller
 {
@@ -150,9 +152,14 @@ class InscriptionPaymentController extends Controller
         return;
     }
 
-    function payments(Request $request)
+    function payments(Request $request )
     {
-        $payments = InscriptionPayment::orderBy('created_at', 'DESC')->paginate(15);
+        $paymentFilter = new PaymentsFilter($request);
+
+        $payments = InscriptionPayment::filter($paymentFilter)
+            ->orderBy('created_at', 'DESC')
+            ->paginate(15)
+            ->appends($paymentFilter->request->query());
 
         return view('admin.payments.index', compact('payments'));
     }
@@ -195,6 +202,8 @@ class InscriptionPaymentController extends Controller
             'dateCreated' => $payment->date_created,
             'dateApprobed' => null,
             'status' => $payment->status,
+            'netReceivedAmount' => $payment->transaction_details['net_received_amount'],
+            'totalAmount' => '',
             'description' => $payment->additional_info['items'][0]['title'],
             'items' => (object) [
                 (object) [
@@ -244,5 +253,22 @@ class InscriptionPaymentController extends Controller
             'gateway' => '$insPayment->gateway',
         ];
         return (object) $paymentDetails;
+    }
+
+    function syncAmountsMP(Curso $curso)  {
+
+        $inscripciones = $curso->inscripciones()
+            ->where('estado_del_pago', '!=', 'Pendiente')
+            ->with('payments')
+            ->get();
+
+        foreach ($inscripciones as $i) {
+            $payments = $i->payments()->get();
+            foreach ($payments as $p) {
+                $paymentResponse = $this->mercadopagoService->getPaymentById($p->payment_identifier);
+                $p->net_received_amount = $paymentResponse['transaction_details']['net_received_amount'];
+                $p->save();
+            }
+        }
     }
 }

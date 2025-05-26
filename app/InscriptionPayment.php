@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class InscriptionPayment extends Model
 {
     use Filterable;
+    use Filterable;
     
     protected $table = 'inscription_payments';
 
@@ -38,6 +39,16 @@ class InscriptionPayment extends Model
     }
 
     public function getAmountAttribute($value)
+    {
+        return $value / 100;
+    }
+
+    public function setNetReceivedAmountAttribute($value)
+    {
+        $this->attributes['net_received_amount'] = $value * 100;
+    }
+
+    public function getNetReceivedAmountAttribute($value)
     {
         return $value / 100;
     }

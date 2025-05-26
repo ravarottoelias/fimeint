@@ -17,12 +17,14 @@
         <li class="breadcrumb-item active">{{ $paymentDetails->identifier }}</li>
     </ol>
 
-    <div class="card">
+    <div class="card border-primary mb-3">
+        <div class="card-header">
+            DETALLE TRANSACCIÓN
+        </div>
         <div class="card-body">
             <div class="row">
                 <div class="col">
                     <div class="mb-md-4 mb-sm-2">
-                        <p class="font-weight-bold">Detalles del pago</p>
                         <div class="row">
                             <div class="col-md-3 col-12 d-flex justify-content-center align-items-center">
                                 <img src="{{ $imageGateway }}" alt="">
@@ -60,9 +62,9 @@
                         <table class="table table-sm ml-2">
                             <thead class="thead-light">
                               <tr>
-                                <th scope="col">Item</th>
-                                <th scope="col">Cantidad</th>
-                                <th scope="col">Precio Unitario</th>
+                                <th scope="col">ITEM</th>
+                                <th scope="col">CANTIDAD</th>
+                                <th scope="col">PRECIO UNITARIO</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -70,7 +72,7 @@
                                 <tr>
                                     <td>{{ $item->itemDetail }}</td>
                                     <td>{{ $item->itemQuantity }}</td>
-                                    <td>$ {{ $item->itemUnitPrice }}</td>
+                                    <td> <b> $ @precio($item->itemUnitPrice) </b></td>
                                 </tr>
                                 @endforeach
                             </tbody>

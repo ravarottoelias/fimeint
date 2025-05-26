@@ -143,4 +143,5 @@ Route::group(['middleware' => 'auth'], function(){
 	
 
 	Route::post('dashboard/run-excel', 'CursoController@runExcel')->middleware(['roles'])->name('run_excel');
+	Route::get('dashboard/sync-mp/{curso}', 'InscriptionPaymentController@syncAmountsMP')->middleware(['roles']);
 });

@@ -13,17 +13,53 @@
         <li class="breadcrumb-item active">Pagos</li>
     </ol>
 
+    <!-- Buscador -->
+	<div class="card">
+		<div class="card-body">
+				<form action="{{route('payments')}}" method="get" style="justify-content: flex-end;">
+					<div class="row">
+						<div class="col-12 col-md-8 col-lg-9">
+							<div class="row">
+								<div class="col-12">
+									<input type="text" class="form-control" name="searchFor" id="searchFor" placeholder="Buscador" value="{{app('request')->input('searchFor')}}">
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-md-4 col-lg-3">
+							<div class="input-group">
+								<a href="{{route('payments')}}" class="btn btn-default mb-2 mr-1"> <i class="far fa-trash-alt"></i> Limpiar</a>
+								<button type="submit" class="btn btn-primary mb-2 w-90"><i class="fas fa-search"></i> Buscar</button>
+							</div>
+						</div>
+					</div>
+                    <div class="row">
+                        <div class="col">
+                            @if(request()->has('cursoTitulo'))
+                                <p class="my-1"><b>Resultados para:</b>  {{ request()->get('cursoTitulo') }}</p>
+                                <p class="my-1"><b>Total registros:</b>  {{ $payments->total() }}</p>
+                            @endif
+                            @if(request()->has('searchFor'))
+                                <p class="my-1"><b>Resultados para:</b>  {{ request()->get('searchFor') }}</p>
+                                <p class="my-1"><b>Total registros:</b>  {{ $payments->total() }}</p>
+                            @endif
+                        </div>
+                    </div>
+				</form>
+		</div>
+	</div>
 
-    <table class="table table-sm table-sm-text-sm">
+
+    <table class="table table-sm table-hover mt-3">
 
         <!--Table head-->
-        <thead>
+        <thead class="thead-light">
             <tr>
                 <th></th>
                 <th>#ID</th>
-                <th>Estado</th>
-                <th>Alumno</th>
-                <th>Creado en</th>
+                <th>COBRADO</th>
+                <th>RECIBIDO</th>
+                <th>ALUMNO</th>
+                <th>CREADO EN</th>
             </tr>
         </thead>
         <!--Table head-->
@@ -34,7 +70,8 @@
             <tr class="">
                 <td><img src="{{ $payment->gateway === App\Constants\MPIntegrationConstants::MP_GATEWAY_NAME ? $mercadopagoImageB64 : $paypalImageB64 }}" width="30" height="30" alt=""></td>
                 <td><a href="{{ route('payment_details', $payment->payment_identifier) }}"> {{ $payment->payment_identifier }}</a></td>
-                <td>{{ $payment->status }}</td>
+                <td> <b> $ @precio($payment->amount)</b></td>
+                <td> <b> $ @precio($payment->net_received_amount)</b></td>
                 <td>{{ $payment->inscription->alumno->fullName() }}</td>
                 <td>{{ $payment->created_at->format('Y-m-d') }}</td>
             </tr>

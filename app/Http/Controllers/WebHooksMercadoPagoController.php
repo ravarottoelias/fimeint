@@ -41,11 +41,18 @@ class WebHooksMercadoPagoController extends Controller
 			
 			if (InscriptionPayment::where('payment_identifier', $payment_id)->where('status', $paymentResponse['status'] )->count() == 0) {				
 				Log::info('WEBHOOK_MP:::RegistrandoPago: ' . $payment_id);
+				$netReceivedAmount = null;
+				try {
+					$netReceivedAmount = $paymentResponse['transaction_details']['net_received_amount'];
+				} catch (\Throwable $th) {
+					Log::error('WEBHOOK_MP:::Error al leer montos: ' . $payment_id);
+				}
 				$payment = InscriptionPayment::create([
 					'inscription_id' => $inscription->id,
 					'user_id' => $inscription->user_id,
 					'payment_identifier' => $payment_id,
 					'amount' =>$paymentResponse['transaction_amount'],
+					'net_received_amount' =>$netReceivedAmount,
 					'status' => $paymentResponse['status'],
 					'gateway' => 'MERCADOPAGO',
 					'payload' => json_encode($paymentResponse),

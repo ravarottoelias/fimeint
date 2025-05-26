@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Tag;
 use App\File;
+use App\User;
 use stdClass;
 use App\Curso;
 use App\Setting;
 use App\Categoria;
+use App\Inscripcion;
 use App\ScriptDePago;
 use App\Helpers\Utils;
 use App\Constants\Messages;
@@ -27,7 +29,6 @@ use App\Http\Requests\CursoStoreRequest;
 use App\Constants\MPIntegrationConstants;
 use App\Http\Requests\CursoUpdateRequest;
 use App\Imports\ExcelCertGeneratorImport;
-use App\User;
 
 class CursoController extends Controller
 {
@@ -128,9 +129,10 @@ class CursoController extends Controller
         $categorias = Categoria::all();
         $curso = $this->cursoRepository->getCursoByIdWithTags($curso);
         $payments = $this->getAllDataPayments($curso);
+        $reportPayment = $this->calculateTotalAmount($payments);
+    
 
-
-        return view('admin.cursos.edit', compact('curso', 'tags', 'categorias', 'request'));
+        return view('admin.cursos.edit', compact('curso', 'tags', 'categorias', 'request', 'reportPayment', 'payments'));
     }
 
     /**
@@ -284,7 +286,7 @@ class CursoController extends Controller
     {   
         $inscriptionPayments = InscriptionPayment::leftJoin('inscripciones', 'inscripciones.id', '=', 'inscription_payments.inscription_id')
             ->where('inscripciones.curso_id', '=', $curso->id)
-            ->where('inscription_payments.status', '=', MPIntegrationConstants::PAYMENT_STATUS_APPROVED)
+            ->where('inscripciones.estado_del_pago', '!=', Inscripcion::PENDIENTE)
             ->get();
 
         return $inscriptionPayments;
@@ -339,6 +341,20 @@ class CursoController extends Controller
             ->with('success', 'Archivo procesado correctamente.');
     }
 
+    private function calculateTotalAmount($payments)  {
+        $totalAmount=0;
+        $netTotalAmount=0;
+        foreach ($payments as $p) {    
+            $totalAmount += $p->amount;
+            $netTotalAmount += $p->net_received_amount;    
+        }
+
+        return [
+            'totalAmount' => $totalAmount,
+            'netTotalAmount' => $netTotalAmount
+        ];
+    }
+
 
     // public function runExcel(Request $request) {
         
@@ -363,6 +379,8 @@ class CursoController extends Controller
         
     //     return $failures;
     // }
+
+
     
     
 }

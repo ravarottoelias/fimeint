@@ -25,6 +25,10 @@ class AppServiceProvider extends ServiceProvider
         
             return "<?php echo mb_strimwidth($string, 0, $length, '...') ?>";
         });
+
+        Blade::directive('precio', function ($expression) {
+            return "<?php echo number_format($expression, 0, '', '.'); ?>";
+        });
     }
 
     /**

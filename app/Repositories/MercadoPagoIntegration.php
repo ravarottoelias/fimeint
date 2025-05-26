@@ -37,7 +37,7 @@ class MercadoPagoIntegration
 		curl_close($curl);
 
 		$array = json_decode($response, true);
-		$array['additional_info']['items'][0]['unit_price'] = Utils::formatPrice($array['additional_info']['items'][0]['unit_price']);
+//		dd($array);
 
 		if ($error) {
 		 throw $error;
