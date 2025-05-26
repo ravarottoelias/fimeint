@@ -265,9 +265,11 @@ class InscriptionPaymentController extends Controller
         foreach ($inscripciones as $i) {
             $payments = $i->payments()->get();
             foreach ($payments as $p) {
-                $paymentResponse = $this->mercadopagoService->getPaymentById($p->payment_identifier);
-                $p->net_received_amount = $paymentResponse['transaction_details']['net_received_amount'];
-                $p->save();
+                if($p->net_received_amount == null) {
+                    $paymentResponse = $this->mercadopagoService->getPaymentById($p->payment_identifier);
+                    $p->net_received_amount = $paymentResponse['transaction_details']['net_received_amount'];
+                    $p->save();
+                }
             }
         }
     }
