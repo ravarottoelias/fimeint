@@ -31,7 +31,7 @@
                     </div>
                 <div class="col">
                     <p class="card-title text-muted mb-0">Total Cobrado</p>
-                    <span class="h2 font-weight-bold mb-0">$  @precio($reportPayment['totalAmount'])</span>
+                    <span class="h2 font-weight-bold mb-0">$  @precio($paymentsIndicator['totalAmount'])</span>
                 </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                     </div>
                 <div class="col">
                     <p class="card-title text-muted mb-0">Total Recibido</p>
-                    <span class="h2 font-weight-bold mb-0">$ @precio($reportPayment['netTotalAmount']) </span>
+                    <span class="h2 font-weight-bold mb-0">$ @precio($paymentsIndicator['netTotalAmount']) </span>
                 </div>
                 </div>
             </div>

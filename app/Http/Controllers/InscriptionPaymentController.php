@@ -203,7 +203,7 @@ class InscriptionPaymentController extends Controller
             'dateApprobed' => null,
             'status' => $payment->status,
             'netReceivedAmount' => $payment->transaction_details['net_received_amount'],
-            'totalAmount' => '',
+            'totalAmount' => $payment->transaction_amount,
             'description' => $payment->additional_info['items'][0]['title'],
             'items' => (object) [
                 (object) [

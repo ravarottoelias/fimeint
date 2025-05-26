@@ -19,10 +19,83 @@
   </div>
 </div>
 
-<div class="row">
+<div class="mb-3">
+    <div class="row">
+        <div class="col-xl-3 col-lg-3 col-md-4">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-5 d-flex justify-content-center align-items-center">
+                      <div class="icon2 bg-primary text-white d-flex justify-content-center align-items-center">
+                          <i class="fas fa-th-list"></i>
+                      </div>
+                    </div>
+                  <div class="col">
+                      <p class="card-title text-muted mb-0">Inscriptos</p>
+                      <span class="h2 font-weight-bold mb-0">{{ $curso->inscripciones->count() }}</span>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    <div class="col-xl-3 col-lg-3 col-md-4">
+        <div class="card card-stats mb-4 mb-xl-0">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-5 d-flex justify-content-center align-items-center">
+                <div class="icon2 bg-success text-white d-flex justify-content-center align-items-center">
+                    <i class="fas fa-dollar-sign indicator-icon"></i>
+                </div>
+                </div>
+            <div class="col">
+                <p class="card-title text-muted mb-0">Pagado</p>
+                <span class="h2 font-weight-bold mb-0">{{ $inscriptionsIndicator['pagado'] }}</span>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-3 col-md-4">
+        <div class="card card-stats mb-4 mb-xl-0">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-5 d-flex justify-content-center align-items-center">
+                <div class="icon2 bg-warning text-white d-flex justify-content-center align-items-center">
+                    <i class="fas fa-dollar-sign indicator-icon"></i>
+                </div>
+                </div>
+            <div class="col">
+                <p class="card-title text-muted mb-0">Parcial</p>
+                <span class="h2 font-weight-bold mb-0">{{ $inscriptionsIndicator['parcial'] }}</span>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-3 col-md-4">
+        <div class="card card-stats mb-4 mb-xl-0">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-5 d-flex justify-content-center align-items-center">
+                <div class="icon2 bg-dark text-white d-flex justify-content-center align-items-center">
+                    <i class="far fa-clock"></i>
+                </div>
+                </div>
+            <div class="col">
+                <p class="card-title text-muted mb-0">Pendiente</p>
+                <span class="h2 font-weight-bold mb-0">{{ $inscriptionsIndicator['pendiente'] }} </span>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+<div class="row my-2">
   <div class="col-12">
     <div class="form-inline">
-      <div class="form-group mb-2 w-100">
+      <div class="form-group w-100">
         <label for="input-filter" class="sr-only"><i class="fas fa-filter"></i> Filtrar</label>
         <input type="text" class="form-control w-100" id="input-filter-inscriptos" placeholder="Filtrar">
       </div>
@@ -46,7 +119,7 @@
 	@foreach($curso->inscripciones as $i)
     @php $c++ @endphp
     <tr id="tr-inscripcion_id-{{$i->id}}">
-      <td>
+      <td id="td-record-nro">
         {{ $c }}
       </td>
       <td id="td-alumno-{{$i->id}}">
