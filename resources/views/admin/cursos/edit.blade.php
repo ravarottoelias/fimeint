@@ -1,5 +1,21 @@
 @extends('admin.layout')
 
+@section('stylesheet')
+<style type="text/css">
+
+.icon2 {
+    width: 3rem;
+    height: 3rem;
+}
+.indicator-icon{
+    font-size: 1.5rem;
+}
+.fs-11{
+    font-size: 11px;
+}
+</style>
+@stop
+
 @section('content')
 
 <h1 class="mt-4">Cursos</h1>
