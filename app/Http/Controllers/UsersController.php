@@ -146,4 +146,11 @@ class UsersController extends Controller
 
         return response()->json($data);
     }
+
+    public function destroy(User $user) {
+        $user->delete();
+        Cache::flush();
+        return redirect()->route('users.index')
+                     ->with('success', 'Usuario eliminado correctamente.');
+    }
 }

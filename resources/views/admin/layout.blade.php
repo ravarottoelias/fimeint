@@ -87,6 +87,18 @@
         <script src="{{ asset('js/fimeint.js') }}" type="text/javascript"></script>
 
         <script type="text/javascript">
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const form = document.getElementById('formEliminarUsuario');
+
+                form.addEventListener('submit', function (e) {
+                    const confirmado = confirm('¿Estás seguro de que deseas eliminar este usuario?');
+                    if (!confirmado) {
+                        e.preventDefault(); // Cancela el envío del formulario
+                    }
+                });
+            });
+
             
             //Dropzone General Config
             var CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute("content");

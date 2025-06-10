@@ -11,6 +11,8 @@
 		<li class="breadcrumb-item active">Usuarios</li>
 	</ol>
 
+	@include('admin.includes.flashmessage')
+
 	<div class="card">
 		<div class="card-body">
 			
