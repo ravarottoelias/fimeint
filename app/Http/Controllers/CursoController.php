@@ -79,8 +79,10 @@ class CursoController extends Controller
         $curso = new Curso;
         $tags = Tag::all();
         $categorias = Categoria::all();
+        $payments = $this->getAllDataPayments($curso);
+        $c = $this->calculateTotalAmount($payments);
         $inscriptionsIndicator = $this->calculateTotalinscriptions($curso);
-        return view('admin.cursos.create', compact('curso', 'tags', 'categorias', 'request', 'inscriptionsIndicator'));
+        return view('admin.cursos.create', compact('curso', 'tags', 'categorias', 'request', 'inscriptionsIndicator', 'payments', 'paymentsIndicator'));
     }
 
     /**
