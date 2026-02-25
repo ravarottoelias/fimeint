@@ -4,11 +4,11 @@
 
 <div>
 
-	<h1 class="mt-4">{{ $category->nombre }}</h1>
+	<h1 class="mt-4">{{ $post->categoria->nombre }}</h1>
 	
 	<ol class="breadcrumb mb-4">
 		<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-		<li class="breadcrumb-item active">{{ $category->nombre }}</li>
+		<li class="breadcrumb-item active">{{ $post->categoria->nombre }}</li>
 	</ol>
 </div>
 
@@ -24,7 +24,7 @@
             @include('admin.posts.form')
 
             <div class="card-footer text-right">
-                <a href="{{ route('post_admin.index')}}?category=rse" class="btn btn-default mr-3">Atras</a>
+                <a href="{{ route('post_admin.index')}}?category={{ $post->categoria->slug }}" class="btn btn-default mr-3">Atras</a>
                 <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
             </div>
       	</form>
