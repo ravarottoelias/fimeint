@@ -5,6 +5,15 @@
 @php
 	$category = \App\Categoria::where('slug', app('request')->input('category'))->first();
 @endphp
+<div>
+
+	<h1 class="mt-4">{{ $category->nombre }}</h1>
+	
+	<ol class="breadcrumb mb-4">
+		<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+		<li class="breadcrumb-item active">{{ $category->nombre }}</li>
+	</ol>
+</div>
 
 <div class="card border-info">
 	<form action="{{ route('post_admin.store') }}" method="POST" novalidate="novalidate" autocomplete="off" enctype="multipart/form-data" files="true">

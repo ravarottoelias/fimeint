@@ -13,13 +13,14 @@ class Post extends Model
 	protected $fillable = ['titulo', 'contenido', 'categoria_id', 'status'];
 
     const ESTADO_FINALIZADO = 'Finalizado';
-    const ESTADO_EN_CURSO = 'En Ejecucion';
+    const ESTADO_EN_CURSO = 'En Curso';
 
 
-    public function portada()
+    public function portadas()
     {
-        return $this->morphOne('App\File', 'notable');
+        return $this->morphMany('App\File', 'notable');
     }
+
 
     public function categoria()
     {

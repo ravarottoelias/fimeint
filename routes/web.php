@@ -48,6 +48,7 @@ Route::get('/responsabilidad-social-empresaria', 'SitioController@rse')->name('r
 Route::get('/consultoria-a-pymes-familiares', 'SitioController@consultoriaPymesFamiliares')->name('consultoria_pymes_familiares');
 Route::get('/cursos-homologados', 'SitioController@cursosHomologados')->name('cursos_homologados');
 Route::get('/concursos', 'SitioController@concursos')->name('concursos');
+Route::get('/concursos/{slug}', 'SitioController@concursosShow')->name('concursos_show');
 Route::get('/otros-cursos', 'SitioController@otrosCursos')->name('cursos_otros');
 Route::post('/submit_form_contact', 'SitioController@sendContact')->name('submit_form_contact');
 Route::get('/quienes-somos', 'SitioController@quienesSomos')->name('quienes_somos');

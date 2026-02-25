@@ -1,19 +1,4 @@
 <div class="row">
-	<div class="col-md-4">
-		<div class="form-group requerido">
-			<div class="invalid-feedback">{{ $errors->first('foto') }}</div>
-			<div id="div_file" class="dropzone d-flex justify-content-center align-items-center flex-column">
-			 	@php
-			 		if ($post->portada != null) {
-			 			$src = Storage::disk('uploads')->url($post->portada->path);
-			 		}else{ $src = '/images/default.png'; }
-			 	@endphp
-			 	<img id='output' class="box-shadow-1" style="border-radius: 5px; height: 100px" src="{{ $src }}">
-			    <p class="texto text-muted mt-2">Portada. Click o Arrastrar para cambiar la imagen.</p>
-			    <input type='file' name="foto" id="file" accept='image/*' onchange='openFile(event)'>
-			 </div>
-		</div>
-	</div>
 	<div class="col-md-8">
 		<div class="row">
 			<div class="col-md-12">
@@ -59,19 +44,42 @@
 	</div>
 </div>
 
-
-{{-- <div class="row">
-	<div class="col-md-12">
+<div class="row">
+	<div class="col-md-4">
 		<div class="form-group requerido">
-			<label class="control-label mb-1">Etiquetas</label>
-			<select class="tags-select form-control"  multiple="multiple" name="tags[]">
-		 	@foreach( $tags as $tag )
-			  	<option value="{{$tag->nombre}}" @if($post->tags->contains('id', $tag->id)) selected @endif >{{$tag->nombre}}</option>
-			@endforeach
-			</select>
+			<div class="invalid-feedback">{{ $errors->first('foto') }}</div>
+			<div id="div_file" class="dropzone d-flex justify-content-center align-items-center flex-column">
+			 	@php
+					$portadaWeb = $post->portadas->first();
+			 		if ($portadaWeb != null) {
+			 			$src = Storage::disk('uploads')->url($portadaWeb->path);
+			 		}else{ $src = '/images/default.png'; }
+			 	@endphp
+				<p>Portada WEB</p>
+			 	<img id="previewWeb" class="box-shadow-1" style="border-radius: 5px; height: 100px" src="{{ $src }}">
+			    <input type='file' id="portadaWeb" name="foto[]" multiple accept='image/*'>
+			 </div>
+
 		</div>
 	</div>
-</div> --}}
+	<div class="col-md-4">
+		<div class="form-group requerido">
+			<div class="invalid-feedback">{{ $errors->first('foto') }}</div>
+			<div id="div_file" class="dropzone d-flex justify-content-center align-items-center flex-column">
+			 	@php
+					$portadaMobile = $post->portadas->slice(1, 1)->first();
+			 		if ($portadaMobile != null) {
+			 			$src = Storage::disk('uploads')->url($portadaMobile->path);
+			 		}else{ $src = '/images/default.png'; }
+			 	@endphp
+				<p>Portada Mobile</p>
+			 	<img id='previewMobile' class="box-shadow-1" style="border-radius: 5px; height: 100px" src="{{ $src }}">
+			    <input type='file' id="portadaMobile" name="foto[]" multiple id="file" accept='image/*' onchange='openFile(event)'>
+			 </div>
+		</div>
+	</div>
+</div>
+
 
 
 
@@ -119,5 +127,23 @@
    }
 
 	$( document ).ready(readyFn);
+
+	function previewImage(inputId, previewId) {
+    document.getElementById(inputId).addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            document.getElementById(previewId).src = e.target.result;
+        };
+
+        reader.readAsDataURL(file);
+    });
+}
+
+previewImage('portadaWeb', 'previewWeb');
+previewImage('portadaMobile', 'previewMobile');
 </script>
 @stop

@@ -177,9 +177,19 @@ class SitioController extends Controller
         return view('sitio.concursos.index', compact('concursos'));
     }
     
+    public function concursosShow($slug)
+    {
+
+        $post = Post::where('slug', $slug)->first();
+
+        return view('sitio.concursos.show', compact('post'));
+    }
+    
     public function autogestion(Request $request)
     {
 
         return view('sitio.autogestion');
     }
+
+
 }
