@@ -2,6 +2,15 @@
 
 @section('content')
 
+<div>
+
+	<h1 class="mt-4">{{ $category->nombre }}</h1>
+	
+	<ol class="breadcrumb mb-4">
+		<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+		<li class="breadcrumb-item active">{{ $category->nombre }}</li>
+	</ol>
+</div>
 
 <div class="card">
     <div class="card-header">
