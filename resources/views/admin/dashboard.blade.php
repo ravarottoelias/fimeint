@@ -72,7 +72,7 @@
 								@foreach ( $inscriptions as $inscription)
 								<tr>
 									<td><a href="{{ route('inscription_show', $inscription->id) }}"> {{ $inscription->id }}</a></td>
-									<td>{{ $inscription->alumno->fullname() }}</td>
+									{{-- <td>{{ $inscription->alumno->fullname() }}</td> --}}
 									<td>{{ $inscription->curso->titulo }}</td>
 									<td>
 										<span class=" 
@@ -140,7 +140,7 @@
 									<td><img src="{{ $payment->gateway === App\Constants\MPIntegrationConstants::MP_GATEWAY_NAME ? $mercadopagoImageB64 : $paypalImageB64 }}" width="30" height="30" alt=""></td>
 									<td><a href="{{ route('payment_details', $payment->payment_identifier) }}"> {{ $payment->payment_identifier }}</a></td>
 									<td><span class="badge @if(\App\Constants\MPIntegrationConstants::PAYMENT_STATUS_APPROVED == $payment->status) badge-success @else badge-danger @endif">{{ $payment->status }}</span></td>
-									<td> @truncateString(['$payment->inscription->alumno->fullName()', 30])</td>
+									{{-- <td> @truncateString(['$payment->inscription->alumno->fullName()', 30])</td> --}}
 									<td> @truncateString(['$payment->inscription->curso->titulo', 22]) </td>
 									<td>{{ $payment->created_at->format('Y-m-d') }}</td>
 								</tr>

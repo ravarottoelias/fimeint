@@ -22,7 +22,7 @@
 
 
   	<div class="d-flex justify-content-end mb-2">
-  		<a class="btn btn-primary" href="{{ route('post_admin.create') }}?category=rse"><i class="fas fa-plus"></i> Nuevo</a>
+  		<a class="btn btn-primary" href="{{ route('post_admin.create') }}?category={{ $category->slug }}"><i class="fas fa-plus"></i> Nuevo</a>
   	</div>
     <table class="table table-sm table-hover tabla-cursos-index">
 	    <thead>

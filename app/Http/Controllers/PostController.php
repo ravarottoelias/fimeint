@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Tag;
+use App\Categoria;
 use App\File;
 use App\Post;
-use App\Categoria;
+use App\Tag;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
@@ -46,21 +48,16 @@ class PostController extends Controller
     public function store(Request $request)
     {
 
-
         $this->validarRequest( $request );
         
         $post = Post::create($request->all());
 
         if ($request->hasFile('foto')) {
-            $filename = $request->file('foto')->store('/', ['disk' => 'uploads']);
-            $file = new File;
-            $file->path = $filename;
-            $file->public_path = 'uploads/'.$filename;
-            $file->extension = $request->file('foto')->extension();
-            $file->name = $request->file('foto')->getClientOriginalName();
-            $file->save();
-
-            $post->portada()->save($file);
+            foreach($request->file('foto') as $element){
+                $file = $this->guardarPortada($element);
+    
+                $post->portadas()->save($file);
+            }
         }
 
          return redirect('post_admin?category=' . $post->categoria->slug)->with('success', 'Creado correctamente.');
@@ -98,17 +95,19 @@ class PostController extends Controller
         
         $post->update($request->all());
 
-
         if ($request->hasFile('foto')) {
-            $filename = $request->file('foto')->store('/', ['disk' => 'uploads']);
-            $file = new File;
-            $file->path = $filename;
-            $file->public_path = 'uploads/'.$filename;
-            $file->extension = $request->file('foto')->extension();
-            $file->name = $request->file('foto')->getClientOriginalName();
-            $file->save();
+            $post->portadas()->each(function ($portada) {
+                Storage::disk('uploads')->delete($portada->path);
+                $portada->delete();
+            });
+            foreach($request->file('foto') as $element){
 
-            $post->portada()->save($file);
+                $file = $this->guardarPortada($element);
+    
+                $post->portadas()->save($file);
+
+            }
+
         }
 
         return back()->with('success', 'Guardado correctamente.');
@@ -124,10 +123,18 @@ class PostController extends Controller
     {
         $post = Post::findOrfail($id);
 
-        if ($post->portada != null)
-            Storage::disk('uploads')->delete($post->portada->path);
-        
-        $post->portada->delete();
+
+        $post->portadas()->each(function ($portada) use ($post) {
+            try{
+                Storage::disk('uploads')->delete($portada->path);
+            } catch (Exception $e) {
+                Log::warning('Archivo no encontrado al intentar eliminar portada.', [
+                'post_id' => $post->id,
+                'file_path' => $portada->path
+            ]);
+            }
+            $portada->delete();
+        });
 
         $post->delete();
 
@@ -141,7 +148,22 @@ class PostController extends Controller
             'contenido' => 'required|string',
             'categoria_id' => 'required',
             'status' => 'required',
+            'foto'          => 'nullable|array|max:2',
+            'foto.*'        => 'image|mimes:jpg,jpeg,png,webp',
         ]);
+    }
+
+    private function guardarPortada($element) : File {
+        $filename = $element->store('/', ['disk' => 'uploads']);
+        $file = new File;
+        $file->path = $filename;
+        $file->public_path = 'uploads/'.$filename;
+        $file->extension = $element->extension();
+        $file->name = $element->getClientOriginalName();
+        $file->save();
+
+        return $file;
+
     }
 
 }
