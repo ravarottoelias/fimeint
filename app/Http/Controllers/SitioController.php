@@ -172,7 +172,7 @@ class SitioController extends Controller
     {
         $category = Categoria::where('slug', 'concursos')->firstOrFail();
 
-        $concursos = Post::where('categoria_id', $category->id)->get();
+        $concursos = Post::where('categoria_id', $category->id)->orderBy('created_at', 'DESC')->get();
 
         return view('sitio.concursos.index', compact('concursos'));
     }
