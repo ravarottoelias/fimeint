@@ -2,13 +2,15 @@
 
 namespace App;
 
+use App\Traits\Filterable;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
-use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
 	use HasSlug;
+    use Filterable;
 
 	protected $fillable = ['titulo', 'contenido', 'categoria_id', 'status'];
 

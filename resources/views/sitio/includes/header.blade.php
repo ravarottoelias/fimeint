@@ -62,7 +62,7 @@
 					<a class="dropdown-item" href="{{route('cursos_otros')}}">Otras Propuestas</a>
 				</div>
 				</li>
-				<li class="nav-item"><a href="{{route('concursos')}}" style="border: solid 2px #c75555;
+				<li class="nav-item"><a href="{{route('concursos', ['status' => 'En Curso'])}}" style="border: solid 2px #c75555;
 					background-color: #c75555;
 					color: white;">Concurso</a></li>
 				<li class="nav-item"><a href="{{route('aula_virtual')}}">Aula Virtual</a></li>
