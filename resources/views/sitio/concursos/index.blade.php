@@ -84,6 +84,11 @@
 							<hr>
 					</div>	
 				</div>
+				@if(request()->query('status') === 'En Curso')
+					<div class="col-12 text-center">
+						<a class="mu-primary-btn" href="{{route('concursos', ['status' => 'Finalizado'])}}">Ediciones anteriores <i class="fas fa-arrow-right"></i></a>
+					</div>
+				@endif
 			@empty
 				<div class="alert alert-info" role="alert">Por el momento no tenemos concursos abiertos.</div>
 			@endforelse

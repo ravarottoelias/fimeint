@@ -5,19 +5,22 @@ namespace App\Http\Controllers;
 use App\Post;
 use App\Curso;
 use App\Categoria;
+use App\Filters\ConcursoFilter;
 use App\Mail\MessageRecived;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Repositories\CursoRepository;
 use App\Http\Requests\ReCaptchataTestFormRequest;
 use App\Jobs\SendEmailContact;
-use Illuminate\Support\Facades\Log;
+
+
 
 class SitioController extends Controller
 {
     private $cursoRepository;
 
-	public function __construct(CursoRepository $cursoRepository){
+    public function __construct(CursoRepository $cursoRepository)
+    {
 
         $this->cursoRepository = $cursoRepository;
     }
@@ -25,81 +28,79 @@ class SitioController extends Controller
 
     public function home(Request $request)
     {
-    	return view('sitio.home');
+        return view('sitio.home');
     }
 
-    public function showCurso( Request $request, $slug )
+    public function showCurso(Request $request, $slug)
     {
-    	$curso = Curso::where('slug', $slug)->with(['foto'])->firstOrFail();
+        $curso = Curso::where('slug', $slug)->with(['foto'])->firstOrFail();
 
-    	return view('sitio.blog-single', compact('curso'));
+        return view('sitio.blog-single', compact('curso'));
     }
 
-    public function cursos( Request $request )
+    public function cursos(Request $request)
     {
         $cursos = $this->cursoRepository->findCursosWhereTags($request->tag);
         return view('sitio.blog', compact('cursos'));
-       
-
     }
 
-    public function contacto( Request $request)
+    public function contacto(Request $request)
     {
         $reCaptchaGpublicKey = config('custom.recaptchagoogle')['site_public_key'];
-    	return view('sitio.contacto', compact('reCaptchaGpublicKey'));
+        return view('sitio.contacto', compact('reCaptchaGpublicKey'));
     }
 
-    public function nosotros( Request $request)
+    public function nosotros(Request $request)
     {
-    	return view('sitio.nosotros');
+        return view('sitio.nosotros');
     }
 
-    public function empresaDeFamilia( Request $request)
+    public function empresaDeFamilia(Request $request)
     {
-    	return view('sitio.empresa-de-familia');
+        return view('sitio.empresa-de-familia');
     }
 
-    public function alianza( Request $request)
+    public function alianza(Request $request)
     {
         return view('sitio.alianza');
     }
 
-    public function aulaVirtual( Request $request)
+    public function aulaVirtual(Request $request)
     {
         return view('sitio.aula-virtual');
     }
 
-    public function servicios( Request $request)
+    public function servicios(Request $request)
     {
         return view('sitio.servicios');
     }
 
-    public function rse( Request $request)
+    public function rse(Request $request)
     {
         return view('sitio.rse');
     }
-    
-    public function consultoriaPymesFamiliares( Request $request)
+
+    public function consultoriaPymesFamiliares(Request $request)
     {
         return view('sitio.consultoria-pymes-familiares');
     }
 
-    public function cursosHomologados( Request $request)
+    public function cursosHomologados(Request $request)
     {
         return view('sitio.cursos-homologados');
     }
 
-    public function otrosCursos( Request $request)
+    public function otrosCursos(Request $request)
     {
         return view('sitio.otros-cursos');
     }
 
-    public function quienesSomos( Request $request)
+    public function quienesSomos(Request $request)
     {
         return view('sitio.antecedentes');
     }
 
-    public function sendContact( ReCaptchataTestFormRequest $request)
+    public function sendContact(ReCaptchataTestFormRequest $request)
     {
         $this->validate($request, [
             'name' => 'required',
@@ -133,19 +134,18 @@ class SitioController extends Controller
     public function proyectoRse()
     {
         $posts = Post::where('categoria_id', 3)
-                    ->with('categoria')
-                    ->orderBy('created_at', 'DESC')
-                    ->get();
+            ->with('categoria')
+            ->orderBy('created_at', 'DESC')
+            ->get();
 
         return view('sitio.proyectos-rse', compact('posts'));
     }
-    
+
     public function proyectoRseShow($slug)
     {
         $post = Post::where('slug', $slug)->firstOrFail();
 
         return view('sitio.proyectos-rse-show', compact('post'));
-
     }
 
 
@@ -153,9 +153,9 @@ class SitioController extends Controller
     {
         $cursos = Curso::all();
         return response()->json([
-                'message' => 'success',
-                'cursos' => $cursos
-            ]);
+            'message' => 'success',
+            'cursos' => $cursos
+        ]);
     }
 
     public function registroExitoso()
@@ -170,13 +170,19 @@ class SitioController extends Controller
 
     public function concursos(Request $request)
     {
+        $filter = new ConcursoFilter($request);
+
         $category = Categoria::where('slug', 'concursos')->firstOrFail();
 
-        $concursos = Post::where('categoria_id', $category->id)->orderBy('created_at', 'DESC')->get();
+        $concursos = Post::filter($filter)
+            ->where('categoria_id', $category->id)
+            ->orderBy('created_at', 'DESC')
+            ->paginate(15)
+            ->appends($filter->request->query());
 
         return view('sitio.concursos.index', compact('concursos'));
     }
-    
+
     public function concursosShow($slug)
     {
 
@@ -184,12 +190,10 @@ class SitioController extends Controller
 
         return view('sitio.concursos.show', compact('post'));
     }
-    
+
     public function autogestion(Request $request)
     {
 
         return view('sitio.autogestion');
     }
-
-
 }

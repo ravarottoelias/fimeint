@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Categoria;
 use App\File;
 use App\Post;
-use App\Tag;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+
 
 class PostController extends Controller
 {
