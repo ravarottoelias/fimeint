@@ -2,19 +2,9 @@
   $paises = \App\Helpers\Helper::getCountries()
 @endphp
 
-@include('admin.includes.flashmessage')
-<div class="row">
-  <div class="col-12 text-right">
-    <form action="{{ route('users.destroy', $user->id) }}" id="formEliminarUsuario" method="POST" onsubmit="return confirmarEliminacion();">
-    {{ csrf_field() }}
-    <input type="hidden" name="_method" value="DELETE">
-    <button type="submit" class="btn btn-danger">
-        <i class="fas fa-trash"></i> Eliminar
-    </button>
-</form>
-    <a class="btn btn-info" href="{{ route('user_reset_password', $user->id) }}">Resetear Contraseña</a>
-  </div>
-</div>
+ <form action="{{ route('users.update', $user->id) }}" method="POST" novalidate="novalidate" autocomplete="off" enctype="multipart/form-data" files="true">
+  {{ csrf_field() }}
+  <input name="_method" type="hidden" value="PUT">
   <div class="form-row">
       <div class="form-group col-md-6">
         <label for="Apellidos">Apellidos</label>
@@ -106,3 +96,5 @@
     </div>
     
   </div>
+  <button type="submit" class="btn btn-primary">Guardar</button>
+  </form>
