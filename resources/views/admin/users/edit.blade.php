@@ -25,14 +25,9 @@
         <div class="card-body">
             <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade active show" id="profile">
-                <form action="{{ route('users.update', $user->id) }}" method="POST" novalidate="novalidate" autocomplete="off" enctype="multipart/form-data" files="true">
-                    {{ csrf_field() }}
-                    <input name="_method" type="hidden" value="PUT">
-        
-                    @include('admin.users.form')
-                    
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                </form>
+                @include('admin.includes.flashmessage')
+                @include('admin.users.form-delete-reset-password')
+                @include('admin.users.form')
             </div>
             <div class="tab-pane fade" id="inscriptions">
                 @include('admin.users.form-inscriptions')
